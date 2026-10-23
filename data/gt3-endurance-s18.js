@@ -15,6 +15,8 @@ window.SERIES["gt3-endurance"] = {
   hasLobbies: true,
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–3 result sheets.",
+  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0 and counts as the drop. RGQ scores 0 and is not a drop round. Ties split on countback: most wins, then 2nds, 3rds and so on. STARTS include DC and RGQ; PODIUMS include wins.",
+  standingsSource: "Standings as published by the club after Round 3.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#A274FF" },

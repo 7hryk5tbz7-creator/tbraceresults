@@ -177,6 +177,8 @@
     var cols = 10 + S.rounds.length;
 
     $("eyebrow").textContent = S.eyebrow + " · After Round " + S.standingsAfter;
+    $("rules").textContent = S.standingsRules || "";
+    $("source").textContent = S.standingsSource || "";
     $("meta").textContent = (S.seriesLine ? S.seriesLine + " · " : "") + "Each driver's lowest round is dropped";
     document.title = "Championship · " + S.navLabel + " · TB Race Results";
     $("head").innerHTML = "<tr>" +
@@ -198,6 +200,7 @@
       "</div>";
 
     function cell(v) {
+      if (/^\d+d\*$/.test(v)) return '<span class="dropped" title="Dropped round">' + v.slice(0, -2) + '</span><span class="t" style="color:var(--dim)" title="DC">*</span>';
       var m = /^(\d+)(p[123])$/.exec(v);
       if (m) return '<span class="rp ' + m[2] + '">' + m[1] + "</span>";
       if (/^\d+d$/.test(v)) return '<span class="dropped" title="Dropped round">' + v.slice(0, -1) + "</span>";
