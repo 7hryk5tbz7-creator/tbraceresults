@@ -160,9 +160,7 @@
       "</div>" +
       '<div class="tile"><div class="label">Round winners</div>' +
       winners.map(function (w) { return '<div class="tile-row"><span>R' + w.no + " · " + esc(w.short) + "</span><span>" + esc(w.driver) + "</span></div>"; }).join("") +
-      "</div>" +
-      '<div class="tile"><div class="label">Points</div><div class="tile-big" style="font-size:22px">45 · 43 · 41 · 40 …</div>' +
-      '<div class="sub">Then one point less per position. Lowest round dropped.</div></div>';
+      "</div>";
 
     function cell(v) {
       var m = /^(\d+)(p[123])$/.exec(v);
