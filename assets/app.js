@@ -1,0 +1,215 @@
+(function () {
+  "use strict";
+
+  var S = window.SEASON;
+  var esc = function (s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+  var team = function (k) { return S.teams[k] || { name: k, colour: "#8C939D" }; };
+  var car = function (k) { return S.cars[k] || ""; };
+  var LOBBY = { Blue: "#4C8DFF", Red: "#F0524A" };
+  var bar = function (c) { return '<span class="bar" style="background:' + c + '"></span>'; };
+  var dot = function (c) { return '<span class="dot" style="background:' + c + '"></span>'; };
+  // Lap times are compared as numbers (seconds), never as text.
+  var secs = function (t) {
+    var m = /^(\d+):(\d+(?:\.\d+)?)$/.exec(t || "");
+    return m ? Number(m[1]) * 60 + Number(m[2]) : Infinity;
+  };
+
+  function pill(label, pressed, attrs, colour) {
+    return '<button type="button" class="pill" aria-pressed="' + (pressed ? "true" : "false") + '" ' + attrs + ">" +
+      (colour ? dot(colour) : "") + esc(label) + "</button>";
+  }
+
+  function readHash() {
+    var out = {};
+    location.hash.replace(/^#/, "").split("&").forEach(function (p) {
+      var kv = p.split("=");
+      if (kv[0]) out[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1] || "");
+    });
+    return out;
+  }
+  function writeHash(state) {
+    var parts = [];
+    Object.keys(state).forEach(function (k) {
+      if (state[k] && state[k] !== "all") parts.push(k + "=" + encodeURIComponent(state[k]));
+    });
+    history.replaceState(null, "", parts.length ? "#" + parts.join("&") : location.pathname + location.search);
+  }
+
+  /* ---------------- Race results page ---------------- */
+  function resultsPage() {
+    var h = readHash();
+    var last = S.rounds[S.rounds.length - 1].no;
+    var state = {
+      round: Number(h.round) || last,
+      lobby: h.lobby || "all",
+      team: h.team || "all"
+    };
+
+    function render() {
+      var R = S.rounds.filter(function (r) { return r.no === state.round; })[0] || S.rounds[S.rounds.length - 1];
+      state.round = R.no;
+
+      var all = R.rows.map(function (x, i) {
+        return { pos: i + 1, driver: x[0], tk: x[1], lobby: x[2], car: car(x[3]), time: x[4], toLeader: x[5], toAhead: x[6], best: x[7], status: x[8] };
+      });
+      var lobbies = ["Blue", "Red"].filter(function (l) { return all.some(function (r) { return r.lobby === l; }); });
+      var teams = Object.keys(S.teams).filter(function (k) { return all.some(function (r) { return r.tk === k; }); });
+      if (state.lobby !== "all" && lobbies.indexOf(state.lobby) < 0) state.lobby = "all";
+      if (state.team !== "all" && teams.indexOf(state.team) < 0) state.team = "all";
+      writeHash(state);
+
+      var fastest = Infinity;
+      all.forEach(function (r) { var v = secs(r.best); if (v < fastest) fastest = v; });
+      var winner = all[0];
+      var flRow = all.filter(function (r) { return secs(r.best) === fastest; })[0];
+
+      document.getElementById("rounds").innerHTML = S.rounds.map(function (r) {
+        return pill("Round " + r.no, r.no === R.no, 'data-round="' + r.no + '"');
+      }).join("");
+
+      document.getElementById("eyebrow").textContent = S.club + " · " + S.championship + " · " + S.season + " · Round " + R.no;
+      document.getElementById("title").textContent = R.track;
+      document.getElementById("meta").textContent = R.lobbies;
+      document.title = "Round " + R.no + " · " + R.short + " · TB Race Results";
+
+      var wt = team(winner.tk);
+      var ft = flRow ? team(flRow.tk) : null;
+      document.getElementById("tiles").innerHTML =
+        '<div class="tile"><div class="label">Winner</div><div class="tile-big">' + esc(winner.driver) + '</div>' +
+        '<div class="sub">' + bar(wt.colour) + esc(wt.name) + ' · <span class="t" style="font-size:13px;color:var(--soft)">' + esc(winner.time) + "</span></div></div>" +
+        (flRow ? '<div class="tile"><div class="label">Fastest lap</div><div class="tile-big">' + esc(flRow.driver) + '</div>' +
+          '<div class="sub"><span class="fl" style="font-size:13px">' + esc(flRow.best) + "</span>" + esc(ft.name) + "</div></div>" : "") +
+        '<div class="tile"><div class="label">Field</div><div class="tile-big">' + R.starters + " of " + R.entries + ' started</div>' +
+        '<div class="sub">' + R.leadLap + " on the lead lap</div></div>";
+
+      document.getElementById("lobbyFilter").innerHTML = '<span class="label">Lobby</span>' +
+        pill("All", state.lobby === "all", 'data-lobby="all"') +
+        lobbies.map(function (l) { return pill(l, state.lobby === l, 'data-lobby="' + l + '"', LOBBY[l]); }).join("");
+      document.getElementById("teamFilter").innerHTML = '<span class="label">Team</span>' +
+        pill("All teams", state.team === "all", 'data-team="all"') +
+        teams.map(function (k) { return pill(team(k).name, state.team === k, 'data-team="' + k + '"', team(k).colour); }).join("");
+
+      var shown = all.filter(function (r) {
+        return (state.lobby === "all" || r.lobby === state.lobby) && (state.team === "all" || r.tk === state.team);
+      });
+      var anyClassified = shown.some(function (r) { return r.status !== "o"; });
+      var dividerDone = false;
+      var body = shown.map(function (r) {
+        var out = r.status === "o";
+        var html = "";
+        if (out && !dividerDone && anyClassified) html += '<tr class="divider"><td colspan="8">Not classified</td></tr>';
+        if (out) dividerDone = true;
+        var podium = !out && r.pos <= 3;
+        var t = team(r.tk);
+        var isFL = secs(r.best) === fastest;
+        html += '<tr class="' + (podium ? "podium" : out ? "out" : "") + '">' +
+          '<td><span class="chip' + (podium ? " p" + r.pos : out ? " nc" : "") + '">' + r.pos + "</span></td>" +
+          '<td><div class="driver">' + esc(r.driver) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
+          '<td><div class="sub nowrap">' + bar(LOBBY[r.lobby] || "#8C939D") + esc(r.lobby) + "</div></td>" +
+          '<td class="car">' + (esc(r.car) || "—") + "</td>" +
+          '<td class="t r" style="color:' + (r.status === "c" ? "var(--soft)" : "var(--dim)") + '">' + esc(r.time) + "</td>" +
+          (r.toLeader === "Winner" ? '<td class="r"><span class="winner">Winner</span></td>' : '<td class="t r">' + esc(r.toLeader) + "</td>") +
+          '<td class="t r" style="color:var(--dim)">' + esc(r.toAhead) + "</td>" +
+          '<td class="r">' + (r.best ? (isFL ? '<span class="fl">' + esc(r.best) + "</span>" : '<span class="t">' + esc(r.best) + "</span>") : '<span class="none">—</span>') + "</td>" +
+          "</tr>";
+        return html;
+      }).join("");
+      document.getElementById("rows").innerHTML = body ||
+        '<tr><td colspan="8" class="empty">No drivers match these filters in this round.</td></tr>';
+    }
+
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("button.pill");
+      if (!b) return;
+      if (b.dataset.round) { state.round = Number(b.dataset.round); }
+      else if (b.dataset.lobby) { state.lobby = b.dataset.lobby; }
+      else if (b.dataset.team) { state.team = b.dataset.team; }
+      else return;
+      render();
+    });
+    render();
+  }
+
+  /* ---------------- Championship page ---------------- */
+  function championshipPage() {
+    var h = readHash();
+    var state = { team: h.team || "all" };
+    var winners = S.rounds.map(function (r) { return { no: r.no, short: r.short, driver: r.rows[0][0] }; });
+    var leader = S.standings[0];
+    var tiedWith = S.standings.slice(1).filter(function (x) { return x[8] === leader[8]; }).map(function (x) { return x[1]; });
+
+    document.getElementById("eyebrow").textContent = S.club + " · " + S.championship + " · " + S.season + " · After Round " + S.standingsAfter;
+    document.getElementById("meta").textContent = S.seriesLine + " · Each driver's lowest round is dropped";
+    document.getElementById("head").innerHTML = "<tr>" +
+      '<th scope="col">Pos</th><th scope="col">Driver / Team</th><th scope="col">Car</th>' +
+      S.rounds.map(function (r) {
+        return '<th class="c" scope="col"><abbr title="Round ' + r.no + " · " + esc(r.short) + '" style="text-decoration:none">R' + r.no + "</abbr></th>";
+      }).join("") +
+      '<th scope="col" class="r">Total</th><th scope="col" class="r">Drop</th><th scope="col" class="r">Gap</th>' +
+      '<th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th>' +
+      '<th scope="col" class="r">Points</th></tr>';
+
+    document.getElementById("tiles").innerHTML =
+      '<div class="tile"><div class="label">Leader</div>' +
+      '<div class="tile-row" style="align-items:baseline"><span class="tile-big" style="color:var(--text);font-weight:700">' + esc(leader[1]) + '</span><span class="tile-big">' + leader[8] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
+      (tiedWith.length ? '<div class="sub">Level on ' + leader[8] + " with " + tiedWith.map(esc).join(" and ") + ", ahead on countback</div>" : "") +
+      "</div>" +
+      '<div class="tile"><div class="label">Round winners</div>' +
+      winners.map(function (w) { return '<div class="tile-row"><span>R' + w.no + " · " + esc(w.short) + "</span><span>" + esc(w.driver) + "</span></div>"; }).join("") +
+      "</div>" +
+      '<div class="tile"><div class="label">Points</div><div class="tile-big" style="font-size:22px">45 · 43 · 41 · 40 …</div>' +
+      '<div class="sub">Then one point less per position. Lowest round dropped.</div></div>';
+
+    function cell(v) {
+      var m = /^(\d+)(p[123])$/.exec(v);
+      if (m) return '<span class="rp ' + m[2] + '">' + m[1] + "</span>";
+      if (/^\d+d$/.test(v)) return '<span class="dropped" title="Dropped round">' + v.slice(0, -1) + "</span>";
+      if (v === "DNS" || v === "RGQ") return '<span class="status">' + v + "</span>";
+      if (v === "–" || v === "") return '<span class="none" title="Did not enter">–</span>';
+      return '<span class="t">' + esc(v) + "</span>";
+    }
+
+    function render() {
+      writeHash(state);
+      document.getElementById("teamFilter").innerHTML = '<span class="label">Team</span>' +
+        pill("All teams", state.team === "all", 'data-team="all"') +
+        Object.keys(S.teams).map(function (k) { return pill(team(k).name, state.team === k, 'data-team="' + k + '"', team(k).colour); }).join("");
+
+      document.getElementById("rows").innerHTML = S.standings.filter(function (x) {
+        return state.team === "all" || x[2] === state.team;
+      }).map(function (x) {
+        var p = Number(x[0]);
+        var t = team(x[2]);
+        return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
+          '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
+          '<td><div class="driver">' + esc(x[1]) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
+          '<td class="car">' + (esc(car(x[3])) || "—") + "</td>" +
+          x[4].map(function (v) { return '<td class="c">' + cell(v) + "</td>"; }).join("") +
+          '<td class="t r" style="color:var(--muted)">' + x[5] + "</td>" +
+          '<td class="t r" style="color:var(--dim)">' + x[6] + "</td>" +
+          (x[7] === "Leader" ? '<td class="r"><span class="winner" style="font-size:15px">Leader</span></td>' : '<td class="t r" style="color:var(--muted)">' + esc(x[7]) + "</td>") +
+          '<td class="t r">' + x[9] + "</td>" +
+          '<td class="t r">' + (x[10] || '<span class="none">0</span>') + "</td>" +
+          '<td class="t r">' + (x[11] || '<span class="none">0</span>') + "</td>" +
+          '<td class="r"><span class="points">' + x[8] + "</span></td>" +
+          "</tr>";
+      }).join("") || '<tr><td colspan="' + (10 + S.rounds.length) + '" class="empty">No drivers in this team.</td></tr>';
+    }
+
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("button.pill");
+      if (!b || !b.dataset.team) return;
+      state.team = b.dataset.team;
+      render();
+    });
+    render();
+  }
+
+  var page = document.body.getAttribute("data-page");
+  if (page === "results") resultsPage();
+  if (page === "championship") championshipPage();
+})();

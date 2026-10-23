@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Championship · TB Race Results</title>
+<meta name="description" content="WJF Trophy GT3 Endurance Championship driver standings.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="championship">
+<div class="stripe"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">TB</span><span class="brand-name">TB Race Results</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Race Results</a>
+      <a href="championship.html" aria-current="page">Championship</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1>Driver Standings</h1>
+    <div class="meta" id="meta"></div>
+  </section>
+
+  <section class="tiles" id="tiles" aria-label="Championship summary"></section>
+
+  <section class="filters" aria-label="Filter">
+    <div class="pills" id="teamFilter"></div>
+  </section>
+
+  <section class="panel" aria-label="Standings">
+    <div class="scroll">
+      <table>
+        <thead id="head"></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="notes" aria-label="Key">
+    <div class="row">
+      <span class="key"><span class="swatch" style="background:var(--gold)"></span><span class="swatch" style="background:var(--silver)"></span><span class="swatch" style="background:var(--bronze)"></span>1st / 2nd / 3rd in that round</span>
+      <span class="key"><span class="dropped">33</span>Dropped round</span>
+      <span>* = DC, scored on finishing position</span>
+      <span>– = did not enter</span>
+    </div>
+    <div>Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0 and counts as the drop. RGQ scores 0 and is not a drop round. Ties split on countback: most wins, then 2nds, 3rds and so on. STARTS include DC and RGQ; PODIUMS include wins.</div>
+    <div class="source">Standings as published by the club after Round 3.</div>
+  </section>
+</main>
+
+<noscript><p class="wrap empty">This site needs JavaScript switched on to show standings.</p></noscript>
+<script src="data/season18.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
