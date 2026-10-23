@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Season 18 Narly Cup · TB Race Results</title>
+<meta name="description" content="Season 18 Narly Cup race results (Thursday series).">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="results" data-series="narly-cup">
+<div class="stripe"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">TB</span><span class="brand-name">TB Race Results</span></a>
+    <nav class="nav" id="seriesNav" aria-label="Series"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="subnav" id="pageNav" aria-label="Pages"></nav>
+
+  <div class="pills" id="rounds" role="group" aria-label="Round"></div>
+
+  <section>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title">Race Results</h1>
+    <div class="meta" id="meta"></div>
+  </section>
+
+  <section class="tiles" id="tiles" aria-label="Race summary"></section>
+
+  <section class="filters" aria-label="Filters">
+    <div class="pills" id="lobbyFilter"></div>
+    <div class="pills" id="teamFilter"></div>
+  </section>
+
+  <section class="panel" aria-label="Results">
+    <div class="scroll">
+      <table>
+        <thead id="head"></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="notes" aria-label="Notes">
+    <div class="row" id="notes"></div>
+    <div class="source" id="source"></div>
+  </section>
+</main>
+
+<noscript><p class="wrap empty">This site needs JavaScript switched on to show results.</p></noscript>
+<script src="data/gt3-endurance-s18.js"></script>
+<script src="data/wrx-evo-gr4-s18.js"></script>
+<script src="data/narly-cup-s18.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -6,6 +6,8 @@ Race results and championship standings for the Trailblazers racing club, Season
 - `championship.html` – GT3 Endurance driver standings
 - `wrx-evo-gr4.html` – WRX V Evo GR4 Trailblazers Season 18 (Tuesday series) results
 - `wrx-evo-gr4-championship.html` – WRX V Evo GR4 driver standings
+- `narly-cup.html` – Season 18 Narly Cup (Thursday series) results
+- `narly-cup-championship.html` – Narly Cup driver standings
 - `data/` – one file per series with its results and standings
 - `assets/` – styling and page logic
 
