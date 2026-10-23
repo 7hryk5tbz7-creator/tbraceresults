@@ -1,7 +1,11 @@
 (function () {
   "use strict";
 
-  var S = window.SEASON;
+  var ALL = window.SERIES || {};
+  var ORDER = window.SERIES_ORDER || Object.keys(ALL);
+  var S = ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
+  var page = document.body.getAttribute("data-page");
+
   var esc = function (s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -17,6 +21,7 @@
     var m = /^(\d+):(\d+(?:\.\d+)?)$/.exec(t || "");
     return m ? Number(m[1]) * 60 + Number(m[2]) : Infinity;
   };
+  var $ = function (id) { return document.getElementById(id); };
 
   function pill(label, pressed, attrs, colour) {
     return '<button type="button" class="pill" aria-pressed="' + (pressed ? "true" : "false") + '" ' + attrs + ">" +
@@ -39,15 +44,38 @@
     history.replaceState(null, "", parts.length ? "#" + parts.join("&") : location.pathname + location.search);
   }
 
+  /* ---------------- Navigation ---------------- */
+  function renderNav() {
+    $("seriesNav").innerHTML = ORDER.map(function (id) {
+      var x = ALL[id];
+      return '<a href="' + x.pages.results + '"' + (x === S ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
+    }).join("");
+    var tabs = [["results", "Race Results"], ["championship", "Championship"]].filter(function (t) { return S.pages[t[0]]; });
+    $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
+      return '<a href="' + S.pages[t[0]] + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
+    }).join("") : "";
+    if (tabs.length < 2) $("pageNav").hidden = true;
+  }
+
   /* ---------------- Race results page ---------------- */
   function resultsPage() {
     var h = readHash();
     var last = S.rounds[S.rounds.length - 1].no;
-    var state = {
-      round: Number(h.round) || last,
-      lobby: h.lobby || "all",
-      team: h.team || "all"
-    };
+    var state = { round: Number(h.round) || last, lobby: h.lobby || "all", team: h.team || "all" };
+    var cols = S.hasLobbies ? 8 : 7;
+
+    $("head").innerHTML = "<tr>" +
+      '<th scope="col">Pos</th><th scope="col">Driver / Team</th>' +
+      (S.hasLobbies ? '<th scope="col">Lobby</th>' : "") +
+      '<th scope="col">Car</th><th scope="col" class="r">Race time</th><th scope="col" class="r">To leader</th>' +
+      '<th scope="col" class="r">To car ahead</th><th scope="col" class="r">Best lap</th></tr>';
+
+    $("notes").innerHTML =
+      '<span class="key"><span class="fl" style="font-size:12px">0:00.000</span>Fastest lap of the race</span>' +
+      "<span>Gaps in seconds, as listed in the results</span>" +
+      (S.resultNotes || []).map(function (n) { return "<span>" + esc(n) + "</span>"; }).join("") +
+      "<span>Positions are overall, even when filtered</span>";
+    $("source").textContent = S.source || "";
 
     function render() {
       var R = S.rounds.filter(function (r) { return r.no === state.round; })[0] || S.rounds[S.rounds.length - 1];
@@ -56,7 +84,7 @@
       var all = R.rows.map(function (x, i) {
         return { pos: i + 1, driver: x[0], tk: x[1], lobby: x[2], car: car(x[3]), time: x[4], toLeader: x[5], toAhead: x[6], best: x[7], status: x[8] };
       });
-      var lobbies = ["Blue", "Red"].filter(function (l) { return all.some(function (r) { return r.lobby === l; }); });
+      var lobbies = S.hasLobbies ? ["Blue", "Red"].filter(function (l) { return all.some(function (r) { return r.lobby === l; }); }) : [];
       var teams = Object.keys(S.teams).filter(function (k) { return all.some(function (r) { return r.tk === k; }); });
       if (state.lobby !== "all" && lobbies.indexOf(state.lobby) < 0) state.lobby = "all";
       if (state.team !== "all" && teams.indexOf(state.team) < 0) state.team = "all";
@@ -67,29 +95,33 @@
       var winner = all[0];
       var flRow = all.filter(function (r) { return secs(r.best) === fastest; })[0];
 
-      document.getElementById("rounds").innerHTML = S.rounds.map(function (r) {
+      $("rounds").innerHTML = S.rounds.map(function (r) {
         return pill("Round " + r.no, r.no === R.no, 'data-round="' + r.no + '"');
       }).join("");
 
-      document.getElementById("eyebrow").textContent = S.club + " · " + S.championship + " · " + S.season + " · Round " + R.no;
-      document.getElementById("title").textContent = R.track;
-      document.getElementById("meta").textContent = R.lobbies;
-      document.title = "Round " + R.no + " · " + R.short + " · TB Race Results";
+      $("eyebrow").textContent = S.eyebrow + " · Round " + R.no;
+      $("title").textContent = R.track;
+      $("meta").textContent = R.lobbies || "";
+      $("meta").hidden = !R.lobbies;
+      document.title = "Round " + R.no + " · " + R.short + " · " + S.navLabel + " · TB Race Results";
 
       var wt = team(winner.tk);
       var ft = flRow ? team(flRow.tk) : null;
-      document.getElementById("tiles").innerHTML =
+      var field = R.entries
+        ? '<div class="tile-big">' + R.starters + " of " + R.entries + ' started</div><div class="sub">' + R.leadLap + " on the lead lap</div>"
+        : '<div class="tile-big">' + R.finishers + " of " + R.starters + ' finished</div><div class="sub">' + R.starters + " starters</div>";
+      $("tiles").innerHTML =
         '<div class="tile"><div class="label">Winner</div><div class="tile-big">' + esc(winner.driver) + '</div>' +
         '<div class="sub">' + bar(wt.colour) + esc(wt.name) + ' · <span class="t" style="font-size:13px;color:var(--soft)">' + esc(winner.time) + "</span></div></div>" +
         (flRow ? '<div class="tile"><div class="label">Fastest lap</div><div class="tile-big">' + esc(flRow.driver) + '</div>' +
           '<div class="sub"><span class="fl" style="font-size:13px">' + esc(flRow.best) + "</span>" + esc(ft.name) + "</div></div>" : "") +
-        '<div class="tile"><div class="label">Field</div><div class="tile-big">' + R.starters + " of " + R.entries + ' started</div>' +
-        '<div class="sub">' + R.leadLap + " on the lead lap</div></div>";
+        '<div class="tile"><div class="label">Field</div>' + field + "</div>";
 
-      document.getElementById("lobbyFilter").innerHTML = '<span class="label">Lobby</span>' +
+      $("lobbyFilter").innerHTML = lobbies.length ? '<span class="label">Lobby</span>' +
         pill("All", state.lobby === "all", 'data-lobby="all"') +
-        lobbies.map(function (l) { return pill(l, state.lobby === l, 'data-lobby="' + l + '"', LOBBY[l]); }).join("");
-      document.getElementById("teamFilter").innerHTML = '<span class="label">Team</span>' +
+        lobbies.map(function (l) { return pill(l, state.lobby === l, 'data-lobby="' + l + '"', LOBBY[l]); }).join("") : "";
+      $("lobbyFilter").hidden = !lobbies.length;
+      $("teamFilter").innerHTML = '<span class="label">Team</span>' +
         pill("All teams", state.team === "all", 'data-team="all"') +
         teams.map(function (k) { return pill(team(k).name, state.team === k, 'data-team="' + k + '"', team(k).colour); }).join("");
 
@@ -101,7 +133,7 @@
       var body = shown.map(function (r) {
         var out = r.status === "o";
         var html = "";
-        if (out && !dividerDone && anyClassified) html += '<tr class="divider"><td colspan="8">Not classified</td></tr>';
+        if (out && !dividerDone && anyClassified) html += '<tr class="divider"><td colspan="' + cols + '">Not classified</td></tr>';
         if (out) dividerDone = true;
         var podium = !out && r.pos <= 3;
         var t = team(r.tk);
@@ -109,7 +141,7 @@
         html += '<tr class="' + (podium ? "podium" : out ? "out" : "") + '">' +
           '<td><span class="chip' + (podium ? " p" + r.pos : out ? " nc" : "") + '">' + r.pos + "</span></td>" +
           '<td><div class="driver">' + esc(r.driver) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
-          '<td><div class="sub nowrap">' + bar(LOBBY[r.lobby] || "#8C939D") + esc(r.lobby) + "</div></td>" +
+          (S.hasLobbies ? '<td><div class="sub nowrap">' + bar(LOBBY[r.lobby] || "#8C939D") + esc(r.lobby) + "</div></td>" : "") +
           '<td class="car">' + (esc(r.car) || "—") + "</td>" +
           '<td class="t r" style="color:' + (r.status === "c" ? "var(--soft)" : "var(--dim)") + '">' + esc(r.time) + "</td>" +
           (r.toLeader === "Winner" ? '<td class="r"><span class="winner">Winner</span></td>' : '<td class="t r">' + esc(r.toLeader) + "</td>") +
@@ -118,8 +150,8 @@
           "</tr>";
         return html;
       }).join("");
-      document.getElementById("rows").innerHTML = body ||
-        '<tr><td colspan="8" class="empty">No drivers match these filters in this round.</td></tr>';
+      $("rows").innerHTML = body ||
+        '<tr><td colspan="' + cols + '" class="empty">No drivers match these filters in this round.</td></tr>';
     }
 
     document.addEventListener("click", function (e) {
@@ -141,10 +173,12 @@
     var winners = S.rounds.map(function (r) { return { no: r.no, short: r.short, driver: r.rows[0][0] }; });
     var leader = S.standings[0];
     var tiedWith = S.standings.slice(1).filter(function (x) { return x[8] === leader[8]; }).map(function (x) { return x[1]; });
+    var cols = 10 + S.rounds.length;
 
-    document.getElementById("eyebrow").textContent = S.club + " · " + S.championship + " · " + S.season + " · After Round " + S.standingsAfter;
-    document.getElementById("meta").textContent = S.seriesLine + " · Each driver's lowest round is dropped";
-    document.getElementById("head").innerHTML = "<tr>" +
+    $("eyebrow").textContent = S.eyebrow + " · After Round " + S.standingsAfter;
+    $("meta").textContent = (S.seriesLine ? S.seriesLine + " · " : "") + "Each driver's lowest round is dropped";
+    document.title = "Championship · " + S.navLabel + " · TB Race Results";
+    $("head").innerHTML = "<tr>" +
       '<th scope="col">Pos</th><th scope="col">Driver / Team</th><th scope="col">Car</th>' +
       S.rounds.map(function (r) {
         return '<th class="c" scope="col"><abbr title="Round ' + r.no + " · " + esc(r.short) + '" style="text-decoration:none">R' + r.no + "</abbr></th>";
@@ -153,7 +187,7 @@
       '<th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th>' +
       '<th scope="col" class="r">Points</th></tr>';
 
-    document.getElementById("tiles").innerHTML =
+    $("tiles").innerHTML =
       '<div class="tile"><div class="label">Leader</div>' +
       '<div class="tile-row" style="align-items:baseline"><span class="tile-big" style="color:var(--text);font-weight:700">' + esc(leader[1]) + '</span><span class="tile-big">' + leader[8] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
       (tiedWith.length ? '<div class="sub">Level on ' + leader[8] + " with " + tiedWith.map(esc).join(" and ") + ", ahead on countback</div>" : "") +
@@ -173,11 +207,11 @@
 
     function render() {
       writeHash(state);
-      document.getElementById("teamFilter").innerHTML = '<span class="label">Team</span>' +
+      $("teamFilter").innerHTML = '<span class="label">Team</span>' +
         pill("All teams", state.team === "all", 'data-team="all"') +
         Object.keys(S.teams).map(function (k) { return pill(team(k).name, state.team === k, 'data-team="' + k + '"', team(k).colour); }).join("");
 
-      document.getElementById("rows").innerHTML = S.standings.filter(function (x) {
+      $("rows").innerHTML = S.standings.filter(function (x) {
         return state.team === "all" || x[2] === state.team;
       }).map(function (x) {
         var p = Number(x[0]);
@@ -195,7 +229,7 @@
           '<td class="t r">' + (x[11] || '<span class="none">0</span>') + "</td>" +
           '<td class="r"><span class="points">' + x[8] + "</span></td>" +
           "</tr>";
-      }).join("") || '<tr><td colspan="' + (10 + S.rounds.length) + '" class="empty">No drivers in this team.</td></tr>';
+      }).join("") || '<tr><td colspan="' + cols + '" class="empty">No drivers in this team.</td></tr>';
     }
 
     document.addEventListener("click", function (e) {
@@ -207,7 +241,7 @@
     render();
   }
 
-  var page = document.body.getAttribute("data-page");
+  renderNav();
   if (page === "results") resultsPage();
   if (page === "championship") championshipPage();
 })();

@@ -121,3 +121,9 @@ tr.out .car, tr.out .t { color: var(--faint); }
   .nav { gap: 0 16px; font-size: 15px; }
   .tile-big { font-size: 22px; }
 }
+
+.subnav { display: flex; flex-wrap: wrap; gap: 0 22px; border-bottom: 1px solid var(--line); margin-top: -8px; font-family: var(--cond); font-weight: 600; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; }
+.subnav a { text-decoration: none; padding: 10px 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); }
+.subnav a[aria-current="page"] { color: #fff; border-bottom-color: var(--red); }
+.subnav a:hover { color: #fff; }
+[hidden] { display: none !important; }

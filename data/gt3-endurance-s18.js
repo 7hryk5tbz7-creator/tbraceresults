@@ -1,12 +1,20 @@
-// Season 18 data for the tbraceresults site.
+// WJF Trophy GT3 Endurance Championship, Season 18.
 // Transcribed from the club's Round 1-3 result images and the standings image (after Round 3).
 // Later this file will be generated automatically from uploaded CSV exports.
 
-window.SEASON = {
-  club: "WJF Trophy",
-  championship: "GT3 Endurance Championship",
-  season: "Season 18",
+window.SERIES = window.SERIES || {};
+window.SERIES_ORDER = window.SERIES_ORDER || [];
+window.SERIES_ORDER.push("gt3-endurance");
+window.SERIES["gt3-endurance"] = {
+  id: "gt3-endurance",
+  navLabel: "GT3 Endurance",
+  title: "WJF Trophy GT3 Endurance Championship Season 18",
+  eyebrow: "WJF Trophy · GT3 Endurance Championship · Season 18",
   seriesLine: "Trailblazers S18 WJF Trophy",
+  pages: { results: "index.html", championship: "championship.html" },
+  hasLobbies: true,
+  resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results"],
+  source: "Results transcribed from the club's Round 1–3 result sheets.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#A274FF" },

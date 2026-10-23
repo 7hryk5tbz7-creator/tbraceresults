@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Race Results · TB Race Results</title>
+<title>Race Results · GT3 Endurance · TB Race Results</title>
 <meta name="description" content="WJF Trophy GT3 Endurance Championship race results.">
 <meta name="theme-color" content="#0B0C0E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,19 +11,18 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body data-page="results">
+<body data-page="results" data-series="gt3-endurance">
 <div class="stripe"></div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html"><span class="brand-mark">TB</span><span class="brand-name">TB Race Results</span></a>
-    <nav class="nav" aria-label="Main">
-      <a href="index.html" aria-current="page">Race Results</a>
-      <a href="championship.html">Championship</a>
-    </nav>
+    <nav class="nav" id="seriesNav" aria-label="Series"></nav>
   </div>
 </header>
 
 <main class="wrap">
+  <nav class="subnav" id="pageNav" aria-label="Pages"></nav>
+
   <div class="pills" id="rounds" role="group" aria-label="Round"></div>
 
   <section>
@@ -42,37 +41,21 @@
   <section class="panel" aria-label="Results">
     <div class="scroll">
       <table>
-        <thead>
-          <tr>
-            <th scope="col">Pos</th>
-            <th scope="col">Driver / Team</th>
-            <th scope="col">Lobby</th>
-            <th scope="col">Car</th>
-            <th scope="col" class="r">Race time</th>
-            <th scope="col" class="r">To leader</th>
-            <th scope="col" class="r">To car ahead</th>
-            <th scope="col" class="r">Best lap</th>
-          </tr>
-        </thead>
+        <thead id="head"></thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
   </section>
 
   <section class="notes" aria-label="Notes">
-    <div class="row">
-      <span class="key"><span class="fl" style="font-size:12px">0:00.000</span>Fastest lap of the race</span>
-      <span>Gaps in seconds, as listed in the results</span>
-      <span>DNS = did not start</span>
-      <span>DC and RGQ shown as listed in the results</span>
-      <span>Positions are overall, even when filtered</span>
-    </div>
-    <div class="source">Results transcribed from the club's Round 1–3 result sheets.</div>
+    <div class="row" id="notes"></div>
+    <div class="source" id="source"></div>
   </section>
 </main>
 
 <noscript><p class="wrap empty">This site needs JavaScript switched on to show results.</p></noscript>
-<script src="data/season18.js"></script>
+<script src="data/gt3-endurance-s18.js"></script>
+<script src="data/wrx-evo-gr4-s18.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

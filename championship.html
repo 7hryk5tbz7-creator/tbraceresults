@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Championship · TB Race Results</title>
+<title>Championship · GT3 Endurance · TB Race Results</title>
 <meta name="description" content="WJF Trophy GT3 Endurance Championship driver standings.">
 <meta name="theme-color" content="#0B0C0E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,19 +11,18 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body data-page="championship">
+<body data-page="championship" data-series="gt3-endurance">
 <div class="stripe"></div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html"><span class="brand-mark">TB</span><span class="brand-name">TB Race Results</span></a>
-    <nav class="nav" aria-label="Main">
-      <a href="index.html">Race Results</a>
-      <a href="championship.html" aria-current="page">Championship</a>
-    </nav>
+    <nav class="nav" id="seriesNav" aria-label="Series"></nav>
   </div>
 </header>
 
 <main class="wrap">
+  <nav class="subnav" id="pageNav" aria-label="Pages"></nav>
+
   <section>
     <div class="eyebrow" id="eyebrow"></div>
     <h1>Driver Standings</h1>
@@ -57,8 +56,9 @@
   </section>
 </main>
 
-<noscript><p class="wrap empty">This site needs JavaScript switched on to show standings.</p></noscript>
-<script src="data/season18.js"></script>
+<noscript><p class="wrap empty">This site needs JavaScript switched on to show results.</p></noscript>
+<script src="data/gt3-endurance-s18.js"></script>
+<script src="data/wrx-evo-gr4-s18.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>
