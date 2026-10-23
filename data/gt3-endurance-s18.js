@@ -7,9 +7,9 @@ window.SERIES_ORDER = window.SERIES_ORDER || [];
 window.SERIES_ORDER.push("gt3-endurance");
 window.SERIES["gt3-endurance"] = {
   id: "gt3-endurance",
-  navLabel: "GT3 Endurance",
+  navLabel: "WJF GT3 Endurance Championship Season 18",
   title: "WJF Trophy GT3 Endurance Championship Season 18",
-  eyebrow: "WJF Trophy · GT3 Endurance Championship · Season 18",
+  eyebrow: "WJF Trophy · GT3 Endurance Championship · Season 18 · Friday series",
   seriesLine: "Trailblazers S18 WJF Trophy",
   pages: { results: "index.html", championship: "championship.html" },
   hasLobbies: true,
