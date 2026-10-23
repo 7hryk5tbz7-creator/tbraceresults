@@ -107,9 +107,10 @@
 
       var wt = team(winner.tk);
       var ft = flRow ? team(flRow.tk) : null;
+      var finishers = all.filter(function (r) { return r.status !== "o"; }).length;
       var field = R.entries
-        ? '<div class="tile-big">' + R.starters + " of " + R.entries + ' started</div><div class="sub">' + R.leadLap + " on the lead lap</div>"
-        : '<div class="tile-big">' + R.finishers + " of " + R.starters + ' finished</div><div class="sub">' + R.starters + " starters</div>";
+        ? '<div class="tile-big">' + R.starters + " of " + R.entries + ' started</div><div class="sub">' + (R.leadLap != null ? R.leadLap + " on the lead lap" : finishers + " classified") + "</div>"
+        : '<div class="tile-big">' + finishers + " of " + R.starters + ' finished</div><div class="sub">' + R.starters + " starters</div>";
       $("tiles").innerHTML =
         '<div class="tile"><div class="label">Winner</div><div class="tile-big">' + esc(winner.driver) + '</div>' +
         '<div class="sub">' + bar(wt.colour) + esc(wt.name) + ' · <span class="t" style="font-size:13px;color:var(--soft)">' + esc(winner.time) + "</span></div></div>" +

@@ -1,5 +1,5 @@
 // WRX V Evo GR4 Trailblazers, Season 18 (Tuesday series).
-// Transcribed from the club's Round 1 result image.
+// Transcribed from the club's Round 1-3 result images.
 // Driver names are copied exactly as they appear in the results.
 
 window.SERIES = window.SERIES || {};
@@ -12,8 +12,8 @@ window.SERIES["wrx-evo-gr4"] = {
   eyebrow: "WRX V Evo GR4 Trailblazers · Season 18 · Tuesday series",
   pages: { results: "wrx-evo-gr4.html", championship: null },
   hasLobbies: false,
-  resultNotes: ["DC = disconnected"],
-  source: "Results transcribed from the club's Round 1 result sheet. Teams from the Season 18 registration list.",
+  resultNotes: ["DNS = did not start", "DC = disconnected"],
+  source: "Results transcribed from the club's Round 1–3 result sheets.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#A274FF" },
@@ -24,7 +24,8 @@ window.SERIES["wrx-evo-gr4"] = {
 
   cars: {
     EVO: "Lancer Evolution Final Gr.4",
-    WRX: "WRX Gr.4"
+    WRX: "WRX Gr.4",
+    NA: ""
   },
 
   // Result rows: [driver, team, lobby, car, raceTime, toLeader, toCarAhead, bestLap, status]
@@ -45,6 +46,45 @@ window.SERIES["wrx-evo-gr4"] = {
         ["tim_turtle_79","MT","","WRX","52:25.739","+40.770","+2.698","2:19.994","c"],
         ["iphonedoc","RR","","EVO","52:30.378","+45.409","+4.639","2:19.594","c"],
         ["MasoMarvel87","RR","","WRX","DC","DC","DC","2:18.325","o"]
+      ]
+    },
+    {
+      no: 2, track: "Kyoto Driving Park – Yamagiwa", short: "Kyoto",
+      entries: 13, starters: 12,
+      rows: [
+        ["S7R_Ando","RR","","WRX","50:22.570","Winner","","1:45.884","c"],
+        ["MasoMarvel87","RR","","WRX","50:39.648","+17.078","+17.078","1:46.558","c"],
+        ["iphonedoc","RR","","EVO","50:47.388","+24.818","+7.740","1:46.415","c"],
+        ["Kezaudio","RR","","EVO","50:47.708","+25.138","+0.320","1:46.836","c"],
+        ["b-man228","R3","","EVO","50:52.979","+30.409","+5.271","1:46.742","c"],
+        ["Tankneo-","R3","","WRX","50:54.129","+31.559","+1.150","1:47.010","c"],
+        ["pjmack75","RR","","WRX","51:00.309","+37.739","+6.180","1:47.197","c"],
+        ["Trickybrewer","R3","","EVO","51:03.191","+40.621","+2.882","1:47.171","c"],
+        ["MAD_MITCH_76","MT","","WRX","51:17.513","+54.943","+14.322","1:46.900","c"],
+        ["tim_turtle_79","MT","","WRX","51:24.725","+1:02.155","+7.212","1:47.562","c"],
+        ["MalevolentOne666","MT","","WRX","51:38.147","+1:15.577","+13.422","1:47.495","c"],
+        ["Colin_t24","RR","","WRX","51:38.548","+1:15.978","+0.401","1:46.457","c"],
+        ["BigBruceTheShark","MT","","NA","DNS","DNS","DNS","","o"]
+      ]
+    },
+    {
+      no: 3, track: "Sardegna – Road Track – A", short: "Sardegna",
+      entries: 14, starters: 13,
+      rows: [
+        ["S7R_Ando","RR","","WRX","50:01.550","Winner","","1:53.270","c"],
+        ["Tankneo-","R3","","WRX","50:18.622","+17.072","+17.072","1:53.913","c"],
+        ["BigBruceTheShark","MT","","WRX","50:30.931","+29.381","+12.309","1:54.148","c"],
+        ["b-man228","R3","","EVO","50:32.296","+30.746","+1.365","1:53.454","c"],
+        ["tim_turtle_79","MT","","WRX","50:38.830","+37.280","+6.534","1:54.307","c"],
+        ["pjmack75","RR","","WRX","50:42.271","+40.721","+3.441","1:54.041","c"],
+        ["MasoMarvel87","RR","","WRX","50:42.597","+41.047","+0.326","1:53.627","c"],
+        ["MAD_MITCH_76","MT","","WRX","50:46.504","+44.954","+3.907","1:54.318","c"],
+        ["MalevolentOne666","MT","","WRX","50:47.556","+46.006","+1.052","1:54.206","c"],
+        ["Kezaudio","RR","","EVO","50:51.829","+50.279","+4.273","1:54.886","c"],
+        ["Trickybrewer","R3","","EVO","51:09.572","+1:08.022","+17.743","1:54.075","c"],
+        ["iphonedoc","RR","","EVO","51:15.569","+1:14.019","+5.997","1:53.972","c"],
+        ["ricreene","R3","","EVO","51:41.280","+1:39.730","+25.711","1:55.094","c"],
+        ["Colin_t24","RR","","NA","DNS","DNS","DNS","","o"]
       ]
     }
   ]
