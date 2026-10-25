@@ -20,7 +20,7 @@ window.SERIES["gt3-endurance-s17"] = {
     "RGQ / DNF = 0 points",
     "– = did not enter"
   ],
-  standingsRules: "Points: win 45, 2nd 43, 3rd 41. RGQ / DNF = 0 points. Drop = worst round removed from subtotal. No penalties were applied in Season 17.",
+  standingsRules: "Points: win 45, 2nd 43, 3rd 41. RGQ / DNF = 0 points. Drop = worst round removed from subtotal. No penalties were applied in Season 17. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 17.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total]
