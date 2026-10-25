@@ -127,3 +127,7 @@ tr.out .car, tr.out .t { color: var(--faint); }
 .subnav a[aria-current="page"] { color: #fff; border-bottom-color: var(--red); }
 .subnav a:hover { color: #fff; }
 [hidden] { display: none !important; }
+
+a.pill { text-decoration: none; }
+.pill[aria-current="page"] { background: var(--red); border-color: var(--red); color: #fff; }
+.np { font-family: var(--cond); font-weight: 600; font-size: 11px; letter-spacing: 0.06em; color: #4E545C; }
