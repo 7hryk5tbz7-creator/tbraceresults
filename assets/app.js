@@ -274,7 +274,7 @@
 
     $("tiles").innerHTML =
       '<div class="tile"><div class="label">Leader</div>' +
-      '<div class="tile-row" style="align-items:baseline"><span class="tile-big" style="color:var(--text);font-weight:700">' + esc(leader[1]) + '</span><span class="tile-big">' + leader[8] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
+      '<div class="tile-row" style="align-items:baseline"><span class="tile-big champion">' + esc(leader[1]) + '</span><span class="tile-big">' + leader[8] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
       (tiedWith.length ? '<div class="sub">Level on ' + leader[8] + " with " + tiedWith.map(esc).join(" and ") + ", ahead on countback</div>" : "") +
       "</div>" +
       '<div class="tile"><div class="label">Round winners</div>' +
@@ -296,7 +296,7 @@
         var t = team(x[2]);
         return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
-          '<td><div class="driver">' + esc(x[1]) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
+          '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + esc(x[1]) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
           '<td class="car">' + (esc(car(x[3])) || "—") + "</td>" +
           x[4].map(function (v) { return '<td class="c">' + cell(v) + "</td>"; }).join("") +
           '<td class="t r" style="color:var(--muted)">' + x[5] + "</td>" +
