@@ -226,7 +226,7 @@
     }).join("");
     $("tiles").innerHTML =
       '<div class="tile"><div class="label">Champion</div>' +
-      '<div class="tile-row" style="align-items:baseline"><span class="tile-big" style="color:var(--text);font-weight:700">' + esc(champ[1]) + '</span><span class="tile-big">' + champ[6] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
+      '<div class="tile-row" style="align-items:baseline"><span class="tile-big champion">' + esc(champ[1]) + '</span><span class="tile-big">' + champ[6] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
       '<div class="tile-row"><span>2nd</span><span>' + esc(second[1]) + " · " + second[6] + "</span></div>" +
       '<div class="tile-row"><span>3rd</span><span>' + esc(third[1]) + " · " + third[6] + "</span></div></div>" +
       '<div class="tile"><div class="label">Round winners</div>' + winners + "</div>";
@@ -239,7 +239,7 @@
       var p = Number(x[0]);
       return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
         '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
-        '<td><div class="driver">' + esc(x[1]) + "</div></td>" +
+        '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + esc(x[1]) + (p === 1 ? ' <span class="crown">Champion</span>' : "") + "</div></td>" +
         '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
         x[3].map(function (v) { return '<td class="c">' + roundCell(v) + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + x[4] + "</td>" +
