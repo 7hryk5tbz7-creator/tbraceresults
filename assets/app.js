@@ -2,7 +2,9 @@
   "use strict";
 
   var ALL = window.SERIES || {};
-  var ORDER = window.SERIES_ORDER || Object.keys(ALL);
+  var ORDER = (window.SERIES_ORDER || Object.keys(ALL)).slice().sort(function (a, b) {
+    return (ALL[a].navOrder || 99) - (ALL[b].navOrder || 99);
+  });
   var BASE = ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var page = document.body.getAttribute("data-page");
   var groupOf = function (x) { return x.group || x.id; };

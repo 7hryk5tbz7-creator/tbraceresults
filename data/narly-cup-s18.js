@@ -7,6 +7,7 @@ window.SERIES_ORDER = window.SERIES_ORDER || [];
 window.SERIES_ORDER.push("narly-cup");
 window.SERIES["narly-cup"] = {
   id: "narly-cup",
+  navOrder: 2, // switcher position, by race day (Thursday)
   navLabel: "Narly Cup",
   title: "Season 18 Narly Cup",
   eyebrow: "Trailblazers Narly Cup GT500 · Season 18 · Thursday series",
