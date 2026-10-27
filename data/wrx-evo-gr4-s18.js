@@ -1,5 +1,5 @@
 // WRX V Evo GR4 Trailblazers, Season 18 (Tuesday series).
-// Transcribed from the club's Round 1-3 result images.
+// Transcribed from the club's Round 1-4 result images and the standings image (after Round 4).
 // Driver names use the WJF Trophy standings spelling where the driver also races there.
 
 window.SERIES = window.SERIES || {};
@@ -14,9 +14,9 @@ window.SERIES["wrx-evo-gr4"] = {
   pages: { results: "wrx-evo-gr4.html", championship: "wrx-evo-gr4-championship.html" },
   hasLobbies: false,
   resultNotes: ["DNS = did not start", "DC = disconnected"],
-  source: "Results transcribed from the club's Round 1–3 result sheets.",
+  source: "Results transcribed from the club's Round 1–4 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0. DC = points for classified position. RGQ scores 0 and is not a drop round (next-lowest score is dropped instead). Ties split on countback: most wins, then 2nds, 3rds and so on.",
-  standingsSource: "Standings as published by the club after Round 3. Starts, wins and podiums counted from the round results.",
+  standingsSource: "Standings as published by the club after Round 4. Starts, wins and podiums counted from the round results.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#A274FF" },
@@ -89,28 +89,45 @@ window.SERIES["wrx-evo-gr4"] = {
         ["ricreene","R3","","EVO","51:41.280","+1:39.730","+25.711","1:55.094","c"],
         ["Colin_t24","RR","","NA","DNS","DNS","DNS","","o"]
       ]
+    },
+    {
+      no: 4, track: "Blue Moon Bay Speedway – Infield A", short: "Blue Moon Bay",
+      entries: 11, starters: 10,
+      rows: [
+        ["Colin_t24","RR","","WRX","50:47.788","Winner","","1:14.575","c"],
+        ["S7R_Ando787","RR","","WRX","50:51.346","+3.558","+3.558","1:14.769","c"],
+        ["iphonedoc","RR","","EVO","51:07.459","+19.671","+16.113","1:14.791","c"],
+        ["Tankneo-1","R3","","WRX","51:23.954","+36.166","+16.495","1:15.350","c"],
+        ["MAD_MITCH_76","MT","","WRX","51:25.462","+37.674","+1.508","1:15.482","c"],
+        ["MasoMarvel87","RR","","WRX","51:25.479","+37.691","+0.017","1:15.185","c"],
+        ["Trickybrewer","R3","","EVO","51:27.892","+40.104","+2.413","1:15.133","c"],
+        ["Pjmack75","RR","","WRX","51:39.940","+52.152","+12.048","1:15.550","c"],
+        ["Tim_turtle_79","MT","","WRX","51:44.429","+56.641","+4.489","1:15.624","c"],
+        ["b-man228","R3","","EVO","51:45.368","+57.580","+0.939","1:15.275","c"],
+        ["MalevolentOne666","MT","","NA","DNS","DNS","DNS","","o"]
+      ]
     }
   ],
 
-  // Standings after Round 3, as published by the club.
-  // [pos, driver, team, car, [R1, R2, R3], total, drop, gap, points, starts, wins, podiums]
+  // Standings after Round 4, as published by the club.
+  // [pos, driver, team, car, [R1..R4], total, drop, gap, points, starts, wins, podiums]
   // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "*" suffix = DC; "DNS"; "–" = did not enter
-  standingsAfter: 3,
+  standingsAfter: 4,
   standings: [
-    ["1","S7R_Ando787","RR","WRX",["–","45p1","45p1"],90,0,"Leader",90,2,2,2],
-    ["2","Kezaudio","RR","EVO",["43p2","40","34d"],117,-34,"-7",83,3,0,1],
-    ["3","Trickybrewer","R3","EVO",["45p1","36","33d"],114,-33,"-9",81,3,1,1],
-    ["4","Tankneo-1","R3","WRX",["36d","38","43p2"],117,-36,"-9",81,3,0,1],
-    ["5","b-man228","R3","EVO",["41p3","39d","40"],120,-39,"-9",81,3,0,1],
-    ["6","MasoMarvel87","RR","WRX",["33d*","43p2","37"],113,-33,"-10",80,3,0,1],
-    ["7","MAD_MITCH_76","MT","WRX",["40","35d","36"],111,-35,"-14",76,3,0,0],
-    ["8","Pjmack75","RR","WRX",["38","37d","38"],113,-37,"-14",76,3,0,0],
-    ["9","iphonedoc","RR","EVO",["34","41p3","32d"],107,-32,"-15",75,3,0,1],
-    ["10","Tim_turtle_79","MT","WRX",["35","34d","39"],108,-34,"-16",74,3,0,0],
-    ["11","MalevolentOne666","MT","WRX",["37","33d","35"],105,-33,"-18",72,3,0,0],
-    ["12","BigBruceTheShark","MT","WRX",["–","DNS","41p3"],41,0,"-49",41,1,0,1],
-    ["13","Bluebloss","PV","WRX",["39","–","–"],39,0,"-51",39,1,0,0],
-    ["14","Colin_t24","RR","WRX",["–","32","DNS"],32,0,"-58",32,1,0,0],
-    ["15","ricreene","R3","EVO",["–","–","31"],31,0,"-59",31,1,0,0]
+    ["1","S7R_Ando787","RR","WRX",["–","45p1","45p1","43p2"],133,0,"Leader",133,3,2,3],
+    ["2","Tankneo-1","R3","WRX",["36d","38","43p2","40"],157,-36,"-12",121,4,0,1],
+    ["3","b-man228","R3","EVO",["41p3","39","40","34d"],154,-34,"-13",120,4,0,1],
+    ["4","Trickybrewer","R3","EVO",["45p1","36","33d","37"],151,-33,"-15",118,4,1,1],
+    ["5","MasoMarvel87","RR","WRX",["33d*","43p2","37","38"],151,-33,"-15",118,4,0,1],
+    ["6","Kezaudio","RR","EVO",["43p2","40","34","–"],117,0,"-16",117,3,0,1],
+    ["7","iphonedoc","RR","EVO",["34","41p3","32d","41p3"],148,-32,"-17",116,4,0,2],
+    ["8","MAD_MITCH_76","MT","WRX",["40","35d","36","39"],150,-35,"-18",115,4,0,0],
+    ["9","Pjmack75","RR","WRX",["38","37","38","36d"],149,-36,"-20",113,4,0,0],
+    ["10","Tim_turtle_79","MT","WRX",["35","34d","39","35"],143,-34,"-24",109,4,0,0],
+    ["11","MalevolentOne666","MT","WRX",["37","33","35","DNS"],105,0,"-28",105,3,0,0],
+    ["12","Colin_t24","RR","WRX",["–","32","DNS","45p1"],77,0,"-56",77,2,1,1],
+    ["13","BigBruceTheShark","MT","WRX",["–","DNS","41p3","–"],41,0,"-92",41,1,0,1],
+    ["14","Bluebloss","PV","WRX",["39","–","–","–"],39,0,"-94",39,1,0,0],
+    ["15","ricreene","R3","EVO",["–","–","31","–"],31,0,"-102",31,1,0,0]
   ]
 };
