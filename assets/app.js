@@ -281,7 +281,7 @@
     var all = Object.keys(map).map(function (k) { return map[k]; }).filter(function (o) { return o.starts > 0; });
     var DT = window.DRIVER_TEAMS || {}, CT = window.CLUB_TEAMS || {};
     all.forEach(function (o) { if (DT[o.name]) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
-    all.forEach(function (o) { o.pct = o.starts ? o.wins / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
+    all.forEach(function (o) { o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });
     var span = nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0];
@@ -290,7 +290,7 @@
     $("eyebrow").textContent = BASE.navLabel + " · All-time driver records";
     $("meta").textContent = span + cur + " · " + all.length + " drivers";
     document.title = "Driver Records · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts.";
+    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Podium % = podiums ÷ starts. Win % = wins ÷ starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
@@ -304,16 +304,16 @@
     };
     $("tiles").innerHTML = tile("Most wins", top("wins")) + tile("Most podiums", top("podiums")) + tile("Most starts", top("starts"));
 
-    var COLS = [["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["pct", "Win %"]];
+    var COLS = [["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["ppct", "Podium %"], ["pct", "Win %"]];
     var h = readHash();
     var state = { sort: COLS.some(function (c) { return c[0] === h.sort; }) ? h.sort : "wins" };
-    var pct = function (o) { return (Math.round(o.pct * 1000) / 10).toFixed(1) + "%"; };
+    var pct = function (v) { return (Math.round(v * 1000) / 10).toFixed(1) + "%"; };
 
     function render() {
       writeHash(state.sort === "wins" ? {} : state);
       var k = state.sort;
       var rows = all.slice().sort(function (a, b) {
-        return b[k] - a[k] || b.wins - a.wins || b.podiums - a.podiums || b.pct - a.pct || b.starts - a.starts || a.name.localeCompare(b.name);
+        return b[k] - a[k] || b.wins - a.wins || b.podiums - a.podiums || b.pct - a.pct || b.ppct - a.ppct || b.starts - a.starts || a.name.localeCompare(b.name);
       });
       $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col">Seasons</th>' +
         COLS.map(function (c) {
@@ -322,7 +322,7 @@
         }).join("") + "</tr>";
       var prev = null, pos = 0;
       $("rows").innerHTML = rows.map(function (o, i) {
-        var key = [o[k], o.wins, o.podiums, o.pct, o.starts].join("|");
+        var key = [o[k], o.wins, o.podiums, o.pct, o.ppct, o.starts].join("|");
         if (key !== prev) pos = i + 1; prev = key;
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
@@ -331,7 +331,8 @@
           '<td class="t r' + (k === "starts" ? " hot" : "") + '">' + o.starts + "</td>" +
           '<td class="t r' + (k === "wins" ? " hot" : "") + '">' + (o.wins || '<span class="none">0</span>') + "</td>" +
           '<td class="t r' + (k === "podiums" ? " hot" : "") + '">' + (o.podiums || '<span class="none">0</span>') + "</td>" +
-          '<td class="t r' + (k === "pct" ? " hot" : "") + '">' + (o.wins ? pct(o) : '<span class="none">0.0%</span>') + "</td></tr>";
+          '<td class="t r' + (k === "ppct" ? " hot" : "") + '">' + (o.podiums ? pct(o.ppct) : '<span class="none">0.0%</span>') + "</td>" +
+          '<td class="t r' + (k === "pct" ? " hot" : "") + '">' + (o.wins ? pct(o.pct) : '<span class="none">0.0%</span>') + "</td></tr>";
       }).join("");
     }
     document.addEventListener("click", function (e) {
