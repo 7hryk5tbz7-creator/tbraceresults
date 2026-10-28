@@ -29,6 +29,7 @@ window.DRIVER_TEAMS = {
 // Season-specific teams, where a driver raced for a different team in a past season.
 // Used on that season's standings pages; Driver Records always show the current team.
 window.SEASON_TEAMS = {
+  15: { "Fatalreaper666": "Triple R Motorsport" },
   16: { "Fatalreaper666": "Triple R Motorsport" },
   17: { "Fatalreaper666": "Triple R Motorsport" }
 };
