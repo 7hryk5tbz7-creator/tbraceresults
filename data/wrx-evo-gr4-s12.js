@@ -1,7 +1,6 @@
 // Roadster Challenge, Season 12 (Tuesday series) — final standings (archive).
 // Transcribed from the club's Season 12 points sheet. Every subtotal, drop and round points ladder was checked.
-// The sheet showed brettubrettu26's total as 329 against a subtotal of 334 with no drop or penalty;
-// the club confirmed 334 is correct.
+// brettubrettu26: subtotal 334, total 329 — a 5-point penalty (confirmed by the club).
 // On the sheet, 0 means the driver did not race that week (shown as "–"). Race numbers are not on the sheet;
 // they are filled from drivers' other seasons where known.
 // Teams are not shown for Season 12 until the club supplies the full team list.
@@ -19,8 +18,8 @@ window.SERIES["wrx-evo-gr4-s12"] = {
   final: true,
   standingsMeta: "Final standings · 22 drivers · Round-by-round points",
   standingsKey: ["swatches", "– = did not race that week"],
-  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. DROP = the driver's lowest round. A driver gets a drop if they raced every round, or every round except the final one (missing the final round still allows a drop; it scores 0 and is not the dropped round). Anyone who missed an earlier round gets no drop. No penalties were applied. Ties split on countback: most wins, then 2nds, 3rds and so on.",
-  standingsSource: "Standings as published by the club at the end of Season 12 (brettubrettu26's total corrected to 334, confirmed by the club).",
+  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. DROP = the driver's lowest round. A driver gets a drop if they raced every round, or every round except the final one (missing the final round still allows a drop; it scores 0 and is not the dropped round). Anyone who missed an earlier round gets no drop. PENALTY = points deducted by the club. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsSource: "Standings as published by the club at the end of Season 12.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
@@ -31,7 +30,7 @@ window.SERIES["wrx-evo-gr4-s12"] = {
     ["3","iphonedoc","744",["38","39","39","40","43p2","43p2","41p3","37","39","43p2"],402,-37,365,0],
     ["4","Colin_t24","85",["33","–","45p1","39","38","40","43p2","45p1","37","39"],359,0,359,0],
     ["5","Trickybrewer","92",["30","43p2","38","37","37","37","36","35","36","36"],365,-30,335,0],
-    ["6","brettubrettu26","82",["40","38","–","38","40","38","38","33","34","35"],334,0,334,0],
+    ["6","brettubrettu26","82",["40","38","–","38","40","38","38","33","34","35"],334,0,329,-5],
     ["7","Pjmack75","21",["32","37","40","36","36","33","33","38","33","37"],355,-32,323,0],
     ["8","Tim_turtle_79","79",["39","40","34","–","–","39","37","36","40","40"],305,0,305,0],
     ["9","Hamitothebone","228",["–","32","35","32","33","35","30","29","31","32"],289,0,289,0],
