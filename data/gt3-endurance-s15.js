@@ -2,8 +2,8 @@
 // Transcribed from the club's Season 15 points sheet. Every subtotal, drop and round points ladder was checked.
 // On the sheet, 0 means the driver did not race that round (shown as "–"). Round 6 was NP: no points for anyone, not a drop round.
 // Tie on 221: GLR_Scotty is placed ahead of PorscheNut92 on countback (a 4th place beats a best of 7th);
-// the club's sheet listed them the other way round. Souls_571/Kezaudio (25) and Khush_Vekaria/Mcdivott (0) are exact ties.
-// Driver names use the Season 18 spelling where the driver also races in Season 18 (Pjmack76, race #21, is Pjmack75).
+// the club's sheet listed them the other way round. Soulslayer_71/Kezaudio (25) and Khush_Vekaria/Mcdivott (0) are exact ties.
+// Driver names use the Season 18 spelling where the driver also races in Season 18 (Pjmack76, race #21, is Pjmack75; Souls_571 is Soulslayer_71).
 
 window.SERIES = window.SERIES || {};
 window.SERIES["gt3-endurance-s15"] = {
@@ -58,7 +58,7 @@ window.SERIES["gt3-endurance-s15"] = {
     ["31","Disco_Stu_001","101",["–","20","24","–","–","NP","–","–","–","–"],44,0,44,0],
     ["32","MalevolentOne666","666",["23","16","–","–","–","NP","–","–","–","–"],39,0,39,0],
     ["33","Reaps","4",["–","–","–","–","–","NP","–","–","–","27"],27,0,27,0],
-    ["34","Souls_571","571",["25","–","–","–","–","NP","–","–","–","–"],25,0,25,0],
+    ["34","Soulslayer_71","571",["25","–","–","–","–","NP","–","–","–","–"],25,0,25,0],
     ["34","Kezaudio","72",["–","–","–","–","–","NP","–","25","–","–"],25,0,25,0],
     ["36","ricreene","69",["22","–","–","–","–","NP","–","–","–","–"],22,0,22,0],
     ["37","Steve_73_GOOF","73",["19","–","–","–","–","NP","–","–","–","–"],19,0,19,0],
