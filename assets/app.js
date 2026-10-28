@@ -289,14 +289,15 @@
     });
     var list = Object.keys(map).map(function (k) { return map[k]; });
     list.forEach(function (o) { o.seasons.sort(function (a, b) { return b - a; }); o.titles = o.seasons.length; o.team = clubTeam(o.name, 99); });
-    // Most titles first; equal titles: most recent title first.
-    list.sort(function (a, b) { return b.titles - a.titles || b.seasons[0] - a.seasons[0] || a.name.localeCompare(b.name); });
+    // Most titles first; equal titles: the driver who won their first title earliest ranks higher.
+    var first = function (o) { return o.seasons[o.seasons.length - 1]; };
+    list.sort(function (a, b) { return b.titles - a.titles || first(a) - first(b) || a.name.localeCompare(b.name); });
 
     var nums = done.map(function (x) { return x.season; }).sort(function (a, b) { return a - b; });
     $("eyebrow").textContent = BASE.navLabel + " · Drivers' champions";
     $("meta").textContent = nums.length ? (nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0]) + " · " + nums.length + " championships" : "No completed seasons yet";
     document.title = "Champions · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Only completed seasons are counted" + (BASE.final ? "." : "; Season " + (BASE.season || 18) + " will be added when it finishes.") + " Drivers are ranked by titles won, then by their most recent title.";
+    $("rules").textContent = "Only completed seasons are counted" + (BASE.final ? "." : "; Season " + (BASE.season || 18) + " will be added when it finishes.") + " Drivers are ranked by titles won; when titles are equal, the driver who won the earliest title ranks higher.";
 
     if (!list.length) { $("rows").innerHTML = '<tr><td colspan="4" class="empty">No completed seasons on the site yet.</td></tr>'; return; }
     var top = list[0], latest = done[0];
@@ -312,7 +313,7 @@
     $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">Seasons won</th></tr>';
     var prev = null, pos = 0;
     $("rows").innerHTML = list.map(function (o, i) {
-      var key = o.titles;
+      var key = o.titles + "|" + first(o);
       if (key !== prev) pos = i + 1; prev = key;
       return '<tr class="' + (pos === 1 ? "podium" : "") + '">' +
         '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
