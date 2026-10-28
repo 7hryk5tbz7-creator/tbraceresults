@@ -207,6 +207,7 @@
     if (/^\d+d$/.test(v)) return '<span class="dropped" title="Dropped round">' + v.slice(0, -1) + "</span>";
     if (v === "DNS" || v === "RGQ" || v === "DNF" || v === "CC" || v === "WTD" || v === "DQ") return '<span class="status">' + v + "</span>";
     if (v === "NP") return '<span class="np" title="Round not run">NP</span>';
+    if (v === "NE") return '<span class="np" title="No event">N/E</span>';
     if (v === "–" || v === "") return '<span class="none" title="Did not enter">–</span>';
     return '<span class="t">' + esc(v) + "</span>";
   }
@@ -242,8 +243,9 @@
 
     var winners = rounds.map(function (r) {
       var w = S.standings.filter(function (x) { return x[3][r - 1] === "45p1"; })[0];
-      var np = !w && S.standings.some(function (x) { return x[3][r - 1] === "NP"; });
-      return '<div class="tile-row"><span>Round ' + r + "</span><span" + (np ? ' style="color:var(--dim);font-weight:400"' : "") + ">" + (np ? "Not run" : w ? esc(w[1]) : "—") + "</span></div>";
+      var ne = !w && S.standings.some(function (x) { return x[3][r - 1] === "NE"; });
+      var np = !w && (ne || S.standings.some(function (x) { return x[3][r - 1] === "NP"; }));
+      return '<div class="tile-row"><span>Round ' + r + "</span><span" + (np ? ' style="color:var(--dim);font-weight:400"' : "") + ">" + (np ? (ne ? "No event" : "Not run") : w ? esc(w[1]) : "—") + "</span></div>";
     }).join("");
     $("tiles").innerHTML =
       '<div class="tile"><div class="label">Champion</div>' +
