@@ -284,6 +284,17 @@
       });
     });
     var all = Object.keys(map).map(function (k) { return map[k]; }).filter(function (o) { return o.starts > 0; });
+    // A driver races for the same team in every series: if this series has no team for them,
+    // use their team from another current series.
+    all.forEach(function (o) {
+      if (o.team) return;
+      ORDER.forEach(function (id) {
+        var x = ALL[id];
+        if (o.team || !x.standings || !x.teams) return;
+        var r = x.standings.filter(function (row) { return row[1] === o.name; })[0];
+        if (r && x.teams[r[2]]) o.team = x.teams[r[2]];
+      });
+    });
     var DT = window.DRIVER_TEAMS || {}, CT = window.CLUB_TEAMS || {};
     all.forEach(function (o) { if (DT[o.name]) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
     all.forEach(function (o) { o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
