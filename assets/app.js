@@ -378,7 +378,7 @@
     });
     var DT = window.DRIVER_TEAMS || {}, CT = window.CLUB_TEAMS || {};
     all.forEach(function (o) { if (DT[o.name] && teamOK(o)) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
-    all.forEach(function (o) { o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
+    all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });
     var span = nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0];
@@ -401,7 +401,7 @@
     };
     $("tiles").innerHTML = tile("Most wins", top("wins")) + tile("Most podiums", top("podiums")) + tile("Most starts", top("starts"));
 
-    var COLS = [["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["pct", "Win %"], ["ppct", "Podium %"]];
+    var COLS = [["nseasons", "Seasons"], ["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["pct", "Win %"], ["ppct", "Podium %"]];
     var h = readHash();
     var state = { sort: COLS.some(function (c) { return c[0] === h.sort; }) ? h.sort : "wins" };
     var pct = function (v) { return (Math.round(v * 1000) / 10).toFixed(1) + "%"; };
@@ -413,7 +413,7 @@
         // Ranking: wins, then win %, then podiums, then podium %, then starts.
         return b[k] - a[k] || b.wins - a.wins || b.pct - a.pct || b.podiums - a.podiums || b.ppct - a.ppct || b.starts - a.starts || a.name.localeCompare(b.name);
       });
-      $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col">Seasons</th>' +
+      $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th>' +
         COLS.map(function (c) {
           var on = c[0] === k;
           return '<th scope="col" class="r" aria-sort="' + (on ? "descending" : "none") + '"><button type="button" class="sortbtn' + (on ? " on" : "") + '" data-sort="' + c[0] + '">' + c[1] + (on ? " ▾" : "") + "</button></th>";
@@ -425,7 +425,7 @@
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
           '<td><div class="driver">' + esc(o.name) + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
-          '<td class="nowrap">' + o.seasons.map(function (n) { return '<span class="seasontag">S' + n + "</span>"; }).join("") + "</td>" +
+          '<td class="t r' + (k === "nseasons" ? " hot" : "") + '" title="Seasons ' + o.seasons.slice().sort(function (a, b) { return a - b; }).join(", ") + '">' + o.nseasons + "</td>" +
           '<td class="t r' + (k === "starts" ? " hot" : "") + '">' + o.starts + "</td>" +
           '<td class="t r' + (k === "wins" ? " hot" : "") + '">' + (o.wins || '<span class="none">0</span>') + "</td>" +
           '<td class="t r' + (k === "podiums" ? " hot" : "") + '">' + (o.podiums || '<span class="none">0</span>') + "</td>" +
