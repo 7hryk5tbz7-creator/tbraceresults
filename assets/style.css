@@ -140,3 +140,5 @@ a.pill { text-decoration: none; }
 .sortbtn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 td.hot { color: #fff; font-weight: 500; }
 .seasontag { display: inline-block; margin-right: 5px; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); font-family: var(--cond); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; color: var(--soft); }
+
+.rp.rp-dropped { text-decoration: line-through; opacity: 0.55; }

@@ -202,8 +202,10 @@
     if (/^\d+d\*$/.test(v)) return '<span class="dropped" title="Dropped round">' + v.slice(0, -2) + '</span><span class="t" style="color:var(--dim)" title="DC">*</span>';
     var m = /^(\d+)(p[123])$/.exec(v);
     if (m) return '<span class="rp ' + m[2] + '">' + m[1] + "</span>";
+    var md = /^(\d+)(p[123])d$/.exec(v);
+    if (md) return '<span class="rp ' + md[2] + ' rp-dropped" title="Dropped round">' + md[1] + "</span>";
     if (/^\d+d$/.test(v)) return '<span class="dropped" title="Dropped round">' + v.slice(0, -1) + "</span>";
-    if (v === "DNS" || v === "RGQ" || v === "DNF" || v === "CC" || v === "WTD") return '<span class="status">' + v + "</span>";
+    if (v === "DNS" || v === "RGQ" || v === "DNF" || v === "CC" || v === "WTD" || v === "DQ") return '<span class="status">' + v + "</span>";
     if (v === "NP") return '<span class="np" title="Round not run">NP</span>';
     if (v === "–" || v === "") return '<span class="none" title="Did not enter">–</span>';
     return '<span class="t">' + esc(v) + "</span>";
