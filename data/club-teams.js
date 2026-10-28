@@ -19,5 +19,7 @@ window.DRIVER_TEAMS = {
   "Rollscanhardly": "Mad Turtle Racing",
   "RidwanF1": "Privateer",
   "BarberXR6T": "Gerbil Racing Team",
-  "PorscheNut92": "Gerbil Racing Team"
+  "PorscheNut92": "Gerbil Racing Team",
+  "LodgedPotato": "Privateer",
+  "Siryc": "Triple R Motorsport"
 };
