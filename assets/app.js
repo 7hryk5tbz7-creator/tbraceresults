@@ -211,6 +211,23 @@
     return '<span class="t">' + esc(v) + "</span>";
   }
 
+  // Club team for a driver in a given season:
+  // 1) a season-specific team (SEASON_TEAMS), 2) the club list (DRIVER_TEAMS),
+  // 3) their team in any current series (drivers race for one team in every series).
+  function clubTeam(name, season) {
+    var CT = window.CLUB_TEAMS || {}, DT = window.DRIVER_TEAMS || {}, ST = (window.SEASON_TEAMS || {})[season] || {};
+    var n = ST[name] || DT[name];
+    if (n) return { name: n, colour: CT[n] || "#8C939D" };
+    var found = null;
+    ORDER.forEach(function (id) {
+      var x = ALL[id];
+      if (found || !x.standings || !x.teams) return;
+      var r = x.standings.filter(function (row) { return row[1] === name; })[0];
+      if (r && x.teams[r[2]]) found = x.teams[r[2]];
+    });
+    return found;
+  }
+
   function archivePage() {
     var n = S.roundCount;
     var rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
@@ -238,14 +255,15 @@
     var hasPen = S.standings.some(function (x) { return x[7]; });
     $("head").parentNode.classList.add("compact");
     $("head").innerHTML = "<tr>" +
-      '<th scope="col">Pos</th><th scope="col">Driver</th><th scope="col" class="r">#</th>' +
+      '<th scope="col">Pos</th><th scope="col">Driver / Team</th><th scope="col" class="r">#</th>' +
       rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") +
       '<th scope="col" class="r">Subtotal</th><th scope="col" class="r">Drop</th>' + (hasPen ? '<th scope="col" class="r">Penalty</th>' : "") + '<th scope="col" class="r">Points</th></tr>';
     $("rows").innerHTML = S.standings.map(function (x) {
       var p = Number(x[0]);
       return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
         '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
-        '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + esc(x[1]) + (p === 1 ? ' <span class="crown">Champion</span>' : "") + "</div></td>" +
+        '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + esc(x[1]) + (p === 1 ? ' <span class="crown">Champion</span>' : "") + "</div>" +
+          (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(clubTeam(x[1], S.season)) + "</td>" +
         '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
         x[3].map(function (v) { return '<td class="c">' + roundCell(v) + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + x[4] + "</td>" +
