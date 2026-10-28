@@ -17,5 +17,7 @@ window.DRIVER_TEAMS = {
   "crackpipetom": "MC Motorsport",
   "brettubrettu26": "Mad Turtle Racing",
   "Rollscanhardly": "Mad Turtle Racing",
-  "RidwanF1": "Privateer"
+  "RidwanF1": "Privateer",
+  "BarberXR6T": "Gerbil Racing Team",
+  "PorscheNut92": "Gerbil Racing Team"
 };
