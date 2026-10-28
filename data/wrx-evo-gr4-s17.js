@@ -1,6 +1,6 @@
 // Camaro Muscle Series, Season 17 (Tuesday series) — final standings (archive).
 // Transcribed from the club's Season 17 points sheet. Every subtotal, drop and round podium was checked.
-// On the sheet, 0 or a blank cell means no points in that round; both are shown as "–".
+// On the sheet, 0 or a blank cell means the driver did not race that week; both are shown as "–".
 // Driver names use the Season 18 spelling where the driver also races in Season 18.
 
 window.SERIES = window.SERIES || {};
@@ -14,7 +14,7 @@ window.SERIES["wrx-evo-gr4-s17"] = {
   pages: { results: null, championship: "wrx-evo-gr4-championship.html" },
   final: true,
   standingsMeta: "Final standings · 16 drivers · Round-by-round points",
-  standingsKey: ["swatches", "– = no points in that round (0 or blank on the club's sheet)"],
+  standingsKey: ["swatches", "– = did not race that week"],
   standingsRules: "Same rules as Season 18. Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. DROP = the driver's lowest round, removed only when they scored in every round (0 if a round was missed). No penalties were applied. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 17.",
 
