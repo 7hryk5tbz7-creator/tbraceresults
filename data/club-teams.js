@@ -14,5 +14,8 @@ window.CLUB_TEAMS = {
 window.DRIVER_TEAMS = {
   "MoldyBox321": "Privateer",
   "Luke_GT13": "MC Motorsport",
-  "crackpipetom": "MC Motorsport"
+  "crackpipetom": "MC Motorsport",
+  "brettubrettu26": "Mad Turtle Racing",
+  "Rollscanhardly": "Mad Turtle Racing",
+  "RidwanF1": "Privateer"
 };
