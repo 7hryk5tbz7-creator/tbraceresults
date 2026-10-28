@@ -326,7 +326,7 @@
     $("eyebrow").textContent = BASE.navLabel + " · All-time driver records";
     $("meta").textContent = span + cur + " · " + all.length + " drivers";
     document.title = "Driver Records · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts.";
+    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts. Drivers are ranked by wins, then win %, then podiums, then podium %, then starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
@@ -349,7 +349,8 @@
       writeHash(state.sort === "wins" ? {} : state);
       var k = state.sort;
       var rows = all.slice().sort(function (a, b) {
-        return b[k] - a[k] || b.wins - a.wins || b.podiums - a.podiums || b.pct - a.pct || b.ppct - a.ppct || b.starts - a.starts || a.name.localeCompare(b.name);
+        // Ranking: wins, then win %, then podiums, then podium %, then starts.
+        return b[k] - a[k] || b.wins - a.wins || b.pct - a.pct || b.podiums - a.podiums || b.ppct - a.ppct || b.starts - a.starts || a.name.localeCompare(b.name);
       });
       $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col">Seasons</th>' +
         COLS.map(function (c) {
@@ -358,7 +359,7 @@
         }).join("") + "</tr>";
       var prev = null, pos = 0;
       $("rows").innerHTML = rows.map(function (o, i) {
-        var key = [o[k], o.wins, o.podiums, o.pct, o.ppct, o.starts].join("|");
+        var key = [o[k], o.wins, o.pct, o.podiums, o.ppct, o.starts].join("|");
         if (key !== prev) pos = i + 1; prev = key;
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
