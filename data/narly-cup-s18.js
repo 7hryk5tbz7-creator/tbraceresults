@@ -22,7 +22,7 @@ window.SERIES["narly-cup"] = {
   standingsSource: "Standings as published by the club after Round 3 (updated for the Round 2 disqualification). Starts, wins and podiums counted from the round results.",
 
   teams: {
-    RR: { name: "Roadsick Racing", colour: "#A274FF" },
+    RR: { name: "Roadsick Racing", colour: "#FACC15" },
     MT: { name: "Mad Turtle Racing", colour: "#34C46E" },
     R3: { name: "Triple R Motorsport", colour: "#F0524A" },
     GB: { name: "Gerbil Racing Team", colour: "#F08A2C" }

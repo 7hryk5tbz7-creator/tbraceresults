@@ -21,7 +21,7 @@ window.SERIES["wrx-evo-gr4"] = {
   standingsSource: "Standings as published by the club after Round 4. Starts, wins and podiums counted from the round results.",
 
   teams: {
-    RR: { name: "Roadsick Racing", colour: "#A274FF" },
+    RR: { name: "Roadsick Racing", colour: "#FACC15" },
     MT: { name: "Mad Turtle Racing", colour: "#34C46E" },
     R3: { name: "Triple R Motorsport", colour: "#F0524A" },
     PV: { name: "Privateer", colour: "#8C939D" }

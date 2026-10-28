@@ -7,7 +7,7 @@
 window.TEAMS_FROM_SEASON = 15;
 
 window.CLUB_TEAMS = {
-  "Roadsick Racing": "#A274FF",
+  "Roadsick Racing": "#FACC15",
   "MC Motorsport": "#4C8DFF",
   "Mad Turtle Racing": "#34C46E",
   "Triple R Motorsport": "#F0524A",

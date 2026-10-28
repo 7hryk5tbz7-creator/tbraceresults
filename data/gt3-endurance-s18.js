@@ -21,7 +21,7 @@ window.SERIES["gt3-endurance"] = {
   standingsSource: "Standings as published by the club after Round 3.",
 
   teams: {
-    RR: { name: "Roadsick Racing", colour: "#A274FF" },
+    RR: { name: "Roadsick Racing", colour: "#FACC15" },
     MC: { name: "MC Motorsport", colour: "#4C8DFF" },
     MT: { name: "Mad Turtle Racing", colour: "#34C46E" },
     R3: { name: "Triple R Motorsport", colour: "#F0524A" },
