@@ -8,7 +8,7 @@ window.SERIES_ORDER.push("wrx-evo-gr4");
 window.SERIES["wrx-evo-gr4"] = {
   id: "wrx-evo-gr4",
   navOrder: 1, // switcher position, by race day (Tuesday)
-  navLabel: "WRX V Evo GR4",
+  navLabel: "Tuesday Series",
   title: "WRX V Evo GR4 Trailblazers Season 18",
   eyebrow: "WRX V Evo GR4 Trailblazers · Season 18 · Tuesday series",
   seriesLine: "Tuesday Night Series",
