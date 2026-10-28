@@ -251,10 +251,10 @@
   }
 
   /* ---------------- Driver records page ---------------- */
-  // Starts = rounds actually raced (points scored, or DC / RGQ / DNF).
-  // Not counted: DNS, CC, WTD, rounds not run (NP) and rounds not entered.
+  // Starts = rounds actually raced (points scored, or DC / RGQ / DNF / CC = changed car).
+  // Not counted: DNS, WTD (withdrawn), rounds not run (NP) and rounds not entered.
   function archiveStarts(cells) {
-    return cells.filter(function (v) { return /^\d/.test(v) || v === "RGQ" || v === "DNF"; }).length;
+    return cells.filter(function (v) { return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC"; }).length;
   }
 
   function recordsPage() {
@@ -288,7 +288,7 @@
     $("eyebrow").textContent = BASE.navLabel + " · All-time driver records";
     $("meta").textContent = span + cur + " · " + all.length + " drivers";
     document.title = "Driver Records · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ and DNF; DNS, CC, WTD and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts.";
+    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
