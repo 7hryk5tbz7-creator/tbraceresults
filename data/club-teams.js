@@ -2,6 +2,10 @@
 // A driver races for the same team in every series they enter.
 // Entries here override the team taken from the Season 18 standings.
 
+// Teams are shown from this season onward. Earlier seasons show drivers without teams
+// until the club supplies the full team list for them.
+window.TEAMS_FROM_SEASON = 15;
+
 window.CLUB_TEAMS = {
   "Roadsick Racing": "#A274FF",
   "MC Motorsport": "#4C8DFF",

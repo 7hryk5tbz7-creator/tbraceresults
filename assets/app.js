@@ -255,9 +255,10 @@
       '<div class="tile"><div class="label">Round winners</div>' + winners + "</div>";
 
     var hasPen = S.standings.some(function (x) { return x[7]; });
+    var showTeams = (S.season || 99) >= (window.TEAMS_FROM_SEASON || 0);
     $("head").parentNode.classList.add("compact");
     $("head").innerHTML = "<tr>" +
-      '<th scope="col">Pos</th><th scope="col">Driver / Team</th><th scope="col" class="r">#</th>' +
+      '<th scope="col">Pos</th><th scope="col">' + (showTeams ? "Driver / Team" : "Driver") + '</th><th scope="col" class="r">#</th>' +
       rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") +
       '<th scope="col" class="r">Subtotal</th><th scope="col" class="r">Drop</th>' + (hasPen ? '<th scope="col" class="r">Penalty</th>' : "") + '<th scope="col" class="r">Points</th></tr>';
     $("rows").innerHTML = S.standings.map(function (x) {
@@ -265,7 +266,7 @@
       return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
         '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
         '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + esc(x[1]) + (p === 1 ? ' <span class="crown">Champion</span>' : "") + "</div>" +
-          (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(clubTeam(x[1], S.season)) + "</td>" +
+          (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
         '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
         x[3].map(function (v) { return '<td class="c">' + roundCell(v) + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + x[4] + "</td>" +
@@ -304,10 +305,12 @@
       });
     });
     var all = Object.keys(map).map(function (k) { return map[k]; }).filter(function (o) { return o.starts > 0; });
+    var TFS = window.TEAMS_FROM_SEASON || 0;
+    var teamOK = function (o) { return o.seasons.some(function (n) { return n >= TFS; }); };
     // A driver races for the same team in every series: if this series has no team for them,
     // use their team from another current series.
     all.forEach(function (o) {
-      if (o.team) return;
+      if (o.team || !teamOK(o)) return;
       ORDER.forEach(function (id) {
         var x = ALL[id];
         if (o.team || !x.standings || !x.teams) return;
@@ -316,7 +319,7 @@
       });
     });
     var DT = window.DRIVER_TEAMS || {}, CT = window.CLUB_TEAMS || {};
-    all.forEach(function (o) { if (DT[o.name]) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
+    all.forEach(function (o) { if (DT[o.name] && teamOK(o)) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
     all.forEach(function (o) { o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });
