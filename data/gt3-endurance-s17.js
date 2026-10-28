@@ -17,10 +17,11 @@ window.SERIES["gt3-endurance-s17"] = {
   standingsKey: [
     "swatches",
     "NP = round not run",
-    "RGQ / DNF = 0 points",
+    "CC = changed car",
+    "RGQ / DNF / CC = 0 points",
     "– = did not enter"
   ],
-  standingsRules: "Points: win 45, 2nd 43, 3rd 41. RGQ / DNF = 0 points. Drop = worst round removed from subtotal. No penalties were applied in Season 17. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsRules: "Points: win 45, 2nd 43, 3rd 41. RGQ / DNF / CC = 0 points. RidwanF1 changed car after Round 8, so that result scores 0. Drop = worst round removed from subtotal. No penalties were applied in Season 17. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 17.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total]
@@ -47,7 +48,7 @@ window.SERIES["gt3-endurance-s17"] = {
     ["17","S7R_Ando787","787",["38","43p2","NP","–","45p1","–","–","–","–","–"],126,0,126],
     ["18","Tim_turtle_79","79",["37","30","NP","–","–","–","–","–","–","–"],67,0,67],
     ["19","Tankneo-1","576",["–","32","NP","–","–","–","31","–","DNF","–"],63,0,63],
-    ["20","RidwanF1","14",["–","–","NP","–","–","–","–","–","–","45p1"],45,0,45],
+    ["20","RidwanF1","14",["–","–","NP","–","–","–","–","CC","–","45p1"],45,0,45],
     ["21","crackpipetom","888",["43p2","–","NP","–","–","–","–","–","–","–"],43,0,43],
     ["22","NWR_NICO71","17",["41p3","–","NP","–","–","–","–","–","–","–"],41,0,41],
     ["23","Siryc","145",["36","–","NP","–","–","–","–","–","–","–"],36,0,36],
