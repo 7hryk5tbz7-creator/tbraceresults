@@ -235,10 +235,12 @@
       '<div class="tile-row"><span>3rd</span><span>' + esc(third[1]) + " · " + third[6] + "</span></div></div>" +
       '<div class="tile"><div class="label">Round winners</div>' + winners + "</div>";
 
+    var hasPen = S.standings.some(function (x) { return x[7]; });
+    $("head").parentNode.classList.add("compact");
     $("head").innerHTML = "<tr>" +
       '<th scope="col">Pos</th><th scope="col">Driver</th><th scope="col" class="r">#</th>' +
       rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") +
-      '<th scope="col" class="r">Subtotal</th><th scope="col" class="r">Drop</th><th scope="col" class="r">Points</th></tr>';
+      '<th scope="col" class="r">Subtotal</th><th scope="col" class="r">Drop</th>' + (hasPen ? '<th scope="col" class="r">Penalty</th>' : "") + '<th scope="col" class="r">Points</th></tr>';
     $("rows").innerHTML = S.standings.map(function (x) {
       var p = Number(x[0]);
       return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
@@ -248,6 +250,7 @@
         x[3].map(function (v) { return '<td class="c">' + roundCell(v) + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + x[4] + "</td>" +
         '<td class="t r" style="color:' + (x[5] ? "var(--red-text)" : "var(--dim)") + '">' + (x[5] ? "−" + Math.abs(x[5]) : "–") + "</td>" +
+        (hasPen ? '<td class="t r" style="color:' + (x[7] ? "var(--red-text)" : "var(--dim)") + '">' + (x[7] ? "−" + Math.abs(x[7]) : "–") + "</td>" : "") +
         '<td class="r"><span class="points">' + x[6] + "</span></td></tr>";
     }).join("");
   }

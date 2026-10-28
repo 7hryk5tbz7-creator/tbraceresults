@@ -7,6 +7,7 @@ window.SERIES_ORDER = window.SERIES_ORDER || [];
 window.SERIES_ORDER.push("narly-cup");
 window.SERIES["narly-cup"] = {
   id: "narly-cup",
+  season: 18,
   navOrder: 2, // switcher position, by race day (Thursday)
   navLabel: "Narly Cup",
   title: "Season 18 Narly Cup",
