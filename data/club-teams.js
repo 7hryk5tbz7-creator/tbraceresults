@@ -22,5 +22,6 @@ window.DRIVER_TEAMS = {
   "PorscheNut92": "Gerbil Racing Team",
   "LodgedPotato": "Privateer",
   "Siryc": "Triple R Motorsport",
-  "Scorpion_Fury77": "Triple R Motorsport"
+  "Scorpion_Fury77": "Triple R Motorsport",
+  "Hamitothebone": "Mad Turtle Racing"
 };
