@@ -147,3 +147,7 @@ table.compact th, table.compact td { padding-left: 7px; padding-right: 7px; }
 table.compact th:first-child, table.compact td:first-child { padding-left: 14px; }
 table.compact th:last-child, table.compact td:last-child { padding-right: 14px; }
 table.compact .rp { min-width: 38px; }
+
+.seasontag.gold { color: #F2CC5B; border-color: rgba(242, 204, 91, 0.45); text-decoration: none; }
+a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
+.section-title { font-family: var(--cond); font-weight: 700; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; margin: 8px 0 -8px; }

@@ -61,7 +61,7 @@
       return '<a href="' + x.pages.results + '"' + (id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
     }).join("");
     // An archived season without race results links back to the current season's results.
-    var tabs = [["results", "Race Results"], ["championship", "Championship"], ["records", "Driver Records"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
+    var tabs = [["results", "Race Results"], ["championship", "Championship"], ["records", "Driver Records"], ["champions", "Champions"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
     $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
       var href = S.pages[t[0]] ? S.pages[t[0]] + seasonQuery(S) : BASE.pages[t[0]];
       return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
@@ -276,6 +276,63 @@
     }).join("");
   }
 
+  /* ---------------- Champions page ---------------- */
+  // Only finished seasons count; the current season is added once it is complete.
+  function championsPage() {
+    var done = SEASONS.filter(function (x) { return x.final && x.standings && x.standings.length; });
+    var pts = function (x, r) { return x.standingsFormat === "archive" ? r[6] : r[8]; };
+    var map = {};
+    done.forEach(function (x) {
+      var c = x.standings[0];
+      var o = map[c[1]] || (map[c[1]] = { name: c[1], seasons: [] });
+      o.seasons.push(x.season);
+    });
+    var list = Object.keys(map).map(function (k) { return map[k]; });
+    list.forEach(function (o) { o.seasons.sort(function (a, b) { return b - a; }); o.titles = o.seasons.length; o.team = clubTeam(o.name, 99); });
+    // Most titles first; equal titles: most recent title first.
+    list.sort(function (a, b) { return b.titles - a.titles || b.seasons[0] - a.seasons[0] || a.name.localeCompare(b.name); });
+
+    var nums = done.map(function (x) { return x.season; }).sort(function (a, b) { return a - b; });
+    $("eyebrow").textContent = BASE.navLabel + " · Drivers' champions";
+    $("meta").textContent = nums.length ? (nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0]) + " · " + nums.length + " championships" : "No completed seasons yet";
+    document.title = "Champions · " + BASE.navLabel + " · TB Race Results";
+    $("rules").textContent = "Only completed seasons are counted" + (BASE.final ? "." : "; Season " + (BASE.season || 18) + " will be added when it finishes.") + " Drivers are ranked by titles won, then by their most recent title.";
+
+    if (!list.length) { $("rows").innerHTML = '<tr><td colspan="4" class="empty">No completed seasons on the site yet.</td></tr>'; return; }
+    var top = list[0], latest = done[0];
+    $("tiles").innerHTML =
+      (function () {
+        var who = list.filter(function (o) { return o.titles === top.titles; }).map(function (o) { return o.name; });
+        return '<div class="tile"><div class="label">Most titles</div><div class="tile-big' + (who.length === 1 ? " champion" : "") + '">' + (who.length === 1 ? esc(who[0]) : top.titles + (top.titles === 1 ? " title each" : " titles each")) + '</div><div class="sub" style="white-space:normal">' +
+          (who.length === 1 ? top.titles + (top.titles === 1 ? " title" : " titles") : esc(who.slice(0, 3).join(", ")) + (who.length > 3 ? " and " + (who.length - 3) + " more" : "")) + "</div></div>";
+      })() +
+      '<div class="tile"><div class="label">Latest champion</div><div class="tile-big">' + esc(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>" +
+      '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + list.length + '</div><div class="sub">from ' + done.length + " seasons</div></div>";
+
+    $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">Seasons won</th></tr>';
+    var prev = null, pos = 0;
+    $("rows").innerHTML = list.map(function (o, i) {
+      var key = o.titles;
+      if (key !== prev) pos = i + 1; prev = key;
+      return '<tr class="' + (pos === 1 ? "podium" : "") + '">' +
+        '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
+        '<td><div class="driver' + (pos === 1 ? " champion" : "") + '">' + esc(o.name) + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
+        '<td class="r"><span class="points">' + o.titles + "</span></td>" +
+        '<td class="nowrap">' + o.seasons.map(function (n) { return '<a class="seasontag gold" href="' + BASE.pages.championship + (n === BASE.season ? "" : "?season=" + n) + '">S' + n + "</a>"; }).join("") + "</td></tr>";
+    }).join("");
+
+    $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Champion</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
+    $("rows2").innerHTML = done.map(function (x) {
+      var c = x.standings[0], r2 = x.standings[1];
+      return "<tr>" +
+        '<td><a class="seasontag gold" href="' + BASE.pages.championship + "?season=" + x.season + '">S' + x.season + "</a></td>" +
+        '<td class="car">' + esc(x.title.replace(/\s*Season \d+$/, "")) + "</td>" +
+        '<td><div class="driver champion">' + esc(c[1]) + "</div></td>" +
+        '<td class="t r">' + pts(x, c) + "</td>" +
+        '<td class="nowrap" style="font-size:14px;color:var(--muted)">' + (r2 ? esc(r2[1]) + " · " + pts(x, r2) : "—") + "</td></tr>";
+    }).join("");
+  }
+
   /* ---------------- Driver records page ---------------- */
   // Starts = rounds actually raced (points scored, or DC / RGQ / DNF / CC = changed car).
   // Not counted: DNS, WTD (withdrawn), rounds not run (NP) and rounds not entered.
@@ -459,4 +516,5 @@
   if (page === "results") resultsPage();
   if (page === "championship") championshipPage();
   if (page === "records") recordsPage();
+  if (page === "champions") championsPage();
 })();

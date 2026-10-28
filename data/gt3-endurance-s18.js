@@ -13,7 +13,7 @@ window.SERIES["gt3-endurance"] = {
   title: "WJF Trophy GT3 Endurance Championship Season 18",
   eyebrow: "WJF Trophy · GT3 Endurance Championship · Season 18 · Friday series",
   seriesLine: "Trailblazers S18 WJF Trophy",
-  pages: { results: "index.html", championship: "championship.html", records: "records.html" },
+  pages: { results: "index.html", championship: "championship.html", records: "records.html", champions: "champions.html" },
   hasLobbies: true,
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–3 result sheets.",
