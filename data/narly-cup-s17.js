@@ -15,7 +15,7 @@ window.SERIES["narly-cup-s17"] = {
   final: true,
   standingsMeta: "Final standings · 17 drivers · Round-by-round points",
   standingsKey: ["swatches", "– = did not race that week"],
-  standingsRules: "Same rules as Season 18. Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. DROP = the driver's lowest round, removed only when they raced every round (0 if a round was missed). PENALTY = points deducted by the club. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsRules: "Same rules as Season 18. Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. DROP = the driver's lowest round. A driver gets a drop if they raced every round, or every round except the final one (missing the final round still allows a drop; it scores 0 and is not the dropped round). Anyone who missed an earlier round gets no drop. PENALTY = points deducted by the club. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 17.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]

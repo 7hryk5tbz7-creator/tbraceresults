@@ -18,7 +18,7 @@ window.SERIES["gt3-endurance-s15"] = {
   npLabel: "No points",
   standingsMeta: "Final standings · 39 drivers · Round-by-round points",
   standingsKey: ["swatches", "NP = no points awarded that round", "RGQ = 0 points", "– = did not race"],
-  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. Round 6 was NP: no points for anyone and not a drop round. DROP = the driver's lowest round, removed only when they raced every other round (0 if a round was missed). RGQ scores 0 and is not a drop round. No penalties were applied. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. Round 6 was NP: no points for anyone and not a drop round. DROP = the driver's lowest round. A driver gets a drop if they raced every round, or every round except the final one (missing the final round still allows a drop; it scores 0 and is not the dropped round). Anyone who missed an earlier round gets no drop. RGQ scores 0 and is not a drop round. No penalties were applied. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 15, with the 221-point tie ordered by countback.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
