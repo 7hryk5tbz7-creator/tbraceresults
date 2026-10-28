@@ -9,6 +9,7 @@ Race results and championship standings for the Trailblazers racing club, Season
 - `narly-cup.html` – Season 18 Narly Cup (Thursday series) results
 - `narly-cup-championship.html` – Narly Cup driver standings
 - `championship.html?season=17` / `?season=16` – WJF past-season final standings (season picker on the championship page)
+- `records.html`, `wrx-evo-gr4-records.html`, `narly-cup-records.html` – all-time driver records per series (starts, wins, podiums, win %)
 - `data/` – one file per series with its results and standings
 - `assets/` – styling and page logic
 

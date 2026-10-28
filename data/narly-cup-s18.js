@@ -12,7 +12,7 @@ window.SERIES["narly-cup"] = {
   title: "Season 18 Narly Cup",
   eyebrow: "Trailblazers Narly Cup GT500 · Season 18 · Thursday series",
   seriesLine: "Trailblazers S18 Narlycup GT500",
-  pages: { results: "narly-cup.html", championship: "narly-cup-championship.html" },
+  pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", records: "narly-cup-records.html" },
   hasLobbies: false,
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–3 result sheets.",
