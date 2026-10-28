@@ -292,7 +292,7 @@
     $("eyebrow").textContent = BASE.navLabel + " · All-time driver records";
     $("meta").textContent = span + cur + " · " + all.length + " drivers";
     document.title = "Driver Records · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Podium % = podiums ÷ starts. Win % = wins ÷ starts.";
+    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
@@ -306,7 +306,7 @@
     };
     $("tiles").innerHTML = tile("Most wins", top("wins")) + tile("Most podiums", top("podiums")) + tile("Most starts", top("starts"));
 
-    var COLS = [["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["ppct", "Podium %"], ["pct", "Win %"]];
+    var COLS = [["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["pct", "Win %"], ["ppct", "Podium %"]];
     var h = readHash();
     var state = { sort: COLS.some(function (c) { return c[0] === h.sort; }) ? h.sort : "wins" };
     var pct = function (v) { return (Math.round(v * 1000) / 10).toFixed(1) + "%"; };
@@ -333,8 +333,8 @@
           '<td class="t r' + (k === "starts" ? " hot" : "") + '">' + o.starts + "</td>" +
           '<td class="t r' + (k === "wins" ? " hot" : "") + '">' + (o.wins || '<span class="none">0</span>') + "</td>" +
           '<td class="t r' + (k === "podiums" ? " hot" : "") + '">' + (o.podiums || '<span class="none">0</span>') + "</td>" +
-          '<td class="t r' + (k === "ppct" ? " hot" : "") + '">' + (o.podiums ? pct(o.ppct) : '<span class="none">0.0%</span>') + "</td>" +
-          '<td class="t r' + (k === "pct" ? " hot" : "") + '">' + (o.wins ? pct(o.pct) : '<span class="none">0.0%</span>') + "</td></tr>";
+          '<td class="t r' + (k === "pct" ? " hot" : "") + '">' + (o.wins ? pct(o.pct) : '<span class="none">0.0%</span>') + "</td>" +
+          '<td class="t r' + (k === "ppct" ? " hot" : "") + '">' + (o.podiums ? pct(o.ppct) : '<span class="none">0.0%</span>') + "</td></tr>";
       }).join("");
     }
     document.addEventListener("click", function (e) {
