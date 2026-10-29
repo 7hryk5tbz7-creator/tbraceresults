@@ -1,5 +1,5 @@
 // Trailblazers Narly Cup GT500, Season 18 (Thursday series).
-// Transcribed from the club's Round 1-3 result images and the standings image (after Round 3).
+// Transcribed from the club's Round 1-4 result images and the standings image (after Round 4).
 // Driver names use the WJF Trophy standings spelling where the driver also races there.
 
 window.SERIES = window.SERIES || {};
@@ -16,10 +16,10 @@ window.SERIES["narly-cup"] = {
   pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", records: "narly-cup-records.html", champions: "narly-cup-champions.html" },
   hasLobbies: false,
   resultNotes: ["DNS = did not start", "DQ = disqualified", "DC and RGQ shown as listed in the results"],
-  source: "Results transcribed from the club's Round 1–3 result sheets.",
+  source: "Results transcribed from the club's Round 1–4 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DC scores its finishing position. DNS scores 0 and counts as the drop. RGQ and DQ (disqualification) score 0 and are not a drop round (next-lowest score is dropped instead). Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsKey: ["swatches", "dropped", "* = DC, scored on finishing position", "DQ = disqualified", "– = did not enter"],
-  standingsSource: "Standings as published by the club after Round 3 (updated for the Round 2 disqualification). Starts, wins and podiums counted from the round results.",
+  standingsSource: "Standings as published by the club after Round 4 (includes the Round 2 disqualification). Starts, wins and podiums counted from the round results.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#FACC15" },
@@ -99,33 +99,51 @@ window.SERIES["narly-cup"] = {
         ["Tim_turtle_79","MT","","GTR","RGQ","RGQ","","1:41.611","o"],
         ["MalevolentOne666","MT","","NA","DNS","DNS","","","o"]
       ]
+    },
+    {
+      no: 4, track: "Blue Moon Bay Speedway – Infield A", short: "Blue Moon Bay",
+      entries: 12, starters: 11, leadLap: 8,
+      rows: [
+        ["brettubrettu26","MT","","SUP","51:20.517","Winner","","1:07.747","c"],
+        ["MAD_MITCH_76","MT","","SUP","51:21.050","+0.533","+0.533","1:07.816","c"],
+        ["Colin_t24","RR","","SUP","51:21.226","+0.709","+0.176","1:07.186","c"],
+        ["MasoMarvel87","RR","","GTR","51:26.859","+6.342","+5.633","1:07.686","c"],
+        ["GLR_Scotty","MT","","SUP","51:45.297","+24.780","+18.438","1:08.068","c"],
+        ["iphonedoc","RR","","GTR","51:46.485","+25.968","+1.188","1:08.035","c"],
+        ["WallFinder","MT","","GTR","51:47.123","+26.606","+0.638","1:08.349","c"],
+        ["capella13b","GB","","SUP","52:01.820","+41.303","+14.697","1:08.599","c"],
+        ["GGCAS_39","R3","","SUP","1 Lap","+1 Lap","","1:08.547","l"],
+        ["Fatalreaper666","MT","","GTR","RGQ","RGQ","","1:08.511","o"],
+        ["Tankneo-1","R3","","GTR","RGQ","RGQ","","","o"],
+        ["Trickybrewer","R3","","NA","DNS","DNS","","","o"]
+      ]
     }
   ],
 
-  // Standings after Round 3, as published by the club.
-  // [pos, driver, team, car, [R1, R2, R3], total, drop, gap, points, starts, wins, podiums]
-  // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "45p1d" = dropped round win; "*" suffix = DC; "DNS"; "RGQ"; "DQ"; "–" = did not enter
-  standingsAfter: 3,
+  // Standings after Round 4, as published by the club.
+  // [pos, driver, team, car, [R1..R4], total, drop, gap, points, starts, wins, podiums]
+  // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "41p3d" = dropped podium; "*" suffix = DC; "DNS"; "RGQ"; "DQ"; "–" = did not enter
+  standingsAfter: 4,
   standings: [
-    ["1","WallFinder","MT","GTR",["43p2","33d","41p3"],117,-33,"Leader",84,3,0,2],
-    ["2","Kezaudio","RR","SUP",["41p3","41p3","–"],82,0,"-2",82,2,0,2],
-    ["3","iphonedoc","RR","GTR",["38","30d","43p2"],111,-30,"-3",81,3,0,1],
-    ["4","Trickybrewer","R3","SUP",["40","38","37d"],115,-37,"-6",78,3,0,0],
-    ["5","GLR_Scotty","MT","SUP",["36","40","34d"],110,-34,"-8",76,3,0,0],
-    ["6","MAD_MITCH_76","MT","SUP",["34d","37","38"],109,-34,"-9",75,3,0,0],
-    ["7","Fatalreaper666","MT","GTR",["35d","36","36"],107,-35,"-12",72,3,0,0],
-    ["8","Tankneo-1","R3","GTR",["30*","29d","39"],98,-29,"-15",69,3,0,0],
-    ["9","Hamitothebone","MT","SUP",["33","35","–"],68,0,"-16",68,2,0,0],
-    ["10","capella13b","GB","SUP",["32","34","32d"],98,-32,"-18",66,3,0,0],
-    ["11","GGCAS_39","R3","SUP",["–","32","33"],65,0,"-19",65,2,0,0],
-    ["12","RiotheSpeedster","R3","GTR",["31","31","–"],62,0,"-22",62,2,0,0],
-    ["13","Colin_t24","RR","SUP",["45p1","DQ","45p1d"],90,-45,"-39",45,3,2,2],
-    ["14","S7R_Ando787","RR","SUP",["–","45p1","–"],45,0,"-39",45,1,1,1],
-    ["15","MasoMarvel87","RR","GTR",["–","43p2","–"],43,0,"-41",43,1,0,1],
-    ["16","brettubrettu26","MT","SUP",["–","–","40"],40,0,"-44",40,1,0,0],
-    ["17","Tim_turtle_79","MT","GTR",["37d","39","RGQ"],76,-37,"-45",39,3,0,0],
-    ["18","Pjmack75","RR","SUP",["39","DNS","–"],39,0,"-45",39,1,0,0],
-    ["19","ricreene","R3","SUP",["–","–","35"],35,0,"-49",35,1,0,0],
-    ["20","MalevolentOne666","MT","NA",["–","–","DNS"],0,0,"-84",0,0,0,0]
+    ["1","WallFinder","MT","GTR",["43p2","33d","41p3","37"],154,-33,"Leader",121,4,0,2],
+    ["2","iphonedoc","RR","GTR",["38","30d","43p2","38"],149,-30,"-2",119,4,0,1],
+    ["3","MAD_MITCH_76","MT","SUP",["34d","37","38","43p2"],152,-34,"-3",118,4,0,1],
+    ["4","GLR_Scotty","MT","SUP",["36","40","34d","39"],149,-34,"-6",115,4,0,0],
+    ["5","Trickybrewer","R3","SUP",["40","38","37","DNS"],115,0,"-6",115,3,0,0],
+    ["6","capella13b","GB","SUP",["32","34","32d","36"],134,-32,"-19",102,4,0,0],
+    ["7","GGCAS_39","R3","SUP",["–","32","33","35"],100,0,"-21",100,3,0,0],
+    ["8","Colin_t24","RR","SUP",["45p1","DQ","45p1","41p3d"],131,-41,"-31",90,4,2,3],
+    ["9","brettubrettu26","MT","SUP",["–","–","40","45p1"],85,0,"-36",85,2,1,1],
+    ["10","MasoMarvel87","RR","GTR",["–","43p2","–","40"],83,0,"-38",83,2,0,1],
+    ["11","Kezaudio","RR","SUP",["41p3","41p3","–","–"],82,0,"-39",82,2,0,2],
+    ["12","Tim_turtle_79","MT","GTR",["37","39","RGQ","–"],76,0,"-45",76,3,0,0],
+    ["13","Fatalreaper666","MT","GTR",["35d","36","36","RGQ"],107,-35,"-49",72,4,0,0],
+    ["14","Tankneo-1","R3","GTR",["30*","29d","39","RGQ"],98,-29,"-52",69,4,0,0],
+    ["15","Hamitothebone","MT","SUP",["33","35","–","–"],68,0,"-53",68,2,0,0],
+    ["16","RiotheSpeedster","R3","GTR",["31","31","–","–"],62,0,"-59",62,2,0,0],
+    ["17","S7R_Ando787","RR","SUP",["–","45p1","–","–"],45,0,"-76",45,1,1,1],
+    ["18","Pjmack75","RR","SUP",["39","DNS","–","–"],39,0,"-82",39,1,0,0],
+    ["19","ricreene","R3","SUP",["–","–","35","–"],35,0,"-86",35,1,0,0],
+    ["20","MalevolentOne666","MT","NA",["–","–","DNS","–"],0,0,"-121",0,0,0,0]
   ]
 };
