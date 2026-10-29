@@ -62,7 +62,7 @@
     }).join("");
     // An archived season without race results links back to the current season's results.
     // Two rows: results and standings first, then the records pages.
-    var tabs = [["results", "Race Results"], ["championship", "Championship Standings"], ["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Champions"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
+    var tabs = [["results", "Race Results"], ["championship", "Championship Standings"], ["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Champions"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
     $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
       var href = S.pages[t[0]] ? S.pages[t[0]] + seasonQuery(S) : BASE.pages[t[0]];
       return (t[0] === "records" ? '<span class="subnav-break" aria-hidden="true"></span>' : "") +
@@ -313,7 +313,7 @@
     var nums = done.map(function (x) { return x.season; }).sort(function (a, b) { return a - b; });
     $("eyebrow").textContent = BASE.navLabel + " · Drivers' champions";
     $("meta").textContent = nums.length ? (nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0]) + " · " + nums.length + " championships" : "No completed seasons yet";
-    document.title = "Champions · " + BASE.navLabel + " · TB Race Results";
+    document.title = "Drivers' Champions · " + BASE.navLabel + " · TB Race Results";
     $("rules").textContent = "Only completed seasons are counted" + (BASE.final ? "." : "; Season " + (BASE.season || 18) + " will be added when it finishes.") + " Drivers are ranked by titles won; when titles are equal, the driver who won the earliest title ranks higher.";
 
     if (!list.length) { $("rows").innerHTML = '<tr><td colspan="4" class="empty">No completed seasons on the site yet.</td></tr>'; return; }
