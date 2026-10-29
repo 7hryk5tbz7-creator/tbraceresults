@@ -217,6 +217,8 @@
   // 3) their team in any current series (drivers race for one team in every series).
   function clubTeam(name, season) {
     var CT = window.CLUB_TEAMS || {}, DT = window.DRIVER_TEAMS || {}, ST = (window.SEASON_TEAMS || {})[season] || {};
+    // Seasons before TEAMS_FROM_SEASON use only their own season list.
+    if (season < (window.TEAMS_FROM_SEASON || 0)) return ST[name] ? { name: ST[name], colour: CT[ST[name]] || "#8C939D" } : null;
     var n = ST[name] || DT[name];
     if (n) return { name: n, colour: CT[n] || "#8C939D" };
     var found = null;
@@ -255,7 +257,7 @@
       '<div class="tile"><div class="label">Round winners</div>' + winners + "</div>";
 
     var hasPen = S.standings.some(function (x) { return x[7]; });
-    var showTeams = (S.season || 99) >= (window.TEAMS_FROM_SEASON || 0);
+    var showTeams = (S.season || 99) >= (window.TEAMS_FROM_SEASON || 0) || !!(window.SEASON_TEAMS || {})[S.season];
     $("head").parentNode.classList.add("compact");
     $("head").innerHTML = "<tr>" +
       '<th scope="col">Pos</th><th scope="col">' + (showTeams ? "Driver / Team" : "Driver") + '</th><th scope="col" class="r">#</th>' +
