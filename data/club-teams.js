@@ -139,3 +139,7 @@ window.SEASON_TEAMS = {
   16: { "Fatalreaper666": "Triple R Motorsport" },
   17: { "Fatalreaper666": "Triple R Motorsport" }
 };
+
+// Seasons 11-14 use the Season 10 team list (as directed by the club).
+// Drivers not on that list show no team for those seasons until the club supplies one.
+[11, 12, 13, 14].forEach(function (n) { window.SEASON_TEAMS[n] = window.SEASON_TEAMS[10]; });
