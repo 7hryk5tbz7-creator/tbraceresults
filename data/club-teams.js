@@ -142,4 +142,13 @@ window.SEASON_TEAMS = {
 
 // Seasons 11-14 use the Season 10 team list (as directed by the club).
 // Drivers not on that list show no team for those seasons until the club supplies one.
-[11, 12, 13, 14].forEach(function (n) { window.SEASON_TEAMS[n] = window.SEASON_TEAMS[10]; });
+// Drivers not on the Season 10 list use their current team for Seasons 11-14 (confirmed by the club).
+var S11to14 = Object.assign({}, window.SEASON_TEAMS[10], {
+  "Luke_GT13": "MC Motorsport",
+  "PorscheNut92": "Gerbil Racing Team",
+  "Scorpion_Fury77": "Triple R Motorsport",
+  "Tankneo-1": "Triple R Motorsport",
+  "WallFinder": "Mad Turtle Racing",
+  "RidwanF1": "Privateer"
+});
+[11, 12, 13, 14].forEach(function (n) { window.SEASON_TEAMS[n] = S11to14; });
