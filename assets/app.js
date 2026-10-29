@@ -335,10 +335,10 @@
   }
 
   /* ---------------- Driver records page ---------------- */
-  // Starts = rounds actually raced (points scored, or DC / RGQ / DNF / CC = changed car).
+  // Starts = rounds actually raced (points scored, or DC / RGQ / DNF / DQ / CC = changed car).
   // Not counted: DNS, WTD (withdrawn), rounds not run (NP) and rounds not entered.
   function archiveStarts(cells) {
-    return cells.filter(function (v) { return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC"; }).length;
+    return cells.filter(function (v) { return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; }).length;
   }
 
   function recordsPage() {
@@ -387,7 +387,7 @@
     $("eyebrow").textContent = BASE.navLabel + " · All-time driver records";
     $("meta").textContent = span + cur + " · " + all.length + " drivers";
     document.title = "Driver Records · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts. Drivers are ranked by wins, then win %, then podiums, then podium %, then starts.";
+    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF, DQ and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts. Drivers are ranked by wins, then win %, then podiums, then podium %, then starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
