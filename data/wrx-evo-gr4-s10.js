@@ -19,7 +19,7 @@ window.SERIES["wrx-evo-gr4-s10"] = {
   final: true,
   standingsMeta: "Final standings · 28 drivers · Round-by-round points",
   standingsKey: ["swatches", "– = did not race that week"],
-  standingsRules: "Season 10 points depend on the number of starters in each race: last place scores 5 and each place higher scores 1 more, with a 1-point bonus for 2nd and a 2-point bonus for the win (e.g. 17 starters: 1st 23, 2nd 21, 3rd 19, 4th 18 … last 5). DROP = the driver's lowest round. A driver gets a drop if they raced every round, or every round except the final one (missing the final round still allows a drop; it scores 0 and is not the dropped round). Anyone who missed an earlier round gets no drop. No penalties were applied. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsRules: "Season 10 points depend on the number of starters in each race: last place scores 5 and each place higher scores 1 more, with a 1-point bonus for 2nd and a 2-point bonus for the win (e.g. 17 starters: 1st 23, 2nd 21, 3rd 19, 4th 18 … last 5). DROP = the driver's lowest round, not counting the final round (the final round can never be dropped). A driver gets a drop if they raced every round, or every round except the final one. Anyone who missed an earlier round gets no drop. No penalties were applied. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 10, with the 25-point tie ordered by countback.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]

@@ -62,7 +62,7 @@ window.SEASON_TEAMS = {
     "Rusty-Nutz-75": "MC Motorsport",
     "hazza5432": "MC Motorsport",
     "crackpipetom": "MC Motorsport",
-    "Fly- balding072": "Privateer",
+    "Fly-balding072": "Privateer",
     "BikeGooRoo": "Privateer",
     "Jrh666-demon": "Privateer",
     "DK666_Racing": "Privateer",
