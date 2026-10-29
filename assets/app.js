@@ -74,7 +74,7 @@
       var list = SEASONS.filter(function (x) { return x.pages[page]; });
       var champName = function (x) { return (x.title || "").replace(/\s*Season \d+\s*/, " ").trim(); };
       box.innerHTML = list.length > 1 ? '<label class="label" for="seasonSelect">Season</label>' +
-        '<span class="selectwrap"><select id="seasonSelect" class="select">' + list.map(function (x) {
+        '<span class="selectwrap"><span class="selectshown" id="seasonShown" aria-hidden="true">Season ' + S.season + (S === BASE && !S.final ? " · current" : "") + '</span><select id="seasonSelect" class="select" aria-label="Season">' + list.map(function (x) {
           return '<option value="' + x.season + '"' + (x === S ? " selected" : "") + ">Season " + x.season +
             (x === BASE && !x.final ? " · current" : "") + (champName(x) ? " · " + esc(champName(x)) : "") + "</option>";
         }).join("") + "</select></span>" : "";

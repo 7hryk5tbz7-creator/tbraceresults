@@ -159,3 +159,9 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .select:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .select option { background: #15171B; color: #E8E9EB; font-family: var(--body); }
 @media (max-width: 640px) { #seasons { flex-wrap: nowrap; } .selectwrap { flex: 1; min-width: 0; } .select { width: 100%; } }
+
+/* Closed dropdown shows the short "Season N" label; the open list shows full championship names. */
+.selectwrap .select { width: 220px; color: transparent; }
+.selectwrap .select option { color: #E8E9EB; }
+.selectshown { position: absolute; left: 15px; right: 40px; top: 50%; transform: translateY(-50%); pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--cond); font-weight: 600; font-size: 16px; letter-spacing: 0.04em; color: #fff; }
+@media (max-width: 640px) { .selectwrap { flex: 0 1 auto; } .selectwrap .select { width: 220px; } }
