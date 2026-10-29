@@ -151,3 +151,11 @@ table.compact .rp { min-width: 38px; }
 .seasontag.gold { color: #F2CC5B; border-color: rgba(242, 204, 91, 0.45); text-decoration: none; }
 a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .section-title { font-family: var(--cond); font-weight: 700; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; margin: 8px 0 -8px; }
+
+.selectwrap { position: relative; display: inline-block; }
+.selectwrap::after { content: ""; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; margin-top: -6px; border-right: 2px solid #C9CDD3; border-bottom: 2px solid #C9CDD3; transform: rotate(45deg); pointer-events: none; }
+.select { appearance: none; -webkit-appearance: none; min-height: 44px; max-width: 100%; padding: 0 44px 0 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--head); color: #fff; font-family: var(--cond); font-weight: 600; font-size: 16px; letter-spacing: 0.04em; cursor: pointer; }
+.select:hover { border-color: #4A4F58; }
+.select:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.select option { background: #15171B; color: #E8E9EB; font-family: var(--body); }
+@media (max-width: 640px) { #seasons { flex-wrap: nowrap; } .selectwrap { flex: 1; min-width: 0; } .select { width: 100%; } }

@@ -72,10 +72,23 @@
     var box = $("seasons");
     if (box) {
       var list = SEASONS.filter(function (x) { return x.pages[page]; });
-      box.innerHTML = list.length > 1 ? '<span class="label">Season</span>' + list.map(function (x) {
-        return '<a class="pill" href="' + x.pages[page] + seasonQuery(x) + '"' + (x === S ? ' aria-current="page"' : "") + ">Season " + x.season + "</a>";
-      }).join("") : "";
+      var champName = function (x) { return (x.title || "").replace(/\s*Season \d+\s*/, " ").trim(); };
+      box.innerHTML = list.length > 1 ? '<label class="label" for="seasonSelect">Season</label>' +
+        '<span class="selectwrap"><select id="seasonSelect" class="select">' + list.map(function (x) {
+          return '<option value="' + x.season + '"' + (x === S ? " selected" : "") + ">Season " + x.season +
+            (x === BASE && !x.final ? " · current" : "") + (champName(x) ? " · " + esc(champName(x)) : "") + "</option>";
+        }).join("") + "</select></span>" : "";
       box.hidden = list.length < 2;
+      var sel = $("seasonSelect");
+      if (sel) sel.addEventListener("change", function () {
+        var next = SEASONS.filter(function (x) { return String(x.season) === sel.value; })[0];
+        if (!next || next === S) return;
+        S = next;
+        try { history.replaceState(null, "", location.pathname + seasonQuery(S)); } catch (e) {}
+        renderNav();
+        if (page === "championship") championshipPage();
+        var f = $("seasonSelect"); if (f) f.focus();
+      });
     }
   }
 
@@ -444,7 +457,15 @@
     render();
   }
 
+  var teamClick = null;
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button.pill");
+    if (b && b.dataset.team && teamClick && page === "championship") teamClick(b.dataset.team);
+  });
+
   function championshipPage() {
+    teamClick = null;
+    $("teamFilter").parentNode.hidden = false;
     if (S.standingsFormat === "archive") return archivePage();
     var h = readHash();
     var state = { team: h.team || "all" };
@@ -506,12 +527,7 @@
       }).join("") || '<tr><td colspan="' + cols + '" class="empty">No drivers in this team.</td></tr>';
     }
 
-    document.addEventListener("click", function (e) {
-      var b = e.target.closest("button.pill");
-      if (!b || !b.dataset.team) return;
-      state.team = b.dataset.team;
-      render();
-    });
+    teamClick = function (t) { state.team = t; render(); };
     render();
   }
 
