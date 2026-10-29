@@ -43,6 +43,7 @@ window.SEASON_TEAMS = {
     "Barberphil": "Gerbil Racing Team",
     "BarberXR6T": "Gerbil Racing Team",
     "capella13b": "Gerbil Racing Team",
+    "PorscheNut92": "Gerbil Racing Team",
     "BigBruceTheShark": "Mad Turtle Racing",
     "CmeCrash": "Privateer",
     "GLR_Scotty": "Mad Turtle Racing",
