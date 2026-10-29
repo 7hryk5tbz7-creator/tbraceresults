@@ -53,6 +53,7 @@ window.SEASON_TEAMS = {
     "R0B_B021": "Mad Turtle Racing",
     "Tim_turtle_79": "Mad Turtle Racing",
     "Rollscanhardly": "Mad Turtle Racing",
+    "brettubrettu26": "Mad Turtle Racing",
     "Zorrow1234": "Privateer",
     "allaussie": "MC Motorsport",
     "N-spud-P666": "MC Motorsport",
