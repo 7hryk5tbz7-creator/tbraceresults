@@ -165,3 +165,6 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .selectwrap .select option { color: #E8E9EB; }
 .selectshown { position: absolute; left: 15px; right: 40px; top: 50%; transform: translateY(-50%); pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--cond); font-weight: 600; font-size: 16px; letter-spacing: 0.04em; color: #fff; }
 @media (max-width: 640px) { .selectwrap { flex: 0 1 auto; } .selectwrap .select { width: 220px; } }
+
+.brand-logo { width: 44px; height: 44px; border-radius: 50%; display: block; flex: none; box-shadow: 0 0 0 1px #2C3038; }
+@media (max-width: 640px) { .brand-logo { width: 40px; height: 40px; } }
