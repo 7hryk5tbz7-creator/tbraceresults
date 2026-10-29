@@ -394,7 +394,8 @@
       });
     });
     var DT = window.DRIVER_TEAMS || {}, CT = window.CLUB_TEAMS || {};
-    all.forEach(function (o) { if (DT[o.name] && teamOK(o)) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
+    // The club team list (DRIVER_TEAMS) applies to every season, including drivers who only raced before Season 15.
+    all.forEach(function (o) { if (DT[o.name]) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });

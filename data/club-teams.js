@@ -28,7 +28,10 @@ window.DRIVER_TEAMS = {
   "LodgedPotato": "Privateer",
   "Siryc": "Triple R Motorsport",
   "Scorpion_Fury77": "Triple R Motorsport",
-  "Hamitothebone": "Mad Turtle Racing"
+  "Hamitothebone": "Mad Turtle Racing",
+  "N-spud-P666": "MC Motorsport",
+  "capella13b": "Gerbil Racing Team",
+  "P-Toots": "Roadsick Racing"
 };
 
 // Season-specific teams, where a driver raced for a different team in a past season.
