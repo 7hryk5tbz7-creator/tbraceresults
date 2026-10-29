@@ -113,7 +113,7 @@ window.SEASON_TEAMS = {
     "Pjmack75": "Roadsick Racing",
     "Spannshouse": "Roadsick Racing",
     "SpeedySnoopyAU": "Roadsick Racing",
-    "Tony2sips": "Roadsick Racing",
+    "Tonyaudio1": "Roadsick Racing",
     "MasoMarvel87": "Roadsick Racing",
     "iphonedoc": "Roadsick Racing",
     "Forza5_308": "Roadsick Racing",
