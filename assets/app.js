@@ -242,7 +242,7 @@
     $("teamFilter").parentNode.hidden = true;
 
     var winners = rounds.map(function (r) {
-      var w = S.standings.filter(function (x) { return x[3][r - 1] === "45p1"; })[0];
+      var w = S.standings.filter(function (x) { return /^\d+p1d?$/.test(x[3][r - 1]); })[0];
       var ne = !w && S.standings.some(function (x) { return x[3][r - 1] === "NE"; });
       var np = !w && (ne || S.standings.some(function (x) { return x[3][r - 1] === "NP"; }));
       return '<div class="tile-row"><span>Round ' + r + "</span><span" + (np ? ' style="color:var(--dim);font-weight:400"' : "") + ">" + (np ? (ne ? "No event" : S.npLabel || "Not run") : w ? esc(w[1]) : "—") + "</span></div>";
