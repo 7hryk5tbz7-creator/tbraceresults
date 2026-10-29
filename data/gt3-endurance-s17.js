@@ -21,7 +21,7 @@ window.SERIES["gt3-endurance-s17"] = {
     "RGQ / DNF / CC = 0 points",
     "– = did not enter"
   ],
-  standingsRules: "Points: win 45, 2nd 43, 3rd 41. RGQ / DNF / CC = 0 points. RidwanF1 changed car after Round 8, so that result scores 0. Drop = worst round removed from subtotal. No penalties were applied in Season 17. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. RGQ / DNF / CC = 0 points. RidwanF1 changed car after Round 8, so that result scores 0. Drop = worst round removed from subtotal. No penalties were applied in Season 17. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 17.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total]

@@ -14,7 +14,7 @@ window.SERIES["gt3-endurance-s16"] = {
   final: true,
   standingsMeta: "Final standings · 32 drivers · Round-by-round points",
   standingsKey: ["swatches", "NP = round not run", "CC = changed car", "WTD = withdrawn", "RGQ / DNF / CC / WTD = 0 points", "– = did not enter"],
-  standingsRules: "Points: win 45, 2nd 43, 3rd 41. RGQ / DNF / CC / WTD = 0 points. Drop = round removed from subtotal. No penalties were applied in Season 16. Ties split on countback: most wins, then 2nds, 3rds and so on.",
+  standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. RGQ / DNF / CC / WTD = 0 points. Drop = round removed from subtotal. No penalties were applied in Season 16. Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsSource: "Standings as published by the club at the end of Season 16.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total]
