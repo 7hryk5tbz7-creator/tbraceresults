@@ -160,7 +160,7 @@ var S11to14 = Object.assign({}, window.SEASON_TEAMS[10], {
 });
 [11, 12, 13, 14].forEach(function (n) { window.SEASON_TEAMS[n] = S11to14; });
 
-// Season 9: every driver raced for the same team as in the other seasons (confirmed by the club).
+// Season 9 (Tuesday Series and Narly Cup): every driver raced for the same team as in the other seasons (confirmed by the club).
 window.SEASON_TEAMS[9] = {
   "Rollscanhardly": "Mad Turtle Racing",
   "Colin_t24": "Roadsick Racing",
@@ -175,5 +175,17 @@ window.SEASON_TEAMS[9] = {
   "CmeCrash": "Privateer",
   "Disco_Stu_001": "Triple R Motorsport",
   "Spannshouse": "Roadsick Racing",
-  "Nadnarb85": "Privateer"
+  "Nadnarb85": "Privateer",
+  "GLR_Scotty": "Mad Turtle Racing",
+  "BarberXR6T": "Gerbil Racing Team",
+  "MasoMarvel87": "Roadsick Racing",
+  "MalevolentOne666": "Mad Turtle Racing",
+  "capella13b": "Gerbil Racing Team",
+  "MajorWatts": "Roadsick Racing",
+  "Barberphil": "Gerbil Racing Team",
+  "simple-crackers9": "Triple R Motorsport",
+  "Kezaudio": "Roadsick Racing",
+  "R0B_B021": "Mad Turtle Racing",
+  "Dissposable_Hero": "Roadsick Racing",
+  "Steve_73_GOOF": "Triple R Motorsport"
 };
