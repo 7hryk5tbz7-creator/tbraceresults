@@ -235,5 +235,14 @@ window.SEASON_TEAMS[8] = {
   "NeonEmpyreal": "Roadsick Racing",
   "MalevolentOne666": "Mad Turtle Racing",
   "Andruid966": "Privateer",
-  "Yoda_Raptor": "Triple R Motorsport"
+  "Yoda_Raptor": "Triple R Motorsport",
+  // Narly Cup
+  "GLR_Scotty": "Mad Turtle Racing",
+  "MajorWatts": "Roadsick Racing",
+  "Dissposable_Hero": "Roadsick Racing",
+  "R0B_B021": "Mad Turtle Racing",
+  "Steve_73_GOOF": "Triple R Motorsport",
+  "Timhillsygaming": "Triple R Motorsport",
+  "DirtyMonkey699": "Privateer",
+  "O-PUNCHY-_-P": "Gerbil Racing Team"
 };
