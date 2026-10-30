@@ -31,7 +31,10 @@ window.DRIVER_TEAMS = {
   "Hamitothebone": "Mad Turtle Racing",
   "N-spud-P666": "MC Motorsport",
   "capella13b": "Gerbil Racing Team",
-  "P-Toots": "Roadsick Racing"
+  "P-Toots": "Roadsick Racing",
+  "Mcdivott": "Roadsick Racing",
+  "Spannshouse": "Roadsick Racing",
+  "Disco_Stu_001": "Triple R Motorsport"
 };
 
 // Season-specific teams, where a driver raced for a different team in a past season.
