@@ -203,3 +203,37 @@ window.SEASON_TEAMS[9] = {
   "OneTao": "Mad Turtle Racing",
   "Soulslayer_71": "Triple R Motorsport"
 };
+
+// Season 8. MC Motorsport was called Team RNR up to the end of Season 8 (same team; Team Records count it as MC Motorsport).
+window.CLUB_TEAMS["Team RNR"] = window.CLUB_TEAMS["MC Motorsport"];
+window.TEAM_ALIASES = { "Team RNR": "MC Motorsport" };
+window.SEASON_TEAMS[8] = {
+  // Tuesday Series
+  "Rollscanhardly": "Mad Turtle Racing",
+  "MAD_MITCH_76": "Mad Turtle Racing",
+  "Colin_t24": "Roadsick Racing",
+  "Kezaudio": "Roadsick Racing",
+  "Pjmack75": "Roadsick Racing",
+  "BigBruceTheShark": "Mad Turtle Racing",
+  "P-Toots": "Roadsick Racing",
+  "MasoMarvel87": "Roadsick Racing",
+  "Trickybrewer": "Triple R Motorsport",
+  "simple-crackers9": "Triple R Motorsport",
+  "iphonedoc": "Roadsick Racing",
+  "S7R_Ando787": "Roadsick Racing",
+  "Soulslayer_71": "Triple R Motorsport",
+  "Mcdivott": "Roadsick Racing",
+  "Tim_turtle_79": "Mad Turtle Racing",
+  "BlackSugar73": "Privateer",
+  "Hamitothebone": "Mad Turtle Racing",
+  "jmillsy85": "Privateer",
+  "CmeCrash": "Privateer",
+  "Tonyaudio1": "Roadsick Racing",
+  "Simmy_D": "Privateer",
+  "Bentstik_7": "Privateer",
+  "Forza5_308": "Roadsick Racing",
+  "NeonEmpyreal": "Roadsick Racing",
+  "MalevolentOne666": "Mad Turtle Racing",
+  "Andruid966": "Privateer",
+  "Yoda_Raptor": "Triple R Motorsport"
+};
