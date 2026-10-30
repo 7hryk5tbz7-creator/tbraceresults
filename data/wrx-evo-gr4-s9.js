@@ -4,7 +4,7 @@
 // Round 4 (11 scorers on the 12-starter ladder, no 5 awarded) and Round 6 (winner on 16, two drivers on 5) don't match the
 // ladder exactly; both are kept as the club published them. Tie on 61: Mcdivott ahead of CmeCrash on countback (best finish 6th vs 8th),
 // as on the club's sheet. Names: Ando787 = S7R_Ando787, iPhonedoc = iphonedoc. A 0 on the sheet = did not race.
-// Teams are not shown for Season 9 until the club supplies a team list.
+// Teams: every driver raced for the same team as in the other seasons (data/club-teams.js, SEASON_TEAMS[9]).
 
 window.SERIES = window.SERIES || {};
 window.SERIES["wrx-evo-gr4-s9"] = {

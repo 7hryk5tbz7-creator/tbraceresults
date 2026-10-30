@@ -156,3 +156,21 @@ var S11to14 = Object.assign({}, window.SEASON_TEAMS[10], {
   "RidwanF1": "Privateer"
 });
 [11, 12, 13, 14].forEach(function (n) { window.SEASON_TEAMS[n] = S11to14; });
+
+// Season 9: every driver raced for the same team as in the other seasons (confirmed by the club).
+window.SEASON_TEAMS[9] = {
+  "Rollscanhardly": "Mad Turtle Racing",
+  "Colin_t24": "Roadsick Racing",
+  "S7R_Ando787": "Roadsick Racing",
+  "MAD_MITCH_76": "Mad Turtle Racing",
+  "Pjmack75": "Roadsick Racing",
+  "iphonedoc": "Roadsick Racing",
+  "Hamitothebone": "Mad Turtle Racing",
+  "Tim_turtle_79": "Mad Turtle Racing",
+  "Trickybrewer": "Triple R Motorsport",
+  "Mcdivott": "Roadsick Racing",
+  "CmeCrash": "Privateer",
+  "Disco_Stu_001": "Triple R Motorsport",
+  "Spannshouse": "Roadsick Racing",
+  "Nadnarb85": "Privateer"
+};
