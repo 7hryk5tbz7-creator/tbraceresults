@@ -1,4 +1,4 @@
-// WJF73 Trophy GT3 Endurance Championship, Season 8 (WJF Trophy, Friday series) — final standings (archive).
+// WJF73 Trophy GT3 Endurance, Season 8 (WJF Trophy, Friday series) — final standings (archive).
 // Transcribed from the club's Season 8 points sheet. Every subtotal, drop and total was checked; eight of the ten rounds match the
 // starters-based scale. Round 3 (20 drivers on the 20-starter ladder plus three more on 5) and Round 10 (21-starter ladder with no 12)
 // are kept as published (club confirmed).
@@ -17,8 +17,8 @@ window.SERIES["gt3-endurance-s8"] = {
   group: "gt3-endurance",
   season: 8,
   navLabel: "WJF Trophy",
-  title: "WJF73 Trophy GT3 Endurance Championship Season 8",
-  eyebrow: "WJF73 Trophy GT3 Endurance Championship · Season 8 · Friday series",
+  title: "WJF73 Trophy GT3 Endurance Season 8",
+  eyebrow: "WJF73 Trophy GT3 Endurance · Season 8 · Friday series",
   pages: { results: null, championship: "championship.html" },
   final: true,
   standingsMeta: "Final standings · 44 drivers · Round-by-round points",

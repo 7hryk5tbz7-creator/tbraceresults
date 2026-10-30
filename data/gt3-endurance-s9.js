@@ -1,4 +1,4 @@
-// WJF73 Trophy GT3 Endurance Championship, Season 9 (WJF Trophy, Friday series) — final standings (archive).
+// WJF73 Trophy GT3 Endurance, Season 9 (WJF Trophy, Friday series) — final standings (archive).
 // Transcribed from the club's Season 9 points sheet. Every subtotal, drop and total was checked.
 // Season 9 uses the same starters-based points as Season 10: last place 5, +1 per place, +1 bonus for 2nd and +2 for the win.
 // Rounds 1, 8 and 10 each have two drivers on 5 with everyone above on the ladder for one starter fewer, and in Round 3 only six
@@ -15,8 +15,8 @@ window.SERIES["gt3-endurance-s9"] = {
   group: "gt3-endurance",
   season: 9,
   navLabel: "WJF Trophy",
-  title: "WJF73 Trophy GT3 Endurance Championship Season 9",
-  eyebrow: "WJF73 Trophy GT3 Endurance Championship · Season 9 · Friday series",
+  title: "WJF73 Trophy GT3 Endurance Season 9",
+  eyebrow: "WJF73 Trophy GT3 Endurance · Season 9 · Friday series",
   pages: { results: null, championship: "championship.html" },
   final: true,
   standingsMeta: "Final standings · 34 drivers · Round-by-round points",
