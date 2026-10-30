@@ -34,7 +34,8 @@ window.DRIVER_TEAMS = {
   "P-Toots": "Roadsick Racing",
   "Mcdivott": "Roadsick Racing",
   "Spannshouse": "Roadsick Racing",
-  "Disco_Stu_001": "Triple R Motorsport"
+  "Disco_Stu_001": "Triple R Motorsport",
+  "Curry41289": "MC Motorsport"
 };
 
 // Season-specific teams, where a driver raced for a different team in a past season.
@@ -244,5 +245,25 @@ window.SEASON_TEAMS[8] = {
   "Steve_73_GOOF": "Triple R Motorsport",
   "Timhillsygaming": "Triple R Motorsport",
   "DirtyMonkey699": "Privateer",
-  "O-PUNCHY-_-P": "Gerbil Racing Team"
+  "O-PUNCHY-_-P": "Gerbil Racing Team",
+  // WJF Trophy (Team RNR = MC Motorsport's name up to Season 8)
+  "N-spud-P666": "Team RNR",
+  "NWR_NICO71": "Team RNR",
+  "allaussie": "Team RNR",
+  "Rusty-Nutz-75": "Team RNR",
+  "Curry41289": "Team RNR",
+  "coloradorojo87": "Privateer",
+  "Meggs1": "Gerbil Racing Team",
+  "BarberXR6T": "Gerbil Racing Team",
+  "VETERANPP": "Gerbil Racing Team",
+  "Khush_Vekaria": "Triple R Motorsport",
+  "Barberphil": "Gerbil Racing Team",
+  "Legend-Macca47": "Gerbil Racing Team",
+  "OneTao": "Mad Turtle Racing",
+  "Fly-balding072": "Privateer",
+  "ricreene": "Triple R Motorsport",
+  "capella13b": "Gerbil Racing Team",
+  "PorscheNut92": "Gerbil Racing Team",
+  "Zippy_Nathman": "Triple R Motorsport",
+  "Zorrow1234": "Privateer"
 };
