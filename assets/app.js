@@ -498,7 +498,7 @@
           var name = teamOf(row);
           // A team's former name counts as the team (e.g. Team RNR became MC Motorsport after Season 8).
           var alias = (window.TEAM_ALIASES || {})[name];
-          if (alias) { var fo = (formerly[alias] = formerly[alias] || { name: name, seasons: [] }); if (fo.seasons.indexOf(season) < 0) fo.seasons.push(season); name = alias; }
+          if (alias) { var fo = (formerly[alias] = formerly[alias] || { names: {}, seasons: [] }); fo.names[name] = Math.min(fo.names[name] || 99, season); if (fo.seasons.indexOf(season) < 0) fo.seasons.push(season); name = alias; }
           if (!name || name === "Privateer") return;
           var o = get(name);
           seen[name] = true;
@@ -526,9 +526,13 @@
     $("eyebrow").textContent = BASE.navLabel + " · All-time team records";
     $("meta").textContent = span + after + " · " + rounds + " rounds · " + all.length + " teams";
     document.title = "Team Records · " + BASE.navLabel + " · TB Race Results";
+    // Former names, oldest first (e.g. Team RSR, then Team RNR).
+    Object.keys(formerly).forEach(function (k) { var f = formerly[k]; f.list = Object.keys(f.names).sort(function (a, b) { return f.names[a] - f.names[b]; }); });
+    var joinNames = function (l, html) { var w = l.map(function (n) { return html ? "<strong style=\"color:#fff\">" + esc(n) + "</strong>" : esc(n); }); return w.length > 1 ? w.slice(0, -1).join(", ") + " and " + w[w.length - 1] : w[0]; };
     var notes = Object.keys(formerly).map(function (k) {
-      var f = formerly[k], last = (window.TEAM_ALIAS_UNTIL || {})[f.name] || Math.max.apply(null, f.seasons);
-      return "<strong style=\"color:#fff\">" + esc(k) + "</strong> was called <strong style=\"color:#fff\">" + esc(f.name) + "</strong> until the end of Season " + last + ". " + esc(f.name) + "\u2019s results are counted here as " + esc(k) + ".";
+      var f = formerly[k], until = window.TEAM_ALIAS_UNTIL || {}, last = Math.max.apply(null, f.list.map(function (n) { return until[n] || 0; }).concat(f.seasons));
+      var called = f.list.length > 1 ? f.list.slice(0, -1).map(function (n) { return "<strong style=\"color:#fff\">" + esc(n) + "</strong>"; }).join(", ") + ", then <strong style=\"color:#fff\">" + esc(f.list[f.list.length - 1]) + "</strong>," : "<strong style=\"color:#fff\">" + esc(f.list[0]) + "</strong>";
+      return "<strong style=\"color:#fff\">" + esc(k) + "</strong> was called " + called + " until the end of Season " + last + ". " + (f.list.length > 1 ? "Their" : esc(f.list[0]) + "\u2019s") + " results are counted here as " + esc(k) + ".";
     });
     var noteBox = $("teamNote");
     if (!noteBox && notes.length) { noteBox = document.createElement("div"); noteBox.id = "teamNote"; $("rules").parentNode.insertBefore(noteBox, $("rules")); }
@@ -570,7 +574,7 @@
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
           '<td><div class="driver nowrap"><span class="bar" style="background:' + o.colour + ';margin-right:8px"></span>' + esc(o.name) + "</div>" +
-          (formerly[o.name] ? '<div class="sub nowrap">Previously ' + esc(formerly[o.name].name) + "</div>" : "") + "</td>" +
+          (formerly[o.name] ? '<div class="sub nowrap">Previously ' + joinNames(formerly[o.name].list, false) + "</div>" : "") + "</td>" +
           '<td class="t r' + (k === "nseasons" ? " hot" : "") + '" title="Seasons ' + o.seasons.slice().sort(function (a, b) { return a - b; }).join(", ") + '">' + o.nseasons + "</td>" +
           '<td class="t r' + (k === "ndrivers" ? " hot" : "") + '" title="' + esc(o.drivers.slice().sort(function (a, b) { return a.localeCompare(b); }).join(", ")) + '">' + o.ndrivers + "</td>" +
           td("starts", o.starts) + td("wins", zero(o.wins, o.wins)) + td("podiums", zero(o.podiums, o.podiums)) +
