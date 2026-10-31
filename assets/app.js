@@ -408,12 +408,13 @@
       }
     });
     // Race number: the last number each driver used in any series (newest season first; Season 18 from the entry lists in RACE_NUMBERS).
+    // #1 is the reigning champion's number for the season after their title, so it is never shown here: the most recent number other than 1 is used.
     var RN = window.RACE_NUMBERS || {}, lastNo = {};
     Object.keys(ALL).map(function (k) { return ALL[k]; })
       .filter(function (x) { return x.standingsFormat === "archive" && x.standings; })
       .sort(function (a, b) { return a.season - b.season; })
-      .forEach(function (x) { x.standings.forEach(function (r) { if (r[2] && archiveStarts(r[3]) > 0) lastNo[r[1]] = r[2]; }); });
-    Object.keys(RN).forEach(function (n) { lastNo[n] = String(RN[n]); });
+      .forEach(function (x) { x.standings.forEach(function (r) { if (r[2] && r[2] !== "1" && archiveStarts(r[3]) > 0) lastNo[r[1]] = r[2]; }); });
+    Object.keys(RN).forEach(function (n) { if (String(RN[n]) !== "1") lastNo[n] = String(RN[n]); });
     all.forEach(function (o) { o.no = lastNo[o.name] || ""; });
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
