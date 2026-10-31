@@ -186,5 +186,3 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .memorial .t1 { font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver); }
 .memorial .t2 { color: var(--muted); font-size: 14px; line-height: 1.45; }
 .memorial b { color: var(--soft); font-weight: 600; }
-.memorial .mono:has(.sm) { display: flex; flex-direction: column; justify-content: center; }
-.memorial .mono .sm { display: block; font-size: 10.5px; letter-spacing: 0.04em; margin-bottom: 2px; }
