@@ -480,7 +480,7 @@ window.SEASON_TEAMS[5] = {
   "DK666_Racing": "Privateer",
   "IronValkyrie": "Privateer",
   // WJF Trophy drivers not on the list (Privateer until Season 4 data arrives); bogzIR = bogzlR
-  "Rollscanhardly": "Privateer",
+  "Rollscanhardly": "Mad Turtle Racing" /* confirmed by the club */,
   "Zorrow1234": "Privateer",
   "M_Waseem-007": "Privateer",
   "Budsy76": "Privateer",
