@@ -476,7 +476,7 @@ window.SEASON_TEAMS[5] = {
   "allaussie": "Team RNR",
   "N-spud-P666": "Team RNR",
   "Yoda_Raptor": "Privateer",
-  "hazza5432": "Privateer",
+  "hazza5432": "Team RNR" /* club: Team RSR/RNR in Season 5 – the team was named Team RNR that season */,
   "DK666_Racing": "Privateer",
   "IronValkyrie": "Privateer",
   // WJF Trophy drivers not on the list (Privateer until Season 4 data arrives); bogzIR = bogzlR
@@ -565,7 +565,7 @@ window.SEASON_TEAMS[4] = {
   "hazza5432": "Privateer",
   "IronValkyrie": "Privateer",
   "Subzero-heart": "Privateer",
-  "DanZambe": "Triple R Motorsport" /* provisional – confirm against Season 3 */,
+  "DanZambe": "Triple R Motorsport" /* confirmed by the club (not on the S3 or S4 lists) */,
   // WJF Trophy drivers not on the list (confirmed Privateer)
   "Zorrow1234": "Privateer",
   "Budsy76": "Privateer",
