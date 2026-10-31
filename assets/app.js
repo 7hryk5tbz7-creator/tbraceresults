@@ -527,7 +527,7 @@
     $("meta").textContent = span + after + " · " + rounds + " rounds · " + all.length + " teams";
     document.title = "Team Records · " + BASE.navLabel + " · TB Race Results";
     // Former names, oldest first (e.g. Team RSR, then Team RNR).
-    Object.keys(formerly).forEach(function (k) { var f = formerly[k]; f.list = Object.keys(f.names).sort(function (a, b) { return f.names[a] - f.names[b]; }); });
+    Object.keys(formerly).forEach(function (k) { var f = formerly[k]; var ord = window.TEAM_NAME_ORDER || []; f.list = Object.keys(f.names).sort(function (a, b) { var ia = ord.indexOf(a), ib = ord.indexOf(b); if (ia >= 0 && ib >= 0) return ia - ib; return f.names[a] - f.names[b]; }); });
     var joinNames = function (l, html) { var w = l.map(function (n) { return html ? "<strong style=\"color:#fff\">" + esc(n) + "</strong>" : esc(n); }); return w.length > 1 ? w.slice(0, -1).join(", ") + " and " + w[w.length - 1] : w[0]; };
     var notes = Object.keys(formerly).map(function (k) {
       var f = formerly[k], until = window.TEAM_ALIAS_UNTIL || {}, last = Math.max.apply(null, f.list.map(function (n) { return until[n] || 0; }).concat(f.seasons));

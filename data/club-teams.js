@@ -574,3 +574,6 @@ window.SEASON_TEAMS[4] = {
   "Arch655": "Privateer",
   "blue-kit4": "Privateer"
 };
+
+// Order of MC Motorsport's former names (oldest first), for Team Records notes.
+window.TEAM_NAME_ORDER = ["Team RSR", "Team RNR"];
