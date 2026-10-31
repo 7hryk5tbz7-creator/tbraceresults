@@ -5,7 +5,7 @@
 // Tie on 144 ordered by countback (Zippy_Nathman 8th, Rusty-Nutz-75 9th – the sheet had them the other way round). Tie on 4 matches the sheet.
 // BikeGooRoo (all rounds 0, never raced) left off at the club's request.
 // Names: Ando787 = S7R_Ando787, Bentstik7 = Bentstik_7, Fly- balding072 = Fly-balding072, Ricreene = ricreene, r0b_B021 = R0B_B021.
-// Steve_73_GOOF (#173 on sheet) = #73, STAFTURBO (#36 on sheet) = #77 (confirmed). A 0 on the sheet = did not race.
+// Race numbers as on the Season 3 entry list: Steve_73_GOOF #173, STAFTURBO #36 (club request). A 0 on the sheet = did not race.
 // Teams: Season 3 entry list (SEASON_TEAMS[3]); JorgeyBuckets and p1_k1_a1 Privateer (confirmed).
 
 window.SERIES = window.SERIES || {};
@@ -41,7 +41,7 @@ window.SERIES["gt3-endurance-s3"] = {
     ["12","Trickybrewer","92",["8","9","20","16","23","15","5","–","4","21p3"],121,0,121,0],
     ["13","Pjmack75","21",["19","10","10","–","10","16","21p3","20p1","–","13"],119,0,119,0],
     ["14","Dissposable_Hero","51",["3","7","18","4","12","8","15","13","18","11"],109,0,109,0],
-    ["15","Steve_73_GOOF","73",["6","4","21","10","17","5","8","–","14","–"],85,0,85,0],
+    ["15","Steve_73_GOOF","173",["6","4","21","10","17","5","8","–","14","–"],85,0,85,0],
     ["16","Fly-balding072","131",["5","4","9","14","7","12","4","5","12","6"],78,0,78,0],
     ["17","MalevolentOne666","666",["10","–","13","18","–","10","10","–","13","–"],74,0,74,0],
     ["18","RSR_Robbo-Sport","20",["5","–","15","21","15","4","6","7","–","–"],73,0,73,0],
@@ -64,6 +64,6 @@ window.SERIES["gt3-endurance-s3"] = {
     ["35","PingTwoHigh69","48",["–","–","–","–","13","–","–","–","–","–"],13,0,13,0],
     ["36","MrDonovan","27",["–","4","–","–","–","–","–","–","–","–"],4,0,4,0],
     ["37","Jrh666-demon","914",["–","–","4","–","–","–","–","–","–","–"],4,0,4,0],
-    ["38","STAFTURBO","77",["–","–","–","–","–","–","–","–","4","7"],4,0,4,0]
+    ["38","STAFTURBO","36",["–","–","–","–","–","–","–","–","4","7"],4,0,4,0]
   ]
 };

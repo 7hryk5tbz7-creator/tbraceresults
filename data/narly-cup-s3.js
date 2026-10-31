@@ -3,7 +3,7 @@
 // Points: finishers on the usual starters-based scale; extra drivers below it scored 1–5 in several rounds, and Round 7 has gaps – all kept
 // as published. Tie on 35 (ricreene ahead of Soulslayer_71) was already in countback order.
 // Names: Ando787 = S7R_Ando787, Tony2sips = Tonyaudio1, Fly- balding072 = Fly-balding072, Ricreene = ricreene, r0b_B021 = R0B_B021.
-// Steve_73_GOOF is #173 on the sheet; #73 used (confirmed). A 0 on the sheet = did not race. Teams: Season 3 entry list (SEASON_TEAMS[3]).
+// Steve_73_GOOF #173 as on the Season 3 entry list (club request). A 0 on the sheet = did not race. Teams: Season 3 entry list (SEASON_TEAMS[3]).
 
 window.SERIES = window.SERIES || {};
 window.SERIES["narly-cup-s3"] = {
@@ -49,7 +49,7 @@ window.SERIES["narly-cup-s3"] = {
     ["23","P-Toots","43",["4","–","–","11","9","7","–","–","–","–"],31,0,31,0],
     ["24","PingTwoHigh69","48",["16","–","11","–","–","–","–","–","–","–"],27,0,27,0],
     ["25","R0B_B021","7",["–","–","–","7","5","5","4","–","–","4"],25,0,25,0],
-    ["26","Steve_73_GOOF","73",["5","15","–","–","–","–","–","–","–","–"],20,0,20,0],
+    ["26","Steve_73_GOOF","173",["5","15","–","–","–","–","–","–","–","–"],20,0,20,0],
     ["27","ICER_MarchyBoy96","96",["3","4","5","–","–","5","–","–","–","–"],17,0,17,0],
     ["28","BDR-Binky","111",["9","–","–","–","–","–","–","–","–","–"],9,0,9,0],
     ["29","Jrh666-demon","914",["3","4","–","–","–","–","–","–","–","–"],7,0,7,0],

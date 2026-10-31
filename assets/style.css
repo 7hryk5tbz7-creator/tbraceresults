@@ -93,6 +93,7 @@ tr.divider td { padding: 10px 16px; border-top: 1px solid #3A3E46; font-family: 
 
 .driver { font-weight: 600; font-size: 16px; color: var(--bright); white-space: nowrap; }
 tr.out .driver { color: var(--dim); }
+.rno { font-weight: 500; font-size: 13px; color: var(--muted); margin-left: 4px; font-variant-numeric: tabular-nums; }
 .car { font-size: 14px; color: var(--soft); white-space: nowrap; }
 tr.out .car, tr.out .t { color: var(--faint); }
 .winner { font-family: var(--cond); font-weight: 700; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bright); }

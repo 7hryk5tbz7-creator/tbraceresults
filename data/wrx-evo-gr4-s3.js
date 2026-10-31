@@ -2,7 +2,7 @@
 // Transcribed from the club's Season 3 points sheet: totals are the sum of all 10 rounds – no drop rounds in Season 3 (published as the
 // sheet, confirmed by the club). Points: finishers on the usual starters-based scale; extra drivers below it scored 1–5 in several rounds –
 // kept as published. Ties on 114 and 64 were already in countback order on the club's sheet.
-// Names: Tony2sips = Tonyaudio1, Ricreene = ricreene, r0b_B021 = R0B_B021, mcdivott = Mcdivott. Steve_73_GOOF is #173 on the sheet; #73 used (confirmed).
+// Names: Tony2sips = Tonyaudio1, Ricreene = ricreene, r0b_B021 = R0B_B021, mcdivott = Mcdivott. Steve_73_GOOF #173 as on the Season 3 entry list (club request).
 // A 0 on the sheet = did not race. Teams: Season 3 entry list (SEASON_TEAMS[3]).
 
 window.SERIES = window.SERIES || {};
@@ -32,7 +32,7 @@ window.SERIES["wrx-evo-gr4-s3"] = {
     ["6","Trickybrewer","92",["17p3","18","17","20","8","11","12","4","–","9"],116,0,116,0],
     ["7","MAD_MITCH_76","76",["5","16","10","6","17","17p3","18p2","12p3","8","5"],114,0,114,0],
     ["8","Dissposable_Hero","51",["16","10","16","8","10","7","15","10","12p3","10p3"],114,0,114,0],
-    ["9","Steve_73_GOOF","73",["5","12","14","11","22p2","16","11","4","11","6"],112,0,112,0],
+    ["9","Steve_73_GOOF","173",["5","12","14","11","22p2","16","11","4","11","6"],112,0,112,0],
     ["10","PingTwoHigh69","48",["13","19","21p3","25p1","6","19p2","7","–","–","–"],110,0,110,0],
     ["11","NeonEmpyreal","80",["10","5","6","12","7","9","10","11","9","4"],83,0,83,0],
     ["12","Kezaudio","72",["9","14","19","14","14","–","–","–","–","–"],70,0,70,0],

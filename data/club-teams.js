@@ -648,3 +648,16 @@ window.SEASON_TEAMS[3] = {
   "QueenKAt_95": "Privateer",
   "SD_bigchich": "Privateer"
 };
+
+// Season 18 race numbers from the club's entry lists (all series combined). The Driver Records pages show each
+// driver's last number used: Season 18 from here, otherwise the newest archive season they raced with a number.
+// Rule: use the number on the entry list unless the list gives the same number to different drivers.
+window.RACE_NUMBERS = {
+  "N-spud-P666": 1, "NWR_NICO71": 17, "allaussie": 87, "Arty_Bicycle": 217,
+  "Fatalreaper666": 4, "GLR_Scotty": 37, "ExpatChamp": 67, "MAD_MITCH_76": 76, "Tim_turtle_79": 79, "brettubrettu26": 82,
+  "BigBruceTheShark": 99, "Hamitothebone": 228, "WallFinder": 420, "MalevolentOne666": 666,
+  "Pjmack75": 21, "Kezaudio": 72, "Colin_t24": 85, "MasoMarvel87": 333, "iphonedoc": 744, "S7R_Ando787": 787,
+  "jmillsy85": 22, "b-man228": 26, "GGCAS_39": 39, "ricreene": 69, "Trickybrewer": 92, "RiotheSpeedster": 171, "Tankneo-1": 576,
+  "Barberphil": 11, "Meggs1": 59, "capella13b": 64, "O-PUNCHY-_-P": 427, "Legend-Macca47": 447, "VETERANPP": 998,
+  "Bluebloss": 29, "RazzMazz": 56
+};

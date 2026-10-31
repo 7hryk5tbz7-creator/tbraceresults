@@ -407,6 +407,14 @@
         if (t) { o.team = { name: t, colour: CT[t] || "#8C939D" }; return; }
       }
     });
+    // Race number: the last number each driver used in any series (newest season first; Season 18 from the entry lists in RACE_NUMBERS).
+    var RN = window.RACE_NUMBERS || {}, lastNo = {};
+    Object.keys(ALL).map(function (k) { return ALL[k]; })
+      .filter(function (x) { return x.standingsFormat === "archive" && x.standings; })
+      .sort(function (a, b) { return a.season - b.season; })
+      .forEach(function (x) { x.standings.forEach(function (r) { if (r[2] && archiveStarts(r[3]) > 0) lastNo[r[1]] = r[2]; }); });
+    Object.keys(RN).forEach(function (n) { lastNo[n] = String(RN[n]); });
+    all.forEach(function (o) { o.no = lastNo[o.name] || ""; });
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });
@@ -453,7 +461,7 @@
         if (key !== prev) pos = i + 1; prev = key;
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
-          '<td><div class="driver">' + esc(o.name) + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
+          '<td><div class="driver">' + esc(o.name) + (o.no ? ' <span class="rno" title="Last race number used">#' + esc(o.no) + "</span>" : "") + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
           '<td class="t r' + (k === "nseasons" ? " hot" : "") + '" title="Seasons ' + o.seasons.slice().sort(function (a, b) { return a - b; }).join(", ") + '">' + o.nseasons + "</td>" +
           '<td class="t r' + (k === "starts" ? " hot" : "") + '">' + o.starts + "</td>" +
           '<td class="t r' + (k === "wins" ? " hot" : "") + '">' + (o.wins || '<span class="none">0</span>') + "</td>" +
