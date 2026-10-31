@@ -178,3 +178,8 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .brand-sub { font-family: var(--cond); font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: var(--red-text); margin-top: 4px; }
 @media (max-width: 640px) { .brand .brand-name { font-size: 17px; letter-spacing: 0.04em; } .brand-sub { font-size: 12px; letter-spacing: 0.12em; } }
 @media (max-width: 400px) { .brand .brand-name { font-size: 15px; letter-spacing: 0.02em; } .brand-sub { font-size: 11px; } .brand { gap: 10px; } }
+
+/* Narly Cup tribute note (Cav Bennett, NarlyDude71) */
+.tribute { display: flex; align-items: center; gap: 12px; margin: 18px 0 4px; padding: 10px 14px; border-left: 2px solid var(--silver); background: rgba(195, 200, 207, 0.05); border-radius: 0 8px 8px 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.tribute .no { flex: none; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: var(--silver); border: 1px solid rgba(195, 200, 207, 0.45); border-radius: 6px; padding: 2px 7px; }
+.tribute b { color: var(--soft); font-weight: 600; }
