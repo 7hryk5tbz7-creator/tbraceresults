@@ -6,7 +6,7 @@
 // raced every round (so Colin_t24 and Tim_turtle_79 drop their Round 10 score; SquatBenchDeadli, who missed Round 10, has no drop).
 // Tie on 66 ordered by countback (the club's sheet listed it the other way round): Dissposable_Hero (two 3rds) ahead of hazza5432 (6th).
 // Names: Masomarvel87 = MasoMarvel87, Cmecrash = CmeCrash, r0b_B021 = R0B_B021, Ricreene = ricreene, Lufthar = lufthar.
-// CerbHoppxr is #11 here (#246 on the entry list) – #11 kept (confirmed). A 0 on the sheet = did not race.
+// CerbHoppxr is #11 on the sheet; #246 used, as on the entry list (club request). A 0 on the sheet = did not race.
 // Teams: Season 4 entry list (SEASON_TEAMS[4]); hazza5432, IronValkyrie and Subzero-heart Privateer (confirmed).
 
 window.SERIES = window.SERIES || {};
@@ -56,7 +56,7 @@ window.SERIES["wrx-evo-gr4-s4"] = {
     ["26","jmillsy85","22",["–","–","17p3","–","–","–","–","–","–","–"],17,0,17,0],
     ["27","Kezaudio","72",["–","–","–","–","–","–","–","–","16","–"],16,0,16,0],
     ["28","BikeGooRoo","803",["6","–","4","–","–","–","–","–","–","–"],10,0,10,0],
-    ["29","CerbHoppxr","11",["7","–","–","–","–","–","–","–","–","–"],7,0,7,0],
+    ["29","CerbHoppxr","246",["7","–","–","–","–","–","–","–","–","–"],7,0,7,0],
     ["30","Subzero-heart","237",["1","–","–","–","–","–","–","–","–","–"],1,0,1,0]
   ]
 };
