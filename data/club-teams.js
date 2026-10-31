@@ -478,5 +478,12 @@ window.SEASON_TEAMS[5] = {
   "Yoda_Raptor": "Privateer",
   "hazza5432": "Privateer",
   "DK666_Racing": "Privateer",
-  "IronValkyrie": "Privateer"
+  "IronValkyrie": "Privateer",
+  // WJF Trophy drivers not on the list (Privateer until Season 4 data arrives); bogzIR = bogzlR
+  "Rollscanhardly": "Privateer",
+  "Zorrow1234": "Privateer",
+  "M_Waseem-007": "Privateer",
+  "Budsy76": "Privateer",
+  "SpeedySnoopyAU": "Privateer",
+  "bogzIR": "Privateer"
 };
