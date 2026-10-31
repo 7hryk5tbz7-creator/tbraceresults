@@ -570,7 +570,7 @@
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
           '<td><div class="driver nowrap"><span class="bar" style="background:' + o.colour + ';margin-right:8px"></span>' + esc(o.name) + "</div>" +
-          (formerly[o.name] ? '<div class="sub nowrap">Known as ' + esc(formerly[o.name].name) + " in " + seasonList(formerly[o.name].seasons) + "</div>" : "") + "</td>" +
+          (formerly[o.name] ? '<div class="sub nowrap">Previously ' + esc(formerly[o.name].name) + "</div>" : "") + "</td>" +
           '<td class="t r' + (k === "nseasons" ? " hot" : "") + '" title="Seasons ' + o.seasons.slice().sort(function (a, b) { return a - b; }).join(", ") + '">' + o.nseasons + "</td>" +
           '<td class="t r' + (k === "ndrivers" ? " hot" : "") + '" title="' + esc(o.drivers.slice().sort(function (a, b) { return a.localeCompare(b); }).join(", ")) + '">' + o.ndrivers + "</td>" +
           td("starts", o.starts) + td("wins", zero(o.wins, o.wins)) + td("podiums", zero(o.podiums, o.podiums)) +
