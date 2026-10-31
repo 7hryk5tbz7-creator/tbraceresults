@@ -564,5 +564,6 @@ window.SEASON_TEAMS[4] = {
   "Orange_Dolphin17": "Privateer",
   "hazza5432": "Privateer",
   "IronValkyrie": "Privateer",
-  "Subzero-heart": "Privateer"
+  "Subzero-heart": "Privateer",
+  "DanZambe": "Triple R Motorsport" /* provisional – confirm against Season 3 */
 };
