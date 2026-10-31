@@ -290,7 +290,15 @@ window.SEASON_TEAMS[7] = {
   "Timhillsygaming": "Privateer",
   "Andruid966": "Privateer",
   "Dojo426": "Privateer",
-  "hazza5432": "Team RNR"
+  "hazza5432": "Team RNR",
+  // Narly Cup
+  "GLR_Scotty": "Mad Turtle Racing",
+  "Madrick1972": "Privateer",
+  "Soulslayer_71": "Triple R Motorsport",
+  "simple-crackers9": "Privateer",
+  "Frosty5275": "Mad Turtle Racing",
+  "Hoads2285": "Privateer",
+  "RSR_Robbo-Sport": "Team RNR"
 };
 // Team RNR was renamed MC Motorsport after this season.
 window.TEAM_ALIAS_UNTIL = { "Team RNR": 8 };
