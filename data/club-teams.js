@@ -298,7 +298,22 @@ window.SEASON_TEAMS[7] = {
   "simple-crackers9": "Privateer",
   "Frosty5275": "Mad Turtle Racing",
   "Hoads2285": "Privateer",
-  "RSR_Robbo-Sport": "Team RNR"
+  "RSR_Robbo-Sport": "Team RNR",
+  // WJF Trophy (no team column on the sheet; same team as Season 6, confirmed)
+  "NWR_NICO71": "Team RNR",
+  "Zippy_Nathman": "Triple R Motorsport",
+  "Rollscanhardly": "Mad Turtle Racing",
+  "allaussie": "Team RNR",
+  "Zorrow1234": "Mad Turtle Racing",
+  "OneTao": "Mad Turtle Racing",
+  "Rusty-Nutz-75": "Team RNR",
+  "Bentstik_7": "Privateer",
+  "Fly-balding072": "Team RNR",
+  "NeonEmpyreal": "Roadsick Racing",
+  "Khush_Vekaria": "Triple R Motorsport",
+  "Bozza777": "Triple R Motorsport",
+  "DirtyMonkey699": "Privateer",
+  "ricreene": "Triple R Motorsport"
 };
 // Team RNR was renamed MC Motorsport after this season.
 window.TEAM_ALIAS_UNTIL = { "Team RNR": 8 };
