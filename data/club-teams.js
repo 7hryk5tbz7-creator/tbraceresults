@@ -267,3 +267,30 @@ window.SEASON_TEAMS[8] = {
   "Zippy_Nathman": "Triple R Motorsport",
   "Zorrow1234": "Privateer"
 };
+
+// Season 7 (from the club's Season 7 standings sheets; Team RNR = MC Motorsport's name up to Season 8).
+window.SEASON_TEAMS[7] = {
+  "Colin_t24": "Roadsick Racing",
+  "S7R_Ando787": "Roadsick Racing",
+  "Pjmack75": "Roadsick Racing",
+  "Kezaudio": "Roadsick Racing",
+  "MAD_MITCH_76": "Mad Turtle Racing",
+  "iphonedoc": "Privateer",
+  "MasoMarvel87": "Roadsick Racing",
+  "Trickybrewer": "Triple R Motorsport",
+  "Yoda_Raptor": "Triple R Motorsport",
+  "P-Toots": "Roadsick Racing",
+  "Tim_turtle_79": "Mad Turtle Racing",
+  "MajorWatts": "Roadsick Racing",
+  "Hamitothebone": "Mad Turtle Racing",
+  "Tonyaudio1": "Roadsick Racing",
+  "CmeCrash": "Mad Turtle Racing",
+  "Mcdivott": "Roadsick Racing",
+  "MalevolentOne666": "Mad Turtle Racing",
+  "Timhillsygaming": "Privateer",
+  "Andruid966": "Privateer",
+  "Dojo426": "Privateer",
+  "hazza5432": "Team RNR"
+};
+// Team RNR was renamed MC Motorsport after this season.
+window.TEAM_ALIAS_UNTIL = { "Team RNR": 8 };

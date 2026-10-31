@@ -516,7 +516,7 @@
     $("meta").textContent = span + after + " · " + rounds + " rounds · " + all.length + " teams";
     document.title = "Team Records · " + BASE.navLabel + " · TB Race Results";
     var notes = Object.keys(formerly).map(function (k) {
-      var f = formerly[k], last = Math.max.apply(null, f.seasons);
+      var f = formerly[k], last = (window.TEAM_ALIAS_UNTIL || {})[f.name] || Math.max.apply(null, f.seasons);
       return "<strong style=\"color:#fff\">" + esc(k) + "</strong> was called <strong style=\"color:#fff\">" + esc(f.name) + "</strong> until the end of Season " + last + ". " + esc(f.name) + "\u2019s results are counted here as " + esc(k) + ".";
     });
     var noteBox = $("teamNote");
