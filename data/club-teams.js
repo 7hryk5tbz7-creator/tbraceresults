@@ -580,6 +580,8 @@ window.TEAM_NAME_ORDER = ["Team RSR", "Team RNR"];
 
 // Season 3 (club's Season 3 entry list, all three series; complete at 65 drivers). Team RSR = MC Motorsport's earliest name.
 window.SEASON_TEAMS[3] = {
+  "JorgeyBuckets": "Privateer", /* not on the entry list – confirmed by the club */
+  "p1_k1_a1": "Privateer", /* not on the entry list – confirmed by the club */
   "S7R_Ando787": "Roadsick Racing",
   "Colin_t24": "Roadsick Racing",
   "Spannshouse": "Roadsick Racing",
