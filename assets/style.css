@@ -183,3 +183,10 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .tribute { display: flex; align-items: center; gap: 12px; margin: 18px 0 4px; padding: 10px 14px; border-left: 2px solid var(--silver); background: rgba(195, 200, 207, 0.05); border-radius: 0 8px 8px 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
 .tribute .no { flex: none; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: var(--silver); border: 1px solid rgba(195, 200, 207, 0.45); border-radius: 6px; padding: 2px 7px; }
 .tribute b { color: var(--soft); font-weight: 600; }
+
+/* WJF Trophy memorial banner (Wayne Fraser, WJF73) */
+.memorial { display: flex; align-items: center; gap: 16px; margin: 18px 0 4px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; background: linear-gradient(90deg, rgba(195, 200, 207, 0.08), rgba(195, 200, 207, 0.01) 60%); }
+.memorial .mono { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(195, 200, 207, 0.55); display: grid; place-items: center; font-family: "Barlow Condensed", sans-serif; font-weight: 700; color: var(--silver); font-size: 15px; letter-spacing: 0.03em; line-height: 1; text-align: center; }
+.memorial .t1 { font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver); }
+.memorial .t2 { color: var(--muted); font-size: 14px; line-height: 1.45; }
+.memorial b { color: var(--soft); font-weight: 600; }
