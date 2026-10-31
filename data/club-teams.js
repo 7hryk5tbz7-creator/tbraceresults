@@ -476,7 +476,7 @@ window.SEASON_TEAMS[5] = {
   "allaussie": "Team RNR",
   "N-spud-P666": "Team RNR",
   "Yoda_Raptor": "Privateer",
-  "hazza5432": "Team RSR" /* confirmed by the club */,
+  "hazza5432": "Team RNR" /* confirmed by the club */,
   "DK666_Racing": "Privateer",
   "IronValkyrie": "Privateer",
   // WJF Trophy drivers not on the list (Privateer until Season 4 data arrives); bogzIR = bogzlR
