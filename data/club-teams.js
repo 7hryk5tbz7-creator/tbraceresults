@@ -565,5 +565,12 @@ window.SEASON_TEAMS[4] = {
   "hazza5432": "Privateer",
   "IronValkyrie": "Privateer",
   "Subzero-heart": "Privateer",
-  "DanZambe": "Triple R Motorsport" /* provisional – confirm against Season 3 */
+  "DanZambe": "Triple R Motorsport" /* provisional – confirm against Season 3 */,
+  // WJF Trophy drivers not on the list (confirmed Privateer)
+  "Zorrow1234": "Privateer",
+  "Budsy76": "Privateer",
+  "DirtyMonkey699": "Privateer",
+  "AKs_TrueGhosted": "Privateer",
+  "Arch655": "Privateer",
+  "blue-kit4": "Privateer"
 };
