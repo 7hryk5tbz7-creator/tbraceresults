@@ -397,14 +397,14 @@
     // The club team list (DRIVER_TEAMS) applies to every season, including drivers who only raced before Season 15.
     all.forEach(function (o) { if (DT[o.name]) o.team = { name: DT[o.name], colour: CT[DT[o.name]] || "#8C939D" }; });
     // Drivers still without a team: use the team from the most recent season they raced that has a team list
-    // (a team's old name shows as its current name, e.g. Team RNR -> MC Motorsport). Display only; Team Records use each season's team.
+    // (a driver who only raced under a team's old name shows that name, e.g. Team RNR). Display only; Team Records use each season's team and count Team RNR as MC Motorsport.
     var STL = window.SEASON_TEAMS || {}, ALI = window.TEAM_ALIASES || {};
     all.forEach(function (o) {
       if (o.team) return;
       var raced = o.seasons.slice().sort(function (a, b) { return b - a; });
       for (var i = 0; i < raced.length; i++) {
         var t = (STL[raced[i]] || {})[o.name];
-        if (t) { t = ALI[t] || t; o.team = { name: t, colour: CT[t] || "#8C939D" }; return; }
+        if (t) { o.team = { name: t, colour: CT[t] || "#8C939D" }; return; }
       }
     });
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
