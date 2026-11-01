@@ -5,8 +5,12 @@
   var ORDER = (window.SERIES_ORDER || Object.keys(ALL)).slice().sort(function (a, b) {
     return (ALL[a].navOrder || 99) - (ALL[b].navOrder || 99);
   });
-  var BASE = ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var page = document.body.getAttribute("data-page");
+  // Records pages are club-wide (records-*.html): ?series=<id> shows one series, otherwise All Time.
+  var RECORD_PAGES = /^(records|teamrecords|champions)$/;
+  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html" };
+  var wantSeries = RECORD_PAGES.test(page) ? new URLSearchParams(location.search).get("series") : null;
+  var BASE = (wantSeries && ALL[wantSeries] && !ALL[wantSeries].group ? ALL[wantSeries] : null) || ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var groupOf = function (x) { return x.group || x.id; };
   // Every season of this series (current + archived), newest first.
   var SEASONS = Object.keys(ALL).map(function (k) { return ALL[k]; })
@@ -15,9 +19,8 @@
   var wanted = new URLSearchParams(location.search).get("season");
   var S = SEASONS.filter(function (x) { return wanted && String(x.season) === wanted; })[0] || BASE;
   var seasonQuery = function (x) { return x === BASE || !x.season ? "" : "?season=" + x.season; };
-  // Records pages (Driver Records, Team Records, Drivers' Titles) can show one series or "All Time" (all three series together, ?scope=all).
-  var RECORD_PAGES = /^(records|teamrecords|champions)$/;
-  var SCOPE_ALL = RECORD_PAGES.test(page) && new URLSearchParams(location.search).get("scope") === "all";
+  var SCOPE_ALL = RECORD_PAGES.test(page) && BASE.id !== wantSeries;
+  var recQuery = SCOPE_ALL ? "" : "?series=" + BASE.id;
   var baseOf = function (x) { return ALL[groupOf(x)] || x; };
   var SHORT = function (x) { return ({ "Tuesday Series": "Tuesday", "Narly Cup": "Narly", "WJF Trophy": "WJF" })[x.navLabel] || x.navLabel; };
   var LABEL = SCOPE_ALL ? "All Time" : BASE.navLabel;
@@ -68,18 +71,23 @@
   function renderNav() {
     $("seriesNav").innerHTML = ORDER.map(function (id) {
       var x = ALL[id];
-      return '<a href="' + x.pages.results + '"' + (id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
-    }).join("");
+      return '<a href="' + x.pages.results + '"' + (!RECORD_PAGES.test(page) && id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
+    }).join("") + '<a href="' + REC.records + '"' + (RECORD_PAGES.test(page) ? ' aria-current="page"' : "") + ">Records</a>";
     // An archived season without race results links back to the current season's results.
     // Two rows: results and standings first, then the records pages.
-    var tabs = [["results", "Race Results"], ["championship", "Championship Standings"], ["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
-    $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
+    if (RECORD_PAGES.test(page)) {
+      // Records section: its own tabs; Teams' Titles is shown once team championship data exists.
+      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"]].map(function (t) {
+        return '<a href="' + REC[t[0]] + recQuery + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
+      }).join("") + '<span class="soon-tab" title="Coming soon">Teams\u2019 Titles <em>Soon</em></span>';
+    }
+    // Series pages: current-season race results and championship standings only.
+    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", "Championship Standings"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
+    if (!RECORD_PAGES.test(page)) $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
       var href = S.pages[t[0]] ? S.pages[t[0]] + seasonQuery(S) : BASE.pages[t[0]];
-      if (SCOPE_ALL && RECORD_PAGES.test(t[0])) href = BASE.pages[t[0]] + "?scope=all";
-      return (t[0] === "records" ? '<span class="subnav-break" aria-hidden="true"></span>' : "") +
-        '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
+      return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
     }).join("") : "";
-    if (tabs.length < 2) $("pageNav").hidden = true;
+    if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
 
     // Records pages: All Time / Tuesday / Narly / WJF picker.
     if (RECORD_PAGES.test(page)) {
@@ -89,9 +97,9 @@
         sp.setAttribute("role", "group"); sp.setAttribute("aria-label", "Records for");
         $("pageNav").parentNode.insertBefore(sp, $("pageNav").nextSibling);
       }
-      sp.innerHTML = '<a class="pill" href="' + BASE.pages[page] + '?scope=all"' + (SCOPE_ALL ? ' aria-current="page"' : "") + ">All Time</a>" +
-        ORDER.filter(function (id) { return ALL[id].pages[page]; }).map(function (id) {
-          return '<a class="pill" href="' + ALL[id].pages[page] + '"' + (!SCOPE_ALL && id === groupOf(BASE) ? ' aria-current="page"' : "") + ">" + esc(SHORT(ALL[id])) + "</a>";
+      sp.innerHTML = '<a class="pill" href="' + REC[page] + '"' + (SCOPE_ALL ? ' aria-current="page"' : "") + ">All Time</a>" +
+        ORDER.map(function (id) {
+          return '<a class="pill" href="' + REC[page] + "?series=" + id + '"' + (!SCOPE_ALL && id === groupOf(BASE) ? ' aria-current="page"' : "") + ">" + esc(SHORT(ALL[id])) + "</a>";
         }).join("");
     }
 

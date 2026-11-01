@@ -207,3 +207,5 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 #scopePicker .pill { min-height: 38px; }
 .tagwrap { white-space: normal; line-height: 2; min-width: 420px; }
 @media (max-width: 600px) { #scopePicker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } #scopePicker .pill { justify-content: center; padding: 0 4px; font-size: 14px; } }
+.soon-tab { padding: 10px 0; color: var(--faint); cursor: default; }
+.soon-tab em { font-style: normal; font-size: 10px; letter-spacing: 0.14em; color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.45); border-radius: 999px; padding: 1px 6px; margin-left: 4px; vertical-align: 2px; }
