@@ -15,6 +15,16 @@
   var wanted = new URLSearchParams(location.search).get("season");
   var S = SEASONS.filter(function (x) { return wanted && String(x.season) === wanted; })[0] || BASE;
   var seasonQuery = function (x) { return x === BASE || !x.season ? "" : "?season=" + x.season; };
+  // Records pages (Driver Records, Team Records, Drivers' Titles) can show one series or "All Time" (all three series together, ?scope=all).
+  var RECORD_PAGES = /^(records|teamrecords|champions)$/;
+  var SCOPE_ALL = RECORD_PAGES.test(page) && new URLSearchParams(location.search).get("scope") === "all";
+  var baseOf = function (x) { return ALL[groupOf(x)] || x; };
+  var SHORT = function (x) { return ({ "Tuesday Series": "Tuesday", "Narly Cup": "Narly", "WJF Trophy": "WJF" })[x.navLabel] || x.navLabel; };
+  var LABEL = SCOPE_ALL ? "All Time" : BASE.navLabel;
+  var RSEASONS = SCOPE_ALL ? Object.keys(ALL).map(function (k) { return ALL[k]; }).sort(function (a, b) {
+    return (b.season || 0) - (a.season || 0) || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99);
+  }) : SEASONS;
+  var uniq = function (l) { return l.filter(function (v, i) { return l.indexOf(v) === i; }); };
 
   var esc = function (s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -65,10 +75,25 @@
     var tabs = [["results", "Race Results"], ["championship", "Championship Standings"], ["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
     $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
       var href = S.pages[t[0]] ? S.pages[t[0]] + seasonQuery(S) : BASE.pages[t[0]];
+      if (SCOPE_ALL && RECORD_PAGES.test(t[0])) href = BASE.pages[t[0]] + "?scope=all";
       return (t[0] === "records" ? '<span class="subnav-break" aria-hidden="true"></span>' : "") +
         '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
     }).join("") : "";
     if (tabs.length < 2) $("pageNav").hidden = true;
+
+    // Records pages: All Time / Tuesday / Narly / WJF picker.
+    if (RECORD_PAGES.test(page)) {
+      var sp = $("scopePicker");
+      if (!sp) {
+        sp = document.createElement("div"); sp.id = "scopePicker"; sp.className = "pills scope";
+        sp.setAttribute("role", "group"); sp.setAttribute("aria-label", "Records for");
+        $("pageNav").parentNode.insertBefore(sp, $("pageNav").nextSibling);
+      }
+      sp.innerHTML = '<a class="pill" href="' + BASE.pages[page] + '?scope=all"' + (SCOPE_ALL ? ' aria-current="page"' : "") + ">All Time</a>" +
+        ORDER.filter(function (id) { return ALL[id].pages[page]; }).map(function (id) {
+          return '<a class="pill" href="' + ALL[id].pages[page] + '"' + (!SCOPE_ALL && id === groupOf(BASE) ? ' aria-current="page"' : "") + ">" + esc(SHORT(ALL[id])) + "</a>";
+        }).join("");
+    }
 
     // Season picker: only when this series has more than one season on this page type.
     var box = $("seasons");
@@ -296,13 +321,13 @@
   /* ---------------- Champions page ---------------- */
   // Only finished seasons count; the current season is added once it is complete.
   function championsPage() {
-    var done = SEASONS.filter(function (x) { return x.final && x.standings && x.standings.length; });
+    var done = RSEASONS.filter(function (x) { return x.final && x.standings && x.standings.length; });
     var pts = function (x, r) { return x.standingsFormat === "archive" ? r[6] : r[8]; };
     var map = {};
     done.forEach(function (x) {
       var c = x.standings[0];
       var o = map[c[1]] || (map[c[1]] = { name: c[1], seasons: [] });
-      o.seasons.push(x.season);
+      o.seasons.push(x.season); o.won = (o.won || []).concat([x]);
     });
     var list = Object.keys(map).map(function (k) { return map[k]; });
     list.forEach(function (o) { o.seasons.sort(function (a, b) { return b - a; }); o.titles = o.seasons.length; o.team = clubTeam(o.name, 99);
@@ -313,11 +338,12 @@
     var first = function (o) { return o.seasons[o.seasons.length - 1]; };
     list.sort(function (a, b) { return b.titles - a.titles || first(a) - first(b) || a.name.localeCompare(b.name); });
 
-    var nums = done.map(function (x) { return x.season; }).sort(function (a, b) { return a - b; });
-    $("eyebrow").textContent = BASE.navLabel + " · Drivers' champions";
-    $("meta").textContent = nums.length ? (nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0]) + " · " + nums.length + " championships" : "No completed seasons yet";
-    document.title = "Drivers' Titles · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Only completed seasons are counted" + (BASE.final ? "." : "; Season " + (BASE.season || 18) + " will be added when it finishes.") + " Drivers are ranked by titles won; when titles are equal, the driver who won the earliest title ranks higher.";
+    var nums = uniq(done.map(function (x) { return x.season; })).sort(function (a, b) { return a - b; });
+    var tag = function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + '">S' + x.season + (SCOPE_ALL ? " " + esc(SHORT(baseOf(x))) : "") + "</a>"; };
+    $("eyebrow").textContent = LABEL + " · Drivers' champions";
+    $("meta").textContent = nums.length ? (nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0]) + " · " + done.length + " championships" : "No completed seasons yet";
+    document.title = "Drivers' Titles · " + LABEL + " · TB Race Results";
+    $("rules").textContent = (SCOPE_ALL ? "All Time counts the driver championships of all three series together. " : "") + "Only completed seasons are counted" + (BASE.final ? "." : "; Season " + (BASE.season || 18) + " will be added when it finishes.") + " Drivers are ranked by titles won; when titles are equal, the driver who won the earliest title ranks higher.";
 
     if (!list.length) { $("rows").innerHTML = '<tr><td colspan="4" class="empty">No completed seasons on the site yet.</td></tr>'; return; }
     var top = list[0], latest = done[0];
@@ -328,7 +354,7 @@
           (who.length === 1 ? top.titles + (top.titles === 1 ? " title" : " titles") : esc(who.slice(0, 3).join(", ")) + (who.length > 3 ? " and " + (who.length - 3) + " more" : "")) + "</div></div>";
       })() +
       '<div class="tile"><div class="label">Latest champion</div><div class="tile-big">' + esc(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>" +
-      '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + list.length + '</div><div class="sub">from ' + done.length + " seasons</div></div>";
+      '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + list.length + '</div><div class="sub">from ' + done.length + (SCOPE_ALL ? " championships" : " seasons") + "</div></div>";
 
     $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">Seasons won</th></tr>';
     var prev = null, pos = 0;
@@ -339,15 +365,15 @@
         '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
         '<td><div class="driver' + (pos === 1 ? " champion" : "") + '">' + esc(o.name) + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
         '<td class="r"><span class="points">' + o.titles + "</span></td>" +
-        '<td class="nowrap">' + o.seasons.map(function (n) { return '<a class="seasontag gold" href="' + BASE.pages.championship + (n === BASE.season ? "" : "?season=" + n) + '">S' + n + "</a>"; }).join("") + "</td></tr>";
+        '<td class="' + (SCOPE_ALL ? "tagwrap" : "nowrap") + '">' + o.won.slice().sort(function (a, b) { return b.season - a.season || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99); }).map(tag).join("") + "</td></tr>";
     }).join("");
 
     $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Champion</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
     $("rows2").innerHTML = done.map(function (x) {
       var c = x.standings[0], r2 = x.standings[1];
       return "<tr>" +
-        '<td><a class="seasontag gold" href="' + BASE.pages.championship + "?season=" + x.season + '">S' + x.season + "</a></td>" +
-        '<td class="car">' + esc(x.title.replace(/\s*Season \d+$/, "")) + "</td>" +
+        "<td>" + tag(x) + "</td>" +
+        '<td class="car">' + (SCOPE_ALL ? esc(baseOf(x).navLabel) + " · " : "") + esc(x.title.replace(/\s*Season \d+$/, "")) + "</td>" +
         '<td><div class="driver champion">' + esc(c[1]) + "</div></td>" +
         '<td class="t r">' + pts(x, c) + "</td>" +
         '<td class="nowrap" style="font-size:14px;color:var(--muted)">' + (r2 ? esc(r2[1]) + " · " + pts(x, r2) : "—") + "</td></tr>";
@@ -362,7 +388,7 @@
   }
 
   function recordsPage() {
-    var seasons = SEASONS.filter(function (x) { return x.standings; });
+    var seasons = RSEASONS.filter(function (x) { return x.standings; });
     var map = {};
     seasons.slice().reverse().forEach(function (x) { // oldest first, so the newest team wins
       x.standings.forEach(function (r) {
@@ -421,14 +447,14 @@
     all.forEach(function (o) { o.no = lastNo[o.name] || ""; });
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
-    var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });
+    var nums = uniq(seasons.map(function (x) { return x.season || 18; })).sort(function (a, b) { return a - b; });
     var span = nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0];
     var after = BASE.standingsAfter ? "after Round " + BASE.standingsAfter : "";
     var cur = after ? (nums.length > 1 ? " (Season " + (BASE.season || 18) + " " + after + ")" : " " + after) : "";
-    $("eyebrow").textContent = BASE.navLabel + " · All-time driver records";
+    $("eyebrow").textContent = LABEL + " · " + (SCOPE_ALL ? "Driver records, all three series" : "All-time driver records");
     $("meta").textContent = span + cur + " · " + all.length + " drivers";
-    document.title = "Driver Records · " + BASE.navLabel + " · TB Race Results";
-    $("rules").textContent = "Records cover every season of this series on the site: " + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF, DQ and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts. Drivers are ranked by wins, then win %, then podiums, then podium %, then starts.";
+    document.title = "Driver Records · " + LABEL + " · TB Race Results";
+    $("rules").textContent = (SCOPE_ALL ? "All Time adds together every season of all three series (Tuesday Series, Narly Cup and WJF Trophy): " : "Records cover every season of this series on the site: ") + nums.slice().reverse().map(function (n) { return "Season " + n; }).join(", ") + cur + ". Starts count rounds a driver actually raced, including DC, RGQ, DNF, DQ and CC (changed car); DNS, WTD (withdrawn) and rounds that weren't run don't count. Podiums include wins. Win % = wins ÷ starts. Podium % = podiums ÷ starts. Drivers are ranked by wins, then win %, then podiums, then podium %, then starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
@@ -488,7 +514,7 @@
   // top-3 finish by its drivers; titles = this series' driver championships won by its drivers.
   // Each driver counts for the team they raced for in that season. Privateers are left out.
   function teamRecordsPage() {
-    var seasons = SEASONS.filter(function (x) { return x.standings; });
+    var seasons = RSEASONS.filter(function (x) { return x.standings; });
     var CT = window.CLUB_TEAMS || {}, DT = window.DRIVER_TEAMS || {};
     var started = function (v) { v = String(v || ""); return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; };
     var map = {}, rounds = 0, formerly = {};
@@ -532,12 +558,12 @@
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.ndrivers = o.drivers.length; o.pct = o.starts ? o.wins / o.starts : 0; });
 
     var seasonList = function (l) { l = l.slice().sort(function (a, b) { return a - b; }); return l.length > 1 ? "Seasons " + l.join(", ") : "Season " + l[0]; };
-    var nums = seasons.map(function (x) { return x.season || 18; }).sort(function (a, b) { return a - b; });
+    var nums = uniq(seasons.map(function (x) { return x.season || 18; })).sort(function (a, b) { return a - b; });
     var span = nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0];
     var after = BASE.standingsAfter ? " (Season " + (BASE.season || 18) + " after Round " + BASE.standingsAfter + ")" : "";
-    $("eyebrow").textContent = BASE.navLabel + " · All-time team records";
+    $("eyebrow").textContent = LABEL + " · " + (SCOPE_ALL ? "Team records, all three series" : "All-time team records");
     $("meta").textContent = span + after + " · " + rounds + " rounds · " + all.length + " teams";
-    document.title = "Team Records · " + BASE.navLabel + " · TB Race Results";
+    document.title = "Team Records · " + LABEL + " · TB Race Results";
     // Former names, oldest first (e.g. Team RSR, then Team RNR).
     Object.keys(formerly).forEach(function (k) { var f = formerly[k]; var ord = window.TEAM_NAME_ORDER || []; f.list = Object.keys(f.names).sort(function (a, b) { var ia = ord.indexOf(a), ib = ord.indexOf(b); if (ia >= 0 && ib >= 0) return ia - ib; return f.names[a] - f.names[b]; }); });
     var joinNames = function (l, html) { var w = l.map(function (n) { return html ? "<strong style=\"color:#fff\">" + esc(n) + "</strong>" : esc(n); }); return w.length > 1 ? w.slice(0, -1).join(", ") + " and " + w[w.length - 1] : w[0]; };
@@ -549,7 +575,7 @@
     var noteBox = $("teamNote");
     if (!noteBox && notes.length) { noteBox = document.createElement("div"); noteBox.id = "teamNote"; $("rules").parentNode.insertBefore(noteBox, $("rules")); }
     if (noteBox) noteBox.innerHTML = notes.join("<br>");
-    $("rules").textContent = "Records cover every season of this series on the site" + after + ". Starts: one per team for every round in which at least one of its drivers started (including DC, RGQ, DNF, DQ and CC), however many of its drivers raced; DNS, WTD (withdrawn) and rounds that weren't run don't count. Wins and podiums: every win and top-3 finish by the team's drivers, so two drivers on the podium in one round is two podiums. Win % = wins ÷ starts. Drivers' titles = " + BASE.navLabel + " driver championships won by the team's drivers. Each driver counts for the team they raced for in that season. Privateers and drivers with no team on record are not included. Teams are ranked by wins, then podiums, then drivers' titles, then starts.";
+    $("rules").textContent = (SCOPE_ALL ? "All Time adds together every season of all three series: Tuesday Series, Narly Cup and WJF Trophy" : "Records cover every season of this series on the site") + after + ". Starts: one per team for every round in which at least one of its drivers started (including DC, RGQ, DNF, DQ and CC), however many of its drivers raced; DNS, WTD (withdrawn) and rounds that weren't run don't count. Wins and podiums: every win and top-3 finish by the team's drivers, so two drivers on the podium in one round is two podiums. Win % = wins ÷ starts. Drivers' titles = " + (SCOPE_ALL ? "driver championships in all three series" : BASE.navLabel + " driver championships") + " won by the team's drivers. Each driver counts for the team they raced for in that season. Privateers and drivers with no team on record are not included. Teams are ranked by wins, then podiums, then drivers' titles, then starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });

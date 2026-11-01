@@ -201,3 +201,9 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
  background:repeating-linear-gradient(90deg,transparent 0 38px,rgba(180,195,255,.05) 38px 40px);mask:linear-gradient(90deg,transparent,#000)}
 .memorial .turtle{position:absolute;right:16px;bottom:10px;width:64px;opacity:.12}
 @media (max-width:600px){.memorial .q span{display:block;margin:2px 0 0}.memorial .turtle{top:12px;bottom:auto;right:12px;width:44px}.memorial{gap:12px}.memorial .mono{width:46px;height:46px;font-size:14px}}
+
+/* Records pages: All Time / Tuesday / Narly / WJF picker */
+#scopePicker { margin: 16px 0 6px; }
+#scopePicker .pill { min-height: 38px; }
+.tagwrap { white-space: normal; line-height: 2; min-width: 420px; }
+@media (max-width: 600px) { #scopePicker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } #scopePicker .pill { justify-content: center; padding: 0 4px; font-size: 14px; } }
