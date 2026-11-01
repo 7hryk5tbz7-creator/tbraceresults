@@ -1,4 +1,5 @@
 // BRZ v GR86, Season 11 (Tuesday series) — final standings (archive).
+// Race numbers for Xburns85, OneTao and Viruz161 (blank on the sheet) from the club's Season 11 entry list.
 // Transcribed from the club's Season 11 points sheet. Every subtotal, drop and total was checked.
 // Tie on 352: Rollscanhardly is placed ahead of Pjmack75 on countback (4 wins to 0); the club's sheet listed them the other way round.
 // Note: on the sheet no driver has 36 points in Round 1 (a gap in that round's points scale); left as published.
@@ -41,10 +42,10 @@ window.SERIES["wrx-evo-gr4-s11"] = {
     ["13","MajorWatts","36",["35","37","40","39","37","–","40","40","–","–"],268,0,268,0],
     ["14","Hamitothebone","228",["27","36","31","32","28","35","–","–","33","31"],253,0,253,0],
     ["15","Disco_Stu_001","101",["–","30","28","28","29","29","31","29","–","30"],234,0,234,0],
-    ["16","Xburns85","",["–","28","32","31","31","33","33","31","–","–"],219,0,219,0],
+    ["16","Xburns85","29",["–","28","32","31","31","33","33","31","–","–"],219,0,219,0],
     ["17","Trickybrewer","92",["37","34","37","–","–","–","–","39","–","37"],184,0,184,0],
-    ["18","OneTao","",["25","–","27","33","30","27","–","–","–","–"],142,0,142,0],
+    ["18","OneTao","3",["25","–","27","33","30","27","–","–","–","–"],142,0,142,0],
     ["19","Tonyaudio1","44",["29","–","–","27","33","32","–","–","–","–"],121,0,121,0],
-    ["20","Viruz161","",["26","–","26","–","–","–","–","–","–","–"],52,0,52,0]
+    ["20","Viruz161","161",["26","–","26","–","–","–","–","–","–","–"],52,0,52,0]
   ]
 };
