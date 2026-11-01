@@ -186,3 +186,18 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .memorial .t1 { font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver); }
 .memorial .t2 { color: var(--muted); font-size: 14px; line-height: 1.45; }
 .memorial b { color: var(--soft); font-weight: 600; }
+/* memorial extras: quote, tags, sign-off, starfield (Wayne), turtle (Cav) */
+.memorial{position:relative;overflow:hidden;align-items:flex-start;padding:16px 18px}
+.memorial .mono{margin-top:2px}
+.memorial .q{font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:600;font-size:22px;color:var(--bright);letter-spacing:.02em;margin:4px 0 4px}
+.memorial .q span{color:var(--muted);font-size:13px;font-style:normal;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-left:8px}
+.memorial .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.memorial .tag{font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);border:1px solid var(--border);border-radius:999px;padding:3px 9px;display:inline-flex;align-items:center;gap:6px}
+.memorial .tag i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.memorial .sign{margin-top:8px;font-size:13px;color:var(--dim);font-style:italic}
+.memorial.stars::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+ background-image:radial-gradient(1px 1px at 62% 22%,#fff,transparent),radial-gradient(1px 1px at 74% 64%,#cfd6ff,transparent),radial-gradient(1.5px 1.5px at 86% 30%,#fff,transparent),radial-gradient(1px 1px at 92% 78%,#fff,transparent),radial-gradient(1px 1px at 80% 12%,#dfe4ff,transparent),radial-gradient(1px 1px at 69% 86%,#fff,transparent),radial-gradient(1.2px 1.2px at 97% 50%,#fff,transparent),radial-gradient(1px 1px at 56% 70%,#cfd6ff,transparent);}
+.memorial.stars::after{content:"";position:absolute;right:-10px;top:0;bottom:0;width:45%;pointer-events:none;
+ background:repeating-linear-gradient(90deg,transparent 0 38px,rgba(180,195,255,.05) 38px 40px);mask:linear-gradient(90deg,transparent,#000)}
+.memorial .turtle{position:absolute;right:16px;bottom:10px;width:64px;opacity:.12}
+@media (max-width:600px){.memorial .q span{display:block;margin:2px 0 0}.memorial .turtle{top:12px;bottom:auto;right:12px;width:44px}.memorial{gap:12px}.memorial .mono{width:46px;height:46px;font-size:14px}}
