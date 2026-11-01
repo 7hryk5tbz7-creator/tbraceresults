@@ -226,7 +226,10 @@ a.seasontag.gold:hover { background: rgba(242, 204, 91, 0.12); }
 .home .next .k { font-family: var(--cond); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--red-text); font-weight: 600; }
 .home .next .t { font-family: var(--cond); font-size: 24px; font-weight: 700; color: var(--bright); letter-spacing: .02em; }
 .home .next .d { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
-.home .next .d span { font-family: var(--cond); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; }
+.home .next .d .nd { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 120px; text-decoration: none; font-family: var(--cond); font-weight: 600; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--bright); border: 1px solid var(--border); border-radius: 10px; padding: 7px 14px; background: rgba(0,0,0,.18); }
+.home .next .d .nd:hover { border-color: var(--red); }
+.home .next .d .nd small { font-size: 11px; letter-spacing: .16em; color: var(--red-text); font-weight: 600; text-align: center; }
+@media (max-width: 600px) { .home .next .d { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; gap: 6px; } .home .next .d .nd { min-width: 0; padding: 7px 4px; font-size: 13px; } .home .next .d .nd small { font-size: 9.5px; letter-spacing: .04em; white-space: nowrap; } }
 .home .h2 { font-family: var(--cond); font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); margin: 0 0 12px; font-weight: 600; }
 .home .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 36px; }
 .home .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; }
