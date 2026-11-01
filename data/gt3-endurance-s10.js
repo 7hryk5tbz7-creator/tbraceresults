@@ -3,7 +3,7 @@
 // Season 10 points depend on the number of starters: last place 5, +1 per place, +1 bonus for 2nd, +2 for the win.
 // Podium markers are by finishing position. Meggs1's drop is Round 8 (9), as the final round can't be dropped.
 // The sheet's numbering skipped 29; positions here run 1-35 in order.
-// Ties ordered by countback: ohDennn (a win) ahead of jmillsy85 on 27; Fly-balding072 (best 16th) ahead of
+// Ties ordered by countback: OhDennn (a win) ahead of jmillsy85 on 27; Fly-balding072 (best 16th) ahead of
 // simple-crackers9 (best 20th) on 22 — both reversed from the sheet. Legend-Macca47 ahead of Barberphil on 59, as on the sheet.
 // capella13b and PINGTwoHigh69 scored 0 (did not race) and share 34th.
 // Teams come from the club's Season 10 team list.
@@ -55,7 +55,7 @@ window.SERIES["gt3-endurance-s10"] = {
     ["26","R0B_B021","7",["10","11","14","–","–","–","–","–","–","–"],35,0,35,0],
     ["27","Mcdivott","74",["6","–","10","–","–","–","16","–","–","–"],32,0,32,0],
     ["28","BlackSugar73","35",["8","15","8","–","–","–","–","–","–","–"],31,0,31,0],
-    ["29","ohDennn","251",["–","–","–","–","–","–","27p1","–","–","–"],27,0,27,0],
+    ["29","OhDennn","251",["–","–","–","–","–","–","27p1","–","–","–"],27,0,27,0],
     ["30","jmillsy85","22",["27","–","–","–","–","–","–","–","–","–"],27,0,27,0],
     ["31","Fly-balding072","131",["5","5","–","5","7","–","–","–","–","–"],22,0,22,0],
     ["32","simple-crackers9","16",["11","–","11","–","–","–","–","–","–","–"],22,0,22,0],

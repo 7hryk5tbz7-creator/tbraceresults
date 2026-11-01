@@ -1,10 +1,11 @@
 // Narlydude71 Cup GR2, Season 12 (Thursday series) — final standings (archive).
+// Blank race numbers filled from the club\'s Season 12 entry list (1 Nov).
 // Transcribed from the club's Season 12 points sheet. Every subtotal and drop was checked.
 // Hamitothebone: subtotal 162, total 152 — a 10-point penalty (confirmed by the club).
 // Tie on 301: GLR_Scotty is placed ahead of Mcdivott on countback (a 3rd place beats a best of 8th);
 // the club's sheet listed them the other way round.
 // Note: on the sheet no driver has 34 points in Round 2 (a gap in that round's points scale); left as published.
-// ohDennn and RidwanF1 are an exact tie (one win each) and share 20th; four drivers with 0 points share 24th.
+// OhDennn and RidwanF1 are an exact tie (one win each) and share 20th; four drivers with 0 points share 24th.
 // On the sheet, 0 means the driver did not race that week (shown as "–"). Race numbers are not on the sheet;
 // they are filled from drivers' other seasons where known.
 // Teams are not shown for Season 12 until the club supplies the full team list.
@@ -42,17 +43,17 @@ window.SERIES["narly-cup-s12"] = {
     ["11","capella13b","64",["27","–","–","31","33","32","33","32","32","30"],250,0,250,0],
     ["12","BarberXR6T","41",["23","40","41p3","38","36","35","–","–","–","–"],213,0,213,0],
     ["13","N-spud-P666","32",["24","45p1","43p2","43p2","43p2","–","–","–","–","–"],198,0,198,0],
-    ["14","simple-crackers9","",["32","–","33","33","–","–","–","33","–","36"],167,0,167,0],
+    ["14","simple-crackers9","16",["32","–","33","33","–","–","–","33","–","36"],167,0,167,0],
     ["15","Hamitothebone","228",["31","–","34","–","–","–","31","–","35","31"],162,0,152,-10],
     ["16","MasoMarvel87","333",["30","–","–","–","–","–","37","–","–","33"],100,0,100,0],
     ["17","Soulslayer_71","571",["26","–","35","32","–","–","–","–","–","–"],93,0,93,0],
     ["18","Tonyaudio1","44",["29","30","32","–","–","–","–","–","–","–"],91,0,91,0],
-    ["19","RSR_Robbo-Sport","",["33","32","–","–","–","–","–","–","–","–"],65,0,65,0],
-    ["20","ohDennn","",["45p1","–","–","–","–","–","–","–","–","–"],45,0,45,0],
+    ["19","RSR_Robbo-Sport","20",["33","32","–","–","–","–","–","–","–","–"],65,0,65,0],
+    ["20","OhDennn","251",["45p1","–","–","–","–","–","–","–","–","–"],45,0,45,0],
     ["20","RidwanF1","14",["–","–","–","–","–","45p1","–","–","–","–"],45,0,45,0],
-    ["22","DK666_Racing","",["–","–","–","–","–","–","–","37","–","–"],37,0,37,0],
+    ["22","DK666_Racing","97",["–","–","–","–","–","–","–","37","–","–"],37,0,37,0],
     ["23","danimal_242","",["25","–","–","–","–","–","–","–","–","–"],25,0,25,0],
-    ["24","MrDonovan","",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0],
+    ["24","MrDonovan","27",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0],
     ["24","Kezaudio","72",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0],
     ["24","R0B_B021","7",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0],
     ["24","ricreene","69",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0]

@@ -1,4 +1,5 @@
 // Roadster Challenge, Season 12 (Tuesday series) — final standings (archive).
+// Blank race numbers filled from the club\'s Season 12 entry list (1 Nov).
 // Transcribed from the club's Season 12 points sheet. Every subtotal, drop and round points ladder was checked.
 // brettubrettu26: subtotal 334, total 329 — a 5-point penalty (confirmed by the club).
 // On the sheet, 0 means the driver did not race that week (shown as "–"). Race numbers are not on the sheet;
@@ -39,12 +40,12 @@ window.SERIES["wrx-evo-gr4-s12"] = {
     ["12","Tonyaudio1","44",["–","34","37","31","34","32","31","31","–","34"],264,0,264,0],
     ["13","Kezaudio","72",["–","–","33","35","39","31","32","39","–","38"],247,0,247,0],
     ["14","S7R_Ando787","787",["43p2","–","–","41p3","35","–","40","40","45p1","–"],244,0,244,0],
-    ["15","simple-crackers9","",["37","36","–","34","32","36","–","34","–","33"],242,0,242,0],
+    ["15","simple-crackers9","16",["37","36","–","34","32","36","–","34","–","33"],242,0,242,0],
     ["16","MasoMarvel87","333",["35","33","36","–","–","–","35","30","–","–"],169,0,169,0],
     ["17","Spannshouse","19",["–","–","–","–","–","–","34","43p2","38","–"],115,0,115,0],
     ["18","MalevolentOne666","666",["–","35","32","30","–","–","–","–","–","–"],97,0,97,0],
-    ["19","MrDonovan","",["36","31","–","–","–","–","–","–","–","–"],67,0,67,0],
-    ["20","DK666_Racing","",["–","–","–","–","–","–","–","–","35","–"],35,0,35,0],
+    ["19","MrDonovan","27",["36","31","–","–","–","–","–","–","–","–"],67,0,67,0],
+    ["20","DK666_Racing","97",["–","–","–","–","–","–","–","–","35","–"],35,0,35,0],
     ["21","JimmyJamBoi","",["–","28","–","–","–","–","–","–","–","–"],28,0,28,0],
     ["22","ricreene","69",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0]
   ]
