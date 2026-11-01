@@ -6,7 +6,7 @@
 // on 62 Dissposable_Hero (6th) ahead of Legend-Macca47 (15th); on 47 R0B_B021 (9th) ahead of Soulslayer_71 (15th).
 // Seven drivers with no races share 38th.
 // Names: Ando787 = S7R_Ando787, tim_turtle_79 = Tim_turtle_79, Legend-macca47 = Legend-Macca47, DISSPOSABLE_HERO = Dissposable_Hero,
-// Fly- balding 072 = Fly-balding072, r0b_B021 = R0B_B021, McDivott = Mcdivott, Rustynutz 75 = Rusty-Nutz-75, Simmy__D = Simmy_D,
+// Fly- balding 072 = Fly-balding072, r0b_B021 = R0B_B021, McDivott = Mcdivott, Rustynutz 75 = Rusty-Nutz-75, Simmy__D = Simmy_D, Fly-balding072: #72 on the sheet; #131 and Team RNR as on the Season 8 entry list (club request).
 // Capella13b = capella13b, Dirtymonkey699 = DirtyMonkey699, Porschenut92 = PorscheNut92. A 0 on the sheet = did not race.
 // Teams: data/club-teams.js, SEASON_TEAMS[8]. Team RNR (renamed MC Motorsport after Season 8): N-spud-P666, NWR_NICO71, allaussie,
 // Rusty-Nutz-75, Curry41289 (confirmed by the club). Gr3-X-u5 and Frosty5275 have no team yet.
@@ -52,7 +52,7 @@ window.SERIES["gt3-endurance-s8"] = {
     ["20","Legend-Macca47","447",["11","9","5","7","6","7","6","6","–","5"],62,0,62,0],
     ["21","OneTao","3",["–","–","5","19","15","9","–","–","10","–"],58,0,58,0],
     ["22","Kezaudio","72",["–","–","–","22","19","–","–","–","14","–"],55,0,55,0],
-    ["23","Fly-balding072","72",["8","11","6","5","–","–","5","7","6","6"],54,0,54,0],
+    ["23","Fly-balding072","131",["8","11","6","5","–","–","5","7","6","6"],54,0,54,0],
     ["24","ricreene","69",["5","6","9","6","8","–","7","–","–","8"],49,0,49,0],
     ["25","R0B_B021","7",["–","–","–","–","12","–","15","–","9","11"],47,0,47,0],
     ["26","Soulslayer_71","50",["7","12","8","–","10","10","–","–","–","–"],47,0,47,0],

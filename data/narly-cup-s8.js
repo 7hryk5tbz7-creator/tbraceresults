@@ -6,7 +6,7 @@
 // on 6 Simmy_D (17th) ahead of Dunky_rl (18th). Four drivers with no races share 25th.
 // Names: Masomarvel = MasoMarvel87, tim_turtle_79 = Tim_turtle_79, Ando787 = S7R_Ando787, Tony2Sips = Tonyaudio1, r0b_B021 = R0B_B021,
 // Simmy__D = Simmy_D, Dirtymonkey699 = DirtyMonkey699. A 0 on the sheet = did not race.
-// Teams: data/club-teams.js, SEASON_TEAMS[8]. No Team RNR drivers in this series. Dunky_rl and PingTwoHigh69 have no team yet.
+// Teams: data/club-teams.js, SEASON_TEAMS[8]. No Team RNR drivers in this series. Teams updated from the Season 8 entry list (1 Nov): PingTwoHigh69 Triple R, CmeCrash Mad Turtle, Dunky_rl Privateer.
 
 window.SERIES = window.SERIES || {};
 window.SERIES["narly-cup-s8"] = {

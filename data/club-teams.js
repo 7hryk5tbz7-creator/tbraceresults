@@ -162,6 +162,7 @@ var S11to14 = Object.assign({}, window.SEASON_TEAMS[10], {
 
 // Season 9 (all three series): every driver raced for the same team as in the other seasons (confirmed by the club).
 window.SEASON_TEAMS[9] = {
+  "vertex_spec": "Privateer", /* Privateer on the Season 8 entry list – confirmed by the club for Season 9 */
   "Rollscanhardly": "Mad Turtle Racing",
   "Colin_t24": "Roadsick Racing",
   "S7R_Ando787": "Roadsick Racing",
@@ -208,6 +209,9 @@ window.SEASON_TEAMS[9] = {
 window.CLUB_TEAMS["Team RNR"] = window.CLUB_TEAMS["MC Motorsport"];
 window.TEAM_ALIASES = { "Team RNR": "MC Motorsport" };
 window.SEASON_TEAMS[8] = {
+  "PingTwoHigh69": "Triple R Motorsport", /* Season 8 entry list – confirmed by the club */
+  "Gr3-X-u5": "Privateer", /* Season 8 entry list – confirmed by the club */
+  "Frosty5275": "Mad Turtle Racing", /* Season 8 entry list – confirmed by the club */
   "Dunky_rl": "Privateer", /* Privateer on the Season 7 entry list – confirmed by the club for Season 8 */
   // Tuesday Series
   "Rollscanhardly": "Mad Turtle Racing",
@@ -228,7 +232,7 @@ window.SEASON_TEAMS[8] = {
   "BlackSugar73": "Privateer",
   "Hamitothebone": "Mad Turtle Racing",
   "jmillsy85": "Privateer",
-  "CmeCrash": "Privateer",
+  "CmeCrash": "Mad Turtle Racing", /* Season 8 entry list – confirmed by the club */
   "Tonyaudio1": "Roadsick Racing",
   "Simmy_D": "Privateer",
   "Bentstik_7": "Privateer",
@@ -260,12 +264,12 @@ window.SEASON_TEAMS[8] = {
   "Barberphil": "Gerbil Racing Team",
   "Legend-Macca47": "Gerbil Racing Team",
   "OneTao": "Mad Turtle Racing",
-  "Fly-balding072": "Privateer",
+  "Fly-balding072": "Team RNR", /* Season 8 entry list – confirmed by the club */
   "ricreene": "Triple R Motorsport",
   "capella13b": "Gerbil Racing Team",
   "PorscheNut92": "Gerbil Racing Team",
   "Zippy_Nathman": "Triple R Motorsport",
-  "Zorrow1234": "Privateer"
+  "Zorrow1234": "Mad Turtle Racing" /* Season 8 entry list – confirmed by the club */
 };
 
 // Season 7 (from the club's Season 7 standings sheets; Team RNR = MC Motorsport's name up to Season 8).

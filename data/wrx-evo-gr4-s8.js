@@ -5,7 +5,7 @@
 // on 38 Hamitothebone (best 10th) ahead of BlackSugar73 (13th); on 17 Bentstik_7 (12th) ahead of Simmy_D (13th). Four drivers with no races share 26th.
 // Names: Masomarvel = MasoMarvel87, Iphonedoc = iphonedoc, Ando787 = S7R_Ando787, tim_turtle_79 = Tim_turtle_79, Tony2sips = Tonyaudio1,
 // Simmy__D = Simmy_D (confirmed by the club). A 0 on the sheet = did not race.
-// Teams: data/club-teams.js, SEASON_TEAMS[8]. jmillsy85 was a Privateer in Season 8 (confirmed). Dunky_rl and PingTwoHigh69 have no team yet.
+// Teams: data/club-teams.js, SEASON_TEAMS[8]. jmillsy85 was a Privateer in Season 8 (confirmed). Teams updated from the Season 8 entry list (1 Nov): PingTwoHigh69 Triple R, CmeCrash Mad Turtle, Dunky_rl Privateer.
 
 window.SERIES = window.SERIES || {};
 window.SERIES["wrx-evo-gr4-s8"] = {
