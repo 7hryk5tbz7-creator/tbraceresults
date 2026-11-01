@@ -1,4 +1,5 @@
 // WJF73 Trophy GT3 Endurance, Season 14 — final standings (archive).
+// N-spud-P666 #32 as on the club\'s Season 14 entry list (sheet had #1). NWR_NICO71 keeps #17 from Season 14 on (confirmed by the club).
 // Transcribed from the club's Season 14 points sheet. Every subtotal, drop, penalty and total was checked.
 // Note: on the sheet no driver has 31 points in Round 2 or 27 points in Round 4 (a gap in that round's points scale).
 // On the sheet, 0 means the driver did not race that round (shown as "–").
@@ -41,7 +42,7 @@ window.SERIES["gt3-endurance-s14"] = {
     ["14","Barberphil","11",["24","30","–","26","23","28","26","28","28","31"],244,0,244,0],
     ["15","BarberXR6T","41",["39","33","–","33","28","33","27","–","33","–"],226,0,226,0],
     ["16","allaussie","87",["35","41p3","34","–","37","38","–","38","–","–"],223,0,223,0],
-    ["17","N-spud-P666","1",["41p3","43p2","–","41p3","30","41p3","–","–","RGQ","–"],196,0,196,0],
+    ["17","N-spud-P666","32",["41p3","43p2","–","41p3","30","41p3","–","–","RGQ","–"],196,0,196,0],
     ["18","ExpatGweilo","67",["–","–","–","–","–","27","32","43p2","38","38"],178,0,178,0],
     ["19","O-PUNCHY-_-P","427",["31","37","33","–","35","32","–","RGQ","–","–"],168,0,168,0],
     ["20","Hamitothebone","228",["–","–","–","29","26","–","–","–","27","32"],114,0,114,0],
