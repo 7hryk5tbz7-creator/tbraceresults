@@ -173,7 +173,7 @@ window.SEASON_TEAMS[9] = {
   "Tim_turtle_79": "Mad Turtle Racing",
   "Trickybrewer": "Triple R Motorsport",
   "Mcdivott": "Roadsick Racing",
-  "CmeCrash": "Privateer",
+  "CmeCrash": "Mad Turtle Racing", /* Season 9 entry list – confirmed by the club */
   "Disco_Stu_001": "Triple R Motorsport",
   "Spannshouse": "Roadsick Racing",
   "Nadnarb85": "Privateer",
@@ -199,7 +199,7 @@ window.SEASON_TEAMS[9] = {
   "Khush_Vekaria": "Triple R Motorsport",
   "ricreene": "Triple R Motorsport",
   "Legend-Macca47": "Gerbil Racing Team",
-  "Fly-balding072": "Privateer",
+  "Fly-balding072": "MC Motorsport", /* Season 9 entry list – confirmed by the club */
   "VETERANPP": "Gerbil Racing Team",
   "OneTao": "Mad Turtle Racing",
   "Soulslayer_71": "Triple R Motorsport"
