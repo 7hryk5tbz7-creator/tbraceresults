@@ -13,7 +13,7 @@ window.SERIES["gt3-endurance"] = {
   title: "WJF Trophy GT3 Endurance Championship Season 18",
   eyebrow: "WJF Trophy · GT3 Endurance Championship · Season 18 · Friday series",
   seriesLine: "Trailblazers S18 WJF Trophy",
-  pages: { results: "wjf-trophy.html", championship: "championship.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
+  pages: { results: "wjf-trophy.html", championship: "championship.html", calendar: "wjf-calendar.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
   hasLobbies: true,
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–4 result sheets.",

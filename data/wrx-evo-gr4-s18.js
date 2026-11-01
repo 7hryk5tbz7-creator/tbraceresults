@@ -13,7 +13,7 @@ window.SERIES["wrx-evo-gr4"] = {
   title: "WRX V Evo GR4 Trailblazers Season 18",
   eyebrow: "WRX V Evo GR4 Trailblazers · Season 18 · Tuesday series",
   seriesLine: "Tuesday Night Series",
-  pages: { results: "wrx-evo-gr4.html", championship: "wrx-evo-gr4-championship.html", records: "records-drivers.html?series=wrx-evo-gr4", teamrecords: "records-teams.html?series=wrx-evo-gr4", champions: "records-titles.html?series=wrx-evo-gr4" },
+  pages: { results: "wrx-evo-gr4.html", championship: "wrx-evo-gr4-championship.html", calendar: "wrx-evo-gr4-calendar.html", records: "records-drivers.html?series=wrx-evo-gr4", teamrecords: "records-teams.html?series=wrx-evo-gr4", champions: "records-titles.html?series=wrx-evo-gr4" },
   hasLobbies: false,
   resultNotes: ["DNS = did not start", "DC = disconnected"],
   source: "Results transcribed from the club's Round 1–4 result sheets.",

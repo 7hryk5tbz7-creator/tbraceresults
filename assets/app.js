@@ -86,9 +86,9 @@
       }).join("") + '<span class="soon-tab" title="Coming soon">Teams\u2019 Titles <em>Soon</em></span>';
     }
     // Series pages: current-season race results and championship standings only.
-    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", "Championship Standings"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
+    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["calendar", "Calendar"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
     if (!RECORD_PAGES.test(page)) $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
-      var href = S.pages[t[0]] ? S.pages[t[0]] + seasonQuery(S) : BASE.pages[t[0]];
+      var href = S.pages[t[0]] ? S.pages[t[0]] + (t[0] === "calendar" ? "" : seasonQuery(S)) : BASE.pages[t[0]];
       return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
     }).join("") : "";
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
@@ -746,7 +746,47 @@
     }).join("");
   }
 
+  /* ---------------- Calendar page (one series) ---------------- */
+  // Season calendar from data/calendar.js; finished rounds show the winner and link to the results.
+  function calendarPage() {
+    var CAL = window.CALENDAR, DI = { "wrx-evo-gr4": 0, "narly-cup": 1, "gt3-endurance": 2 }, di = DI[BASE.id] || 0;
+    var DAYS = ["Tuesdays", "Thursdays", "Fridays"];
+    $("eyebrow").textContent = BASE.eyebrow || BASE.title;
+    document.title = "Calendar · " + BASE.navLabel + " · TB Race Results";
+    if (!CAL || CAL.season !== BASE.season) { $("rows").innerHTML = '<tr><td class="empty">The calendar for this season isn\u2019t on the site yet.</td></tr>'; return; }
+    var done = BASE.rounds || [];
+    var byNo = {}; done.forEach(function (r) { byNo[r.no] = r; });
+    var next = CAL.rounds.filter(function (r) { return !byNo[r.no]; })[0];
+    $("title").textContent = "Season " + CAL.season + " Calendar";
+    $("meta").textContent = CAL.rounds.length + " rounds · " + DAYS[di] + " · " + done.length + " of " + CAL.rounds.length + " completed";
+    var winners = function (r) {
+      var w = r.rows.filter(function (x) { return x[5] === "Winner"; });
+      return (w.length ? w : [r.rows[0]]).map(function (x) {
+        var t = BASE.teams[x[1]] || { colour: "#8C939D" };
+        return '<div class="driver nowrap"><span class="bar" style="background:' + t.colour + ';margin-right:8px"></span>' + esc(x[0]) + (w.length > 1 && x[2] ? ' <span style="color:var(--dim);font-size:13px">(' + esc(x[2]) + ")</span>" : "") + "</div>";
+      }).join("");
+    };
+    $("tiles").innerHTML =
+      (next ? '<div class="tile"><div class="label">Next up · Round ' + next.no + '</div><div class="tile-big">' + esc(next.track) + '</div><div class="sub">' + esc(next.dates[di]) + "</div></div>" :
+        '<div class="tile"><div class="label">Season</div><div class="tile-big">Complete</div></div>') +
+      '<div class="tile"><div class="label">Rounds completed</div><div class="tile-big">' + done.length + " / " + CAL.rounds.length + '</div><div class="sub">' + (CAL.rounds.length - done.length) + " to go</div></div>" +
+      '<div class="tile"><div class="label">Final round</div><div class="tile-big">' + esc(CAL.rounds[CAL.rounds.length - 1].track) + '</div><div class="sub">' + esc(CAL.rounds[CAL.rounds.length - 1].dates[di]) + "</div></div>";
+    $("head").innerHTML = '<tr><th scope="col">Rd</th><th scope="col">Date</th><th scope="col">Track</th><th scope="col" class="calc">Winner</th><th scope="col" class="r calc"></th></tr>';
+    $("rows").innerHTML = CAL.rounds.map(function (r) {
+      var res = byNo[r.no], isNext = next && r.no === next.no;
+      return '<tr class="' + (isNext ? "calnext" : res ? "" : "calfuture") + '">' +
+        '<td><span class="chip' + (isNext ? " p1" : "") + '">' + r.no + "</span></td>" +
+        '<td class="nowrap">' + esc(r.dates[di]) + "</td>" +
+        '<td><div class="driver">' + esc(r.track) + "</div>" +
+          (res ? '<div class="calm"><a href="' + BASE.pages.results + "#round=" + r.no + '">' + res.rows.filter(function (x) { return x[5] === "Winner"; }).concat(res.rows.slice(0, 1)).filter(function (x, i, l) { return l.indexOf(x) === i; }).slice(0, 2).map(function (x) { return esc(x[0]); }).join(" · ") + " \u2192</a></div>" : isNext ? '<div class="calm nx">Next up</div>' : "") + "</td>" +
+        '<td class="calc">' + (res ? winners(res) : isNext ? '<span class="winner" style="color:var(--gold)">Next up</span>' : '<span class="none">—</span>') + "</td>" +
+        '<td class="r calc">' + (res ? '<a class="seasontag" href="' + BASE.pages.results + "#round=" + r.no + '">Results</a>' : "") + "</td></tr>";
+    }).join("");
+    $("rules").textContent = "Same track for all three series each round. Tuesday Series races on Tuesdays, the Narly Cup on Thursdays and the WJF Trophy on Fridays. Winners and results appear once each round is added to the site.";
+  }
+
   renderNav();
+  if (page === "calendar") calendarPage();
   if (page === "home") homePage();
   if (page === "results") resultsPage();
   if (page === "championship") championshipPage();
