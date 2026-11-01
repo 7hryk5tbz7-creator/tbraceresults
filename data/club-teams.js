@@ -999,3 +999,6 @@ window.RACE_NUMBERS = {
   "Barberphil": 11, "Meggs1": 59, "capella13b": 64, "O-PUNCHY-_-P": 427, "Legend-Macca47": 447, "VETERANPP": 998,
   "Bluebloss": 29, "RazzMazz": 56
 };
+
+// Fly-balding072: MC Motorsport from Season 10 on (club decision, 2 Nov – overrides Privateer on the S10–S14 lists).
+[10, 11, 12, 13, 14].forEach(function (n) { if (window.SEASON_TEAMS[n]) window.SEASON_TEAMS[n]["Fly-balding072"] = "MC Motorsport"; });
