@@ -208,6 +208,7 @@ window.SEASON_TEAMS[9] = {
 window.CLUB_TEAMS["Team RNR"] = window.CLUB_TEAMS["MC Motorsport"];
 window.TEAM_ALIASES = { "Team RNR": "MC Motorsport" };
 window.SEASON_TEAMS[8] = {
+  "Dunky_rl": "Privateer", /* Privateer on the Season 7 entry list – confirmed by the club for Season 8 */
   // Tuesday Series
   "Rollscanhardly": "Mad Turtle Racing",
   "MAD_MITCH_76": "Mad Turtle Racing",
@@ -309,7 +310,7 @@ window.SEASON_TEAMS[7] = {
   "Bentstik_7": "Privateer",
   "Fly-balding072": "Team RNR",
   "NeonEmpyreal": "Roadsick Racing",
-  "Khush_Vekaria": "Triple R Motorsport",
+  "Khush_Vekaria": "Privateer", /* Season 7 entry list – confirmed by the club */
   "Bozza777": "Triple R Motorsport",
   "DirtyMonkey699": "Privateer",
   "ricreene": "Triple R Motorsport"
