@@ -12,6 +12,6 @@ window.CALENDAR = {
     { no: 7, track: "Dragon Trail Gardens", dates: ["Tue 17 Nov", "Thu 19 Nov", "Fri 20 Nov"] },
     { no: 8, track: "St Croix Layout B", dates: ["Tue 24 Nov", "Thu 26 Nov", "Fri 27 Nov"] },
     { no: 9, track: "Autopolis Full Course", dates: ["Tue 1 Dec", "Thu 3 Dec", "Fri 4 Dec"] },
-    { no: 10, track: "Autumn Ring / Abu Dhabi", dates: ["Tue 8 Dec", "Thu 10 Dec", "Fri 11 Dec"] }
+    { no: 10, track: "Autumn Ring / Abu Dhabi", tbc: true /* club still to choose between the two */, dates: ["Tue 8 Dec", "Thu 10 Dec", "Fri 11 Dec"] }
   ]
 };

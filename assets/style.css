@@ -255,7 +255,12 @@ body[data-page="results"] .subnav, body[data-page="championship"] .subnav { font
 @media (max-width: 640px) { body[data-page="results"] .subnav, body[data-page="championship"] .subnav { font-size: 15px; letter-spacing: 0.02em; gap: 0 14px; flex-wrap: nowrap; white-space: nowrap; } }
 @media (max-width: 374px) { body[data-page="results"] .subnav, body[data-page="championship"] .subnav { font-size: 13px; gap: 0 10px; } }
 /* Calendar page */
-tr.calnext td { background: rgba(212, 175, 55, 0.07); }
+tr.calnext td { background: rgba(215, 38, 30, 0.10); }
+tr.calnext td:first-child { box-shadow: inset 3px 0 0 var(--red); }
+.chip.calchip { background: var(--red); border-color: var(--red); color: #fff; }
+.calnexttile { border-left: 3px solid var(--red); background: linear-gradient(90deg, rgba(215,38,30,.10), transparent 55%), var(--tile); }
+.calnexttile .label { color: var(--red-text); }
+.tbc { display: inline-block; vertical-align: 3px; margin-left: 6px; font-family: var(--cond); font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--gold); border: 1px solid rgba(212,175,55,.5); border-radius: 999px; padding: 1px 7px; }
 tr.calfuture td { color: var(--muted); }
 tr.calfuture .driver { color: var(--soft); font-weight: 500; }
 body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; gap: 0 20px; }
@@ -264,5 +269,5 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 @media (max-width: 640px) { .tab-long { display: none; } }
 .calm { display: none; font-size: 13px; margin-top: 2px; }
 .calm a { color: var(--soft); text-decoration: none; }
-.calm.nx { color: var(--gold); font-family: var(--cond); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.calm.nx { color: var(--red-text); font-family: var(--cond); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 @media (max-width: 640px) { .calc { display: none; } .calm { display: block; } body[data-page="calendar"] td .driver { white-space: normal; } }

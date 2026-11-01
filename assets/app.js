@@ -767,22 +767,22 @@
       }).join("");
     };
     $("tiles").innerHTML =
-      (next ? '<div class="tile"><div class="label">Next up · Round ' + next.no + '</div><div class="tile-big">' + esc(next.track) + '</div><div class="sub">' + esc(next.dates[di]) + "</div></div>" :
+      (next ? '<div class="tile calnexttile"><div class="label">Next up · Round ' + next.no + '</div><div class="tile-big">' + esc(next.track) + '</div><div class="sub">' + esc(next.dates[di]) + "</div></div>" :
         '<div class="tile"><div class="label">Season</div><div class="tile-big">Complete</div></div>') +
       '<div class="tile"><div class="label">Rounds completed</div><div class="tile-big">' + done.length + " / " + CAL.rounds.length + '</div><div class="sub">' + (CAL.rounds.length - done.length) + " to go</div></div>" +
-      '<div class="tile"><div class="label">Final round</div><div class="tile-big">' + esc(CAL.rounds[CAL.rounds.length - 1].track) + '</div><div class="sub">' + esc(CAL.rounds[CAL.rounds.length - 1].dates[di]) + "</div></div>";
+      '<div class="tile"><div class="label">Final round</div><div class="tile-big">' + esc(CAL.rounds[CAL.rounds.length - 1].track) + (CAL.rounds[CAL.rounds.length - 1].tbc ? ' <span class="tbc">TBC</span>' : "") + '</div><div class="sub">' + esc(CAL.rounds[CAL.rounds.length - 1].dates[di]) + "</div></div>";
     $("head").innerHTML = '<tr><th scope="col">Rd</th><th scope="col">Date</th><th scope="col">Track</th><th scope="col" class="calc">Winner</th><th scope="col" class="r calc"></th></tr>';
     $("rows").innerHTML = CAL.rounds.map(function (r) {
       var res = byNo[r.no], isNext = next && r.no === next.no;
       return '<tr class="' + (isNext ? "calnext" : res ? "" : "calfuture") + '">' +
-        '<td><span class="chip' + (isNext ? " p1" : "") + '">' + r.no + "</span></td>" +
+        '<td><span class="chip' + (isNext ? " calchip" : "") + '">' + r.no + "</span></td>" +
         '<td class="nowrap">' + esc(r.dates[di]) + "</td>" +
-        '<td><div class="driver">' + esc(r.track) + "</div>" +
+        '<td><div class="driver">' + esc(r.track) + (r.tbc ? ' <span class="tbc" title="Track still to be decided by the club">TBC</span>' : "") + "</div>" +
           (res ? '<div class="calm"><a href="' + BASE.pages.results + "#round=" + r.no + '">' + res.rows.filter(function (x) { return x[5] === "Winner"; }).concat(res.rows.slice(0, 1)).filter(function (x, i, l) { return l.indexOf(x) === i; }).slice(0, 2).map(function (x) { return esc(x[0]); }).join(" · ") + " \u2192</a></div>" : isNext ? '<div class="calm nx">Next up</div>' : "") + "</td>" +
-        '<td class="calc">' + (res ? winners(res) : isNext ? '<span class="winner" style="color:var(--gold)">Next up</span>' : '<span class="none">—</span>') + "</td>" +
+        '<td class="calc">' + (res ? winners(res) : isNext ? '<span class="winner" style="color:var(--red-text)">Next up</span>' : '<span class="none">—</span>') + "</td>" +
         '<td class="r calc">' + (res ? '<a class="seasontag" href="' + BASE.pages.results + "#round=" + r.no + '">Results</a>' : "") + "</td></tr>";
     }).join("");
-    $("rules").textContent = "Same track for all three series each round. Tuesday Series races on Tuesdays, the Narly Cup on Thursdays and the WJF Trophy on Fridays. Winners and results appear once each round is added to the site.";
+    $("rules").textContent = "Same track for all three series each round. TBC = the club is still choosing the track. Tuesday Series races on Tuesdays, the Narly Cup on Thursdays and the WJF Trophy on Fridays. Winners and results appear once each round is added to the site.";
   }
 
   renderNav();
