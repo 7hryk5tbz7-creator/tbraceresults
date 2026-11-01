@@ -69,6 +69,10 @@
 
   /* ---------------- Navigation ---------------- */
   function renderNav() {
+    if (page === "home") {
+      $("seriesNav").innerHTML = ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("") + '<a href="' + REC.records + '">Records</a>';
+      return;
+    }
     $("seriesNav").innerHTML = ORDER.map(function (id) {
       var x = ALL[id];
       return '<a href="' + x.pages.results + '"' + (!RECORD_PAGES.test(page) && id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
@@ -710,7 +714,40 @@
     render();
   }
 
+  /* ---------------- Home (club landing page) ---------------- */
+  function homePage() {
+    // Old WJF Trophy links (index.html#round=…) open the WJF results page.
+    if (/(^|[#&])(round|lobby|team)=/.test(location.hash)) { location.replace(ALL["gt3-endurance"].pages.results + location.hash); return; }
+    var cur = ORDER.map(function (id) { return ALL[id]; });
+    var after = Math.min.apply(null, cur.map(function (x) { return x.standingsAfter || 0; }));
+    var season = cur[0].season;
+    $("eyebrow").textContent = "Season " + season + (after ? " · after Round " + after : "");
+    var CAL = window.CALENDAR, nr = CAL && CAL.season === season ? CAL.rounds.filter(function (r) { return r.no === after + 1; })[0] : null;
+    if (nr) {
+      $("next").innerHTML = '<div><div class="k">Next up · Round ' + nr.no + '</div><div class="t">' + esc(nr.track) + '</div></div><div class="d">' + nr.dates.map(function (d) { return "<span>" + esc(d) + "</span>"; }).join("") + "</div>";
+    } else $("next").hidden = true;
+    var DAY = { "wrx-evo-gr4": "Tuesday", "narly-cup": "Thursday", "gt3-endurance": "Friday" };
+    var MEM = { "narly-cup": "In memory of Cav Bennett (NarlyDude71)", "gt3-endurance": "In memory of Wayne Fraser (WJF73)" };
+    var SUB = { "wrx-evo-gr4": "WRX V Evo GR4 Trailblazers", "narly-cup": "Trailblazers Narly Cup GT500", "gt3-endurance": "GT3 Endurance Championship" };
+    $("cards").innerHTML = cur.map(function (x) {
+      var tm = function (k) { return (x.teams && x.teams[k]) || { name: k, colour: "#8C939D" }; };
+      var top = (x.standings || []).slice(0, 3);
+      var lr = x.rounds && x.rounds.length ? x.rounds[x.rounds.length - 1] : null;
+      var past = Object.keys(ALL).map(function (k) { return ALL[k]; }).filter(function (y) { return groupOf(y) === x.id && y.final && y.standings && y.standings.length; })
+        .sort(function (a, b) { return b.season - a.season; })[0];
+      return '<article class="card"><div class="day">' + (DAY[x.id] || "") + "</div><h3>" + esc(x.navLabel) + '</h3><div class="sub2">' + esc(SUB[x.id] || x.title) + "</div>" +
+        (MEM[x.id] ? '<div class="mem">' + MEM[x.id] + "</div>" : "") +
+        '<div class="lb">' + top.map(function (r, i) {
+          return '<div><span class="p p' + (i + 1) + '">' + esc(r[0]) + '</span><span class="nm"><i style="background:' + tm(r[2]).colour + '"></i>' + esc(r[1]) + '</span><span class="pts">' + r[8] + "</span></div>";
+        }).join("") + "</div>" +
+        '<div class="facts">' + (lr ? "Last winner: <b>" + esc(lr.rows[0][0]) + "</b> · " + esc(lr.short) + "<br>" : "") +
+        (past ? "Season " + past.season + " champion: <b>" + esc(past.standings[0][1]) + "</b>" : "") + "</div>" +
+        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a></div></article>';
+    }).join("");
+  }
+
   renderNav();
+  if (page === "home") homePage();
   if (page === "results") resultsPage();
   if (page === "championship") championshipPage();
   if (page === "records") recordsPage();
