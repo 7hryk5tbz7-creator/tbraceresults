@@ -305,7 +305,10 @@
       o.seasons.push(x.season);
     });
     var list = Object.keys(map).map(function (k) { return map[k]; });
-    list.forEach(function (o) { o.seasons.sort(function (a, b) { return b - a; }); o.titles = o.seasons.length; o.team = clubTeam(o.name, 99); });
+    list.forEach(function (o) { o.seasons.sort(function (a, b) { return b - a; }); o.titles = o.seasons.length; o.team = clubTeam(o.name, 99);
+      // No club/current team: use the team from the most recent season list that has them (as on Driver Records).
+      if (!o.team) { var STL = window.SEASON_TEAMS || {}, CT2 = window.CLUB_TEAMS || {};
+        Object.keys(STL).map(Number).sort(function (a, b) { return b - a; }).some(function (k) { var tn = STL[k][o.name]; if (tn) o.team = { name: tn, colour: CT2[tn] || "#8C939D" }; return !!tn; }); } });
     // Most titles first; equal titles: the driver who won their first title earliest ranks higher.
     var first = function (o) { return o.seasons[o.seasons.length - 1]; };
     list.sort(function (a, b) { return b.titles - a.titles || first(a) - first(b) || a.name.localeCompare(b.name); });
