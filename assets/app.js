@@ -70,13 +70,13 @@
   /* ---------------- Navigation ---------------- */
   function renderNav() {
     if (page === "home") {
-      $("seriesNav").innerHTML = '<a href="index.html" aria-current="page">Home</a>' + ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("") + '<a href="' + REC.records + '">Records</a>';
+      $("seriesNav").innerHTML = '<a href="index.html" aria-current="page">Home</a>' + ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("");
       return;
     }
     $("seriesNav").innerHTML = '<a href="index.html">Home</a>' + ORDER.map(function (id) {
       var x = ALL[id];
       return '<a href="' + x.pages.results + '"' + (!RECORD_PAGES.test(page) && id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
-    }).join("") + '<a href="' + REC.records + '"' + (RECORD_PAGES.test(page) ? ' aria-current="page"' : "") + ">Records</a>";
+    }).join("");
     // An archived season without race results links back to the current season's results.
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
