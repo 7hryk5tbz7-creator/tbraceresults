@@ -278,3 +278,5 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 /* GT7 game label on season tags */
 .seasontag .gamelbl { opacity: .7; margin-right: 3px; }
 .selectwrap .select { width: 260px; }
+#viewSwitch { margin: 10px 0 4px; }
+#viewSwitch .pill { min-height: 38px; }

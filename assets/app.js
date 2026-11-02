@@ -7,8 +7,8 @@
   });
   var page = document.body.getAttribute("data-page");
   // Records pages are club-wide (records-*.html): ?series=<id> shows one series, otherwise All Time.
-  var RECORD_PAGES = /^(records|teamrecords|champions)$/;
-  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html" };
+  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles)$/;
+  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html" };
   var wantSeries = RECORD_PAGES.test(page) ? new URLSearchParams(location.search).get("series") : null;
   var BASE = (wantSeries && ALL[wantSeries] && !ALL[wantSeries].group ? ALL[wantSeries] : null) || ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var groupOf = function (x) { return x.group || x.id; };
@@ -81,9 +81,9 @@
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
       // Records section: its own tabs; Teams' Titles is shown once team championship data exists.
-      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"]].map(function (t) {
+      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"]].map(function (t) {
         return '<a href="' + REC[t[0]] + recQuery + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
-      }).join("") + '<span class="soon-tab" title="Coming soon">Teams\u2019 Titles <em>Soon</em></span>';
+      }).join("");
     }
     // Series pages: current-season race results and championship standings only.
     var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["calendar", "Calendar"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
@@ -709,9 +709,161 @@
     if (b && b.dataset.team && teamClick && page === "championship") teamClick(b.dataset.team);
   });
 
+  /* ---------------- Team championships ---------------- */
+  // Published team championship figures live in data/team-champs.js (TEAM_CHAMPS, keyed by season data id).
+  var TC = window.TEAM_CHAMPS || {};
+  var CTC = window.CLUB_TEAMS || {};
+  var teamColour = function (n) { return CTC[n] || "#8C939D"; };
+  var tbar = function (n) { return '<span class="bar" style="background:' + teamColour(n) + ';margin-right:8px"></span>'; };
+  // Final order of a team championship: points, then most round wins, then name.
+  function tcTable(x, key) {
+    var c = TC[key], names = Object.keys(c.teams);
+    var tot = function (n) { return c.teams[n].reduce(function (a, b) { return a + b; }, 0); };
+    var n = c.teams[names[0]].length, best = [];
+    for (var r = 0; r < n; r++) best.push(Math.max.apply(null, names.map(function (t) { return c.teams[t][r]; })));
+    var wins = function (t) { return c.teams[t].filter(function (v, r) { return v > 0 && v === best[r]; }).length; };
+    return names.map(function (t) { return { name: t, pts: c.teams[t], total: tot(t), wins: wins(t) }; })
+      .sort(function (a, b) { return b.total - a.total || b.wins - a.wins || a.name.localeCompare(b.name); });
+  }
+  // Rounds in which at least one of a team's drivers started (Team Records rule; Team RSR / RNR = MC Motorsport).
+  function tcStarts(x) {
+    var archive = x.standingsFormat === "archive", ci = archive ? 3 : 4, season = x.season || 18, out = {};
+    var n = archive ? x.roundCount : (x.standingsAfter || 0);
+    var started = function (v) { v = String(v || ""); return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; };
+    for (var r = 0; r < n; r++) {
+      var seen = {};
+      x.standings.forEach(function (row) {
+        if (!started(row[ci][r])) return;
+        var t = archive ? clubTeam(row[1], season) : (x.teams && x.teams[row[2]]);
+        var nm = t && t.name; nm = (window.TEAM_ALIASES || {})[nm] || nm;
+        if (nm && nm !== "Privateer") seen[nm] = true;
+      });
+      Object.keys(seen).forEach(function (k) { out[k] = (out[k] || 0) + 1; });
+    }
+    return out;
+  }
+
+  function teamTitlesPage() {
+    var keys = Object.keys(TC).filter(function (k) { return ALL[k] && (SCOPE_ALL || groupOf(ALL[k]) === BASE.id); })
+      .sort(function (a, b) { return (ALL[b].season || 18) - (ALL[a].season || 18) || (baseOf(ALL[b]).navOrder || 0) - (baseOf(ALL[a]).navOrder || 0); });
+    var map = {}, champs = [];
+    var get = function (n) { return map[n] || (map[n] = { name: n, entered: 0, list: [], starts: 0, titles: 0, points: 0, won: [] }); };
+    keys.forEach(function (k) {
+      var x = ALL[k], tab = tcTable(x, k), st = tcStarts(x);
+      champs.push({ key: k, x: x, tab: tab });
+      tab[0] && get(tab[0].name).won.push(x);
+      if (tab[0]) get(tab[0].name).titles++;
+      tab.forEach(function (t) { get(t.name).points += t.total; });
+      Object.keys(st).forEach(function (t) {
+        if (!st[t]) return;
+        var o = get(t); o.entered++; o.starts += st[t]; o.list.push(x);
+      });
+    });
+    var all = Object.keys(map).map(function (k) { return map[k]; }).filter(function (o) { return o.entered || o.points; });
+    var nums = keys.map(function (k) { return ALL[k].season || 18; }).filter(function (v, i, l) { return l.indexOf(v) === i; }).sort(function (a, b) { return a - b; });
+    var span = nums.length ? (nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0]) : "";
+    $("eyebrow").textContent = LABEL + " · Team championship records";
+    $("meta").textContent = keys.length ? span + " · " + keys.length + (keys.length === 1 ? " team championship" : " team championships") + " · " + all.length + " teams · more seasons to be added" : "No team championships on the site yet";
+    document.title = "Teams' Titles · " + LABEL + " · TB Race Results";
+    var enteredLabel = SCOPE_ALL ? "Series entered" : "Seasons entered";
+    $("rules").textContent = (SCOPE_ALL ? "Series entered = team championships (one series in one season) in which at least one of the team's drivers started a race. " : "Seasons entered = seasons of the " + BASE.navLabel + " in which at least one of the team's drivers started a race. ") +
+      "Starts = rounds in which at least one of the team's drivers started. Titles = team championships won. Points = team championship points: each round a team's best three drivers score (Tuesday Series 9 points for the highest-placed scoring driver down to 0, Narly Cup 12 down to 0, WJF Trophy 15 down to 0 – points on offer can differ between seasons). Privateers don't score. Team RSR and Team RNR count as MC Motorsport. Teams are ranked by titles, then points. Figures as published by the club.";
+    if (!all.length) { $("tiles").innerHTML = ""; $("head").innerHTML = ""; $("rows").innerHTML = '<tr><td class="empty">No team championships on the site yet.</td></tr>'; $("head2").innerHTML = ""; $("rows2").innerHTML = ""; return; }
+    var top = function (k) { var v = Math.max.apply(null, all.map(function (o) { return o[k]; })); return { v: v, who: all.filter(function (o) { return o[k] === v; }).map(function (o) { return o.name; }) }; };
+    var tile = function (label, t) { return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + t.v + '</div><div class="sub" style="white-space:normal">' + esc(t.who.join(", ")) + "</div></div>"; };
+    $("tiles").innerHTML = tile("Most team titles", top("titles")) + tile("Most team points", top("points")) + tile("Most starts", top("starts"));
+    var tag = function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + '#view=teams">S' + x.season + (SCOPE_ALL ? " " + esc(SHORT(baseOf(x))) : "") + "</a>"; };
+    var subList = function (o) {
+      if (!SCOPE_ALL) return o.list.map(function (x) { return "S" + x.season; }).sort(function (a, b) { return parseInt(a.slice(1)) - parseInt(b.slice(1)); }).join(" · ");
+      var c = {}; o.list.forEach(function (x) { var s2 = SHORT(baseOf(x)); c[s2] = (c[s2] || 0) + 1; });
+      var multi = o.list.length > Object.keys(c).length;
+      return ORDER.map(function (id) { return SHORT(ALL[id]); }).filter(function (s2) { return c[s2]; }).map(function (s2) { return multi ? s2 + " " + c[s2] : s2; }).join(" · ");
+    };
+    var COLS = [["entered", enteredLabel], ["starts", "Starts"], ["titles", "Titles"], ["points", "Points"]];
+    var h = readHash();
+    var state = { sort: COLS.some(function (c) { return c[0] === h.sort; }) ? h.sort : "titles" };
+    function render() {
+      writeHash(state.sort === "titles" ? {} : state);
+      var k = state.sort;
+      var rows = all.slice().sort(function (a, b) { return b[k] - a[k] || b.titles - a.titles || b.points - a.points || b.starts - a.starts || a.name.localeCompare(b.name); });
+      $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Team</th>' + COLS.map(function (c) {
+        var on = c[0] === k;
+        return '<th scope="col" class="r" aria-sort="' + (on ? "descending" : "none") + '"><button type="button" class="sortbtn' + (on ? " on" : "") + '" data-sort="' + c[0] + '">' + c[1] + (on ? " ▾" : "") + "</button></th>";
+      }).join("") + "</tr>";
+      var prev = null, pos = 0;
+      $("rows").innerHTML = rows.map(function (o, i) {
+        var key = [o[k], o.titles, o.points, o.starts].join("|");
+        if (key !== prev) pos = i + 1; prev = key;
+        var td = function (c, html) { return '<td class="t r' + (k === c ? " hot" : "") + '">' + html + "</td>"; };
+        return '<tr class="' + (pos <= 3 ? "podium" : "") + '"><td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
+          '<td><div class="driver nowrap">' + tbar(o.name) + esc(o.name) + '</div><div class="sub nowrap" style="color:var(--dim)">' + esc(subList(o)) + "</div></td>" +
+          td("entered", o.entered) + td("starts", o.starts) + td("titles", o.titles || '<span class="none">0</span>') +
+          '<td class="r"><span class="points">' + o.points + "</span></td></tr>";
+      }).join("");
+    }
+    document.addEventListener("click", function (e) { var b = e.target.closest("button.sortbtn"); if (!b) return; state.sort = b.dataset.sort; render(); });
+    render();
+    $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Team champions</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
+    $("rows2").innerHTML = champs.map(function (c) {
+      var w = c.tab[0], r2 = c.tab[1];
+      return "<tr><td>" + tag(c.x) + '</td><td class="car">' + esc(c.x.title.replace(/\s*Season \d+$/, "")) + '</td><td><div class="driver nowrap">' + tbar(w.name) + esc(w.name) + '</div></td><td class="t r">' + w.total + '</td><td class="nowrap" style="font-size:14px;color:var(--muted)">' + (r2 ? esc(r2.name) + " · " + r2.total : "—") + "</td></tr>";
+    }).join("");
+  }
+
+  // Drivers / Teams switch on a championship page (only for seasons with a team championship).
+  function viewSwitch() {
+    var box = $("viewSwitch");
+    if (!box) { box = document.createElement("div"); box.id = "viewSwitch"; box.className = "pills"; box.setAttribute("role", "group"); box.setAttribute("aria-label", "Standings"); $("seasons").parentNode.insertBefore(box, $("seasons").nextSibling); }
+    var has = !!TC[S.id], view = has && readHash().view === "teams" ? "teams" : "drivers";
+    box.hidden = !has;
+    box.innerHTML = has ? ['drivers', 'teams'].map(function (v) { return '<button type="button" class="pill" data-view="' + v + '" aria-pressed="' + (v === view) + '">' + (v === "drivers" ? "Drivers" : "Teams") + "</button>"; }).join("") : "";
+    return view;
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-view]"); if (!b || page !== "championship") return;
+    try { history.replaceState(null, "", location.pathname + location.search + (b.dataset.view === "teams" ? "#view=teams" : "")); } catch (err) {}
+    championshipPage();
+  });
+
+  function teamStandingsPage() {
+    var c = TC[S.id], tab = tcTable(S, S.id), n = tab[0].pts.length, rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
+    var notRun = c.notRun || [];
+    if ($("h1title")) $("h1title").textContent = "Team Standings";
+    $("eyebrow").textContent = S.eyebrow + " · Final standings";
+    $("meta").textContent = tab.length + " teams · best three drivers score each round · " + c.scale + "-" + (c.scale - 1) + "-" + (c.scale - 2) + "…0";
+    document.title = "Team Standings · " + S.navLabel + " Season " + S.season + " · TB Race Results";
+    $("teamFilter").parentNode.hidden = true;
+    $("key").innerHTML = '<span><span class="rp p1" style="min-width:20px">&nbsp;</span> <span class="rp p2" style="min-width:20px">&nbsp;</span> <span class="rp p3" style="min-width:20px">&nbsp;</span> = top three teams in the round</span>';
+    $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. Privateers don't score and don't take a points place. Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
+    $("source").textContent = "Team standings as published by the club.";
+    var rank = rounds.map(function (r) {
+      var vals = tab.map(function (t) { return t.pts[r - 1]; });
+      return tab.map(function (t) { var v = t.pts[r - 1]; return v > 0 ? 1 + vals.filter(function (w) { return w > v; }).length : 0; });
+    });
+    var champ = tab[0];
+    var winners = rounds.map(function (r) {
+      if (notRun.indexOf(r) >= 0) return '<div class="tile-row"><span>Round ' + r + '</span><span style="color:var(--dim);font-weight:400">Not run</span></div>';
+      var best = Math.max.apply(null, tab.map(function (t) { return t.pts[r - 1]; }));
+      return '<div class="tile-row"><span>Round ' + r + "</span><span>" + esc(tab.filter(function (t) { return t.pts[r - 1] === best; }).map(function (t) { return t.name; }).join(" / ")) + "</span></div>";
+    }).join("");
+    $("tiles").innerHTML = '<div class="tile"><div class="label">Team champions</div><div class="tile-row" style="align-items:baseline"><span class="tile-big champion">' + esc(champ.name) + '</span><span class="tile-big">' + champ.total + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
+      tab.slice(1, 3).map(function (t, i) { return '<div class="tile-row"><span>' + (i ? "3rd" : "2nd") + "</span><span>" + esc(t.name) + " · " + t.total + "</span></div>"; }).join("") + "</div>" +
+      '<div class="tile"><div class="label">Round winners (team)</div>' + winners + "</div>";
+    $("head").parentNode.classList.add("compact");
+    $("head").innerHTML = '<tr><th scope="col">Pos</th><th scope="col">Team</th>' + rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") + '<th scope="col" class="r">Gap</th><th scope="col" class="r">Points</th></tr>';
+    $("rows").innerHTML = tab.map(function (t, i) {
+      var p = i + 1;
+      return '<tr class="' + (p <= 3 ? "podium" : "") + '"><td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + p + "</span></td>" +
+        '<td><div class="driver nowrap' + (p === 1 ? " champion" : "") + '">' + tbar(t.name) + esc(t.name) + (p === 1 ? ' <span class="crown">Champions</span>' : "") + "</div></td>" +
+        t.pts.map(function (v, r) { var k = rank[r][i]; return '<td class="c">' + (notRun.indexOf(r + 1) >= 0 ? '<span class="np" title="Round not run">NP</span>' : k && k <= 3 ? '<span class="rp p' + k + '">' + v + "</span>" : '<span class="t">' + v + "</span>") + "</td>"; }).join("") +
+        '<td class="t r" style="color:var(--muted)">' + (p === 1 ? "–" : "−" + (champ.total - t.total)) + '</td><td class="r"><span class="points">' + t.total + "</span></td></tr>";
+    }).join("");
+  }
+
   function championshipPage() {
     teamClick = null;
     if ($("h1title")) $("h1title").textContent = "Driver Standings";
+    if (viewSwitch() === "teams") return teamStandingsPage();
     $("teamFilter").parentNode.hidden = false;
     if (S.standingsFormat === "archive") return archivePage();
     var h = readHash();
@@ -879,5 +1031,6 @@
   if (page === "records") recordsPage();
   if (page === "teamrecords") teamRecordsPage();
   if (page === "champions") championsPage();
+  if (page === "teamtitles") teamTitlesPage();
   if (mainEl) gameLabels(mainEl);
 })();

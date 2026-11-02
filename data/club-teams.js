@@ -1094,3 +1094,5 @@ window.RACE_NUMBERS = {
 // Carried forward from their earlier seasons (club, 2 Nov): Steve_73_GOOF and Sirily90 Triple R (S15), JorgeyBuckets Privateer (S15), Bentstik_7 Privateer (S16).
 window.SEASON_TEAMS[15] = Object.assign({}, window.SEASON_TEAMS[15], { "Steve_73_GOOF": "Triple R Motorsport", "Sirily90": "Triple R Motorsport", "JorgeyBuckets": "Privateer" });
 window.SEASON_TEAMS[16] = Object.assign({}, window.SEASON_TEAMS[16], { "Bentstik_7": "Privateer" });
+// JahJah_2015: Privateer in Season 17 (club, 2 Nov – team championship sheet).
+window.SEASON_TEAMS[17] = Object.assign({}, window.SEASON_TEAMS[17], { "JahJah_2015": "Privateer" });
