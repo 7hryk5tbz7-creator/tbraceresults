@@ -1,6 +1,41 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 14 – club's "Trailblazers Season 14 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
+  // Tuesday 12-11-10…0, Narly Cup and WJF 15-14-13…0 (WJF Round 9 matches 18-17-16…). In S14 Privateers took points places and
+  // scored together as "Privateer" (Narly Cup, WJF) – shown in the season's standings, not counted on the Teams' Titles page.
+  "wrx-evo-gr4-s14": {
+    scale: 12,
+    teams: {
+      "Mad Turtle Racing": [28, 33, 29, 27, 32, 33, 28, 33, 32, 31],
+      "Roadsick Racing": [27, 21, 24, 30, 25, 23, 29, 8, 25, 26],
+      "Triple R Motorsport": [8, 9, 10, 6, 0, 7, 6, 9, 0, 0]
+    }
+  },
+  "narly-cup-s14": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [37, 39, 25, 37, 38, 42, 39, 39, 42, 37],
+      "Mad Turtle Racing": [35, 36, 39, 38, 37, 33, 36, 36, 31, 38],
+      "Triple R Motorsport": [20, 9, 11, 9, 17, 9, 9, 13, 17, 0],
+      "Gerbil Racing Team": [7, 8, 0, 8, 7, 8, 0, 8, 8, 9],
+      "Privateer": [0, 0, 0, 0, 0, 0, 8, 9, 7, 8]
+    }
+  },
+  "gt3-endurance-s14": {
+    scale: 15,
+    privateersScore: true,
+    note: "Round 9 points on the club's sheet follow an 18-17-16… scale.",
+    teams: {
+      "MC Motorsport": [34, 42, 38, 39, 36, 38, 38, 38, 40, 27],
+      "Mad Turtle Racing": [31, 27, 37, 34, 36, 29, 29, 31, 47, 35],
+      "Gerbil Racing Team": [22, 26, 13, 17, 14, 18, 13, 20, 24, 22],
+      "Roadsick Racing": [19, 8, 9, 18, 26, 25, 25, 3, 12, 7],
+      "Privateer": [0, 0, 0, 0, 0, 0, 10, 22, 27, 14],
+      "Triple R Motorsport": [13, 7, 8, 6, 5, 0, 5, 5, 11, 9]
+    }
+  },
   // GT7 Season 15 – club's "Trailblazers S15 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
   // Narly Cup scored 15-14-13…0 this season. The sheet's "Unofficial Overall Championship" table is not used.
   "wrx-evo-gr4-s15": {

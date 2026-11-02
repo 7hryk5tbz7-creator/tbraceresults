@@ -746,7 +746,7 @@
     var map = {}, champs = [];
     var get = function (n) { return map[n] || (map[n] = { name: n, entered: 0, list: [], starts: 0, titles: 0, points: 0, won: [] }); };
     keys.forEach(function (k) {
-      var x = ALL[k], tab = tcTable(x, k), st = tcStarts(x);
+      var x = ALL[k], tab = tcTable(x, k).filter(function (t) { return t.name !== "Privateer"; }), st = tcStarts(x);
       champs.push({ key: k, x: x, tab: tab });
       tab[0] && get(tab[0].name).won.push(x);
       if (tab[0]) get(tab[0].name).titles++;
@@ -831,7 +831,7 @@
     document.title = "Team Standings · " + S.navLabel + " Season " + S.season + " · TB Race Results";
     $("teamFilter").parentNode.hidden = true;
     $("key").innerHTML = '<span><span class="rp p1" style="min-width:20px">&nbsp;</span> <span class="rp p2" style="min-width:20px">&nbsp;</span> <span class="rp p3" style="min-width:20px">&nbsp;</span> = top three teams in the round</span>';
-    $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. Privateers don't score and don't take a points place. Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
+    $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. " + (c.privateersScore ? "This season Privateers took points places and scored together as \u201cPrivateer\u201d (shown here, but not a team on the Teams\u2019 Titles page)." : "Privateers don't score and don't take a points place.") + " Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
     $("source").textContent = "Team standings as published by the club.";
     var rank = rounds.map(function (r) {
       var vals = tab.map(function (t) { return t.pts[r - 1]; });
