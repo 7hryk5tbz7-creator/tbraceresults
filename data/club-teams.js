@@ -293,15 +293,17 @@ window.SEASON_TEAMS[2] = {
   "Aus_RedRaptor": "Triple R Motorsport",
   "N-spud-P666": "Team RSR",
   "Steve_73_GOOF": "Triple R Motorsport",
-  "Fly-balding072": "Mad Turtle Racing",
+  "Fly-balding072": "Team RSR" /* GR3 results sheet – confirmed by the club */,
   "Risque-Clinic2": "Mad Turtle Racing",
-  "Tdmack1234": "Triple R Motorsport",
+  "Tdmack1234": "Roadsick Racing" /* GR3 results sheet – confirmed by the club */,
   "WAR_SOULS_71": "Mad Turtle Racing",
   "stavros_magpie": "Privateer",
   "Dissposable_Hero": "Privateer",
   "Vipersfang": "Roadsick Racing",
   "meatncheesepie": "Privateer", /* GR4 sheet */
-  "Spannshouse": "Roadsick Racing" /* GR4 sheet */
+  "Spannshouse": "Roadsick Racing", /* GR4 sheet */
+  "Walnut_Racing": "Team RSR", /* GR3 sheet */
+  "Kaizen_Ty98": "Privateer" /* GR3 sheet */
 };
 
 // Season 14: the club's Season 14 entry list (2 Nov). Tankneo-1, Scorpion_Fury77 and WallFinder were Privateers in S14 (confirmed by the club).

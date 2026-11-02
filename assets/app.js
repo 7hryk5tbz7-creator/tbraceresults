@@ -299,7 +299,7 @@
       var w = S.standings.filter(function (x) { return /^\d+p1d?$/.test(x[3][r - 1]); })[0];
       var ne = !w && S.standings.some(function (x) { return x[3][r - 1] === "NE"; });
       var np = !w && (ne || S.standings.some(function (x) { return x[3][r - 1] === "NP"; }));
-      return '<div class="tile-row"><span>Round ' + r + "</span><span" + (np ? ' style="color:var(--dim);font-weight:400"' : "") + ">" + (np ? (ne ? "No event" : S.npLabel || "Not run") : w ? esc(w[1]) : "—") + "</span></div>";
+      return '<div class="tile-row"><span>Round ' + r + (S.roundNames && S.roundNames[r - 1] ? ' · <span style="color:var(--dim)">' + esc(S.roundNames[r - 1]) + "</span>" : "") + "</span><span" + (np ? ' style="color:var(--dim);font-weight:400"' : "") + ">" + (np ? (ne ? "No event" : S.npLabel || "Not run") : w ? esc(w[1]) : "—") + "</span></div>";
     }).join("");
     $("tiles").innerHTML =
       '<div class="tile"><div class="label">Champion</div>' +
@@ -310,10 +310,13 @@
 
     var hasPen = S.standings.some(function (x) { return x[7]; });
     var showTeams = (S.season || 99) >= (window.TEAMS_FROM_SEASON || 0) || !!(window.SEASON_TEAMS || {})[S.season];
+    // Cars (Season 2 on): one car for everyone (seasonCar) or each driver's car (carOf).
+    var hasCar = !!(S.carOf || S.seasonCar);
+    var carOf = function (n) { return (S.carOf && S.carOf[n]) || (S.carOf ? "" : S.seasonCar) || ""; };
     $("head").parentNode.classList.add("compact");
     $("head").innerHTML = "<tr>" +
-      '<th scope="col">Pos</th><th scope="col">' + (showTeams ? "Driver / Team" : "Driver") + '</th><th scope="col" class="r">#</th>' +
-      rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") +
+      '<th scope="col">Pos</th><th scope="col">' + (showTeams ? "Driver / Team" : "Driver") + '</th><th scope="col" class="r">#</th>' + (hasCar ? '<th scope="col">Car</th>' : "") +
+      rounds.map(function (r) { var nm = S.roundNames && S.roundNames[r - 1]; return '<th class="c" scope="col">' + (nm ? '<abbr title="Round ' + r + " · " + esc(nm) + '" style="text-decoration:none">R' + r + "</abbr>" : "R" + r) + "</th>"; }).join("") +
       '<th scope="col" class="r">Subtotal</th><th scope="col" class="r">Drop</th>' + (hasPen ? '<th scope="col" class="r">Penalty</th>' : "") + '<th scope="col" class="r">Points</th></tr>';
     $("rows").innerHTML = S.standings.map(function (x) {
       var p = Number(x[0]);
@@ -322,6 +325,7 @@
         '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + esc(x[1]) + (p === 1 ? ' <span class="crown">Champion</span>' : "") + "</div>" +
           (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
         '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
+        (hasCar ? '<td class="car">' + (esc(carOf(x[1])) || "—") + "</td>" : "") +
         x[3].map(function (v) { return '<td class="c">' + roundCell(v) + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + x[4] + "</td>" +
         '<td class="t r" style="color:' + (x[5] ? "var(--red-text)" : "var(--dim)") + '">' + (x[5] ? "−" + Math.abs(x[5]) : "–") + "</td>" +
