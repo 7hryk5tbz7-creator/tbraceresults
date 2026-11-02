@@ -785,6 +785,28 @@
     $("rules").textContent = "Same track for all three series each round. TBC = the club is still choosing the track. Tuesday Series races on Tuesdays, the Narly Cup on Thursdays and the WJF Trophy on Fridays. Winners and results appear once each round is added to the site.";
   }
 
+  /* ---------------- Game label (GT7) ---------------- */
+  // Every season on the site so far is a Gran Turismo 7 season: show "GT7 Season N" / "GT7 S17" everywhere.
+  // When seasons from another game are added, give those seasons their own label here.
+  var GAME = "GT7";
+  function gameLabels(root) {
+    var walk = function (n) {
+      if (n.nodeType === 3) {
+        var t = n.nodeValue, out = t.replace(/\b(Seasons?) (?=\d)/g, function (m, w, off, str) { return str.slice(Math.max(0, off - GAME.length - 1), off) === GAME + " " ? m : GAME + " " + m; });
+        if (out !== t) n.nodeValue = out;
+      } else if (n.nodeType === 1 && !/^(SCRIPT|STYLE)$/.test(n.nodeName)) {
+        if (n.classList && n.classList.contains("seasontag") && !n.querySelector(".gamelbl") && /^S\d/.test(n.textContent)) n.insertAdjacentHTML("afterbegin", '<span class="gamelbl">' + GAME + "</span>");
+        n.childNodes.forEach(walk);
+      }
+    };
+    walk(root);
+  }
+  var mainEl = document.querySelector("main");
+  if (mainEl && window.MutationObserver) {
+    var mo = new MutationObserver(function () { mo.disconnect(); gameLabels(mainEl); mo.observe(mainEl, { childList: true, subtree: true, characterData: true }); });
+    mo.observe(mainEl, { childList: true, subtree: true, characterData: true });
+  }
+
   renderNav();
   if (page === "calendar") calendarPage();
   if (page === "home") homePage();
@@ -793,4 +815,5 @@
   if (page === "records") recordsPage();
   if (page === "teamrecords") teamRecordsPage();
   if (page === "champions") championsPage();
+  if (mainEl) gameLabels(mainEl);
 })();

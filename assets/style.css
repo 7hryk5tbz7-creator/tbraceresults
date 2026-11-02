@@ -275,3 +275,6 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 .home .hero p.welcome b { color: #fff; font-weight: 600; }
 .home .hero p.sub3 { font-size: 14px; color: var(--dim); }
 @media (max-width: 600px) { .home .hero p.welcome { font-size: 16px; } }
+/* GT7 game label on season tags */
+.seasontag .gamelbl { opacity: .7; margin-right: 3px; }
+.selectwrap .select { width: 260px; }
