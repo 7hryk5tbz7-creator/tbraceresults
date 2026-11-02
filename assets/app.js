@@ -841,14 +841,13 @@
       return tab.map(function (t) { var v = t.pts[r - 1]; return v > 0 ? 1 + vals.filter(function (w) { return w > v; }).length : 0; });
     });
     var champ = tab[0];
-    var winners = rounds.map(function (r) {
-      if (notRun.indexOf(r) >= 0) return '<div class="tile-row"><span>Round ' + r + '</span><span style="color:var(--dim);font-weight:400">Not run</span></div>';
-      var best = Math.max.apply(null, tab.map(function (t) { return t.pts[r - 1]; }));
-      return '<div class="tile-row"><span>Round ' + r + "</span><span>" + esc(tab.filter(function (t) { return t.pts[r - 1] === best; }).map(function (t) { return t.name; }).join(" / ")) + "</span></div>";
+    // Podium boxes: champions, 2nd, 3rd – points and round wins (round wins = rounds where the team had the best score).
+    var MEDAL = ["var(--gold)", "var(--silver)", "var(--bronze)"], LBL = ["Team champions", "2nd", "3rd"];
+    $("tiles").innerHTML = tab.slice(0, 3).map(function (t, i) {
+      var w = t.pts.filter(function (v, r) { return notRun.indexOf(r + 1) < 0 && rank[r][tab.indexOf(t)] === 1; }).length;
+      return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '"><div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px"><span class="bar" style="background:' + teamColour(t.name) + ';height:22px"></span>' + esc(t.name) + '</div><div class="sub">' + t.total + " pts · " + w + " round win" + (w === 1 ? "" : "s") + "</div></div>";
     }).join("");
-    $("tiles").innerHTML = '<div class="tile"><div class="label">Team champions</div><div class="tile-row" style="align-items:baseline"><span class="tile-big champion">' + esc(champ.name) + '</span><span class="tile-big">' + champ.total + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
-      tab.slice(1, 3).map(function (t, i) { return '<div class="tile-row"><span>' + (i ? "3rd" : "2nd") + "</span><span>" + esc(t.name) + " · " + t.total + "</span></div>"; }).join("") + "</div>" +
-      '<div class="tile"><div class="label">Round winners (team)</div>' + winners + "</div>";
+    $("tiles").classList.add("tiles3");
     $("head").parentNode.classList.add("compact");
     $("head").innerHTML = '<tr><th scope="col">Pos</th><th scope="col">Team</th>' + rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") + '<th scope="col" class="r">Gap</th><th scope="col" class="r">Points</th></tr>';
     $("rows").innerHTML = tab.map(function (t, i) {
@@ -862,6 +861,7 @@
 
   function championshipPage() {
     teamClick = null;
+    if ($("tiles")) $("tiles").classList.remove("tiles3");
     if ($("h1title")) $("h1title").textContent = "Driver Standings";
     if (viewSwitch() === "teams") return teamStandingsPage();
     $("teamFilter").parentNode.hidden = false;

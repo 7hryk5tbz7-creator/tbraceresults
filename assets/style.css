@@ -280,3 +280,5 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 .selectwrap .select { width: 260px; }
 #viewSwitch { margin: 10px 0 4px; }
 #viewSwitch .pill { min-height: 38px; }
+.tiles.tiles3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 640px) { .tiles.tiles3 { grid-template-columns: 1fr; } }
