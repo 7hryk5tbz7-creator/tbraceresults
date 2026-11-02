@@ -1,6 +1,40 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 15 – club's "Trailblazers S15 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
+  // Narly Cup scored 15-14-13…0 this season. The sheet's "Unofficial Overall Championship" table is not used.
+  "wrx-evo-gr4-s15": {
+    scale: 9,
+    note: "Round 3 was not run.",
+    notRun: [3],
+    teams: {
+      "Roadsick Racing": [22, 21, 0, 21, 24, 21, 23, 22, 24, 23],
+      "Mad Turtle Racing": [15, 18, 0, 14, 14, 17, 15, 17, 15, 15],
+      "Triple R Motorsport": [7, 3, 0, 7, 4, 4, 4, 0, 0, 4]
+    }
+  },
+  "narly-cup-s15": {
+    scale: 15,
+    teams: {
+      "Mad Turtle Racing": [35, 38, 36, 32, 35, 36, 39, 36, 37, 37],
+      "Roadsick Racing": [38, 34, 39, 38, 40, 28, 24, 39, 37, 37],
+      "Triple R Motorsport": [26, 8, 8, 22, 0, 11, 11, 0, 0, 10],
+      "Gerbil Racing Team": [6, 7, 9, 7, 0, 9, 10, 9, 10, 8],
+      "MC Motorsport": [0, 12, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  },
+  "gt3-endurance-s15": {
+    scale: 15,
+    note: "Round 6 was not run.",
+    notRun: [6],
+    teams: {
+      "MC Motorsport": [34, 36, 37, 42, 39, 0, 42, 39, 42, 40],
+      "Mad Turtle Racing": [29, 25, 34, 26, 35, 0, 33, 21, 31, 35],
+      "Triple R Motorsport": [24, 23, 16, 26, 18, 0, 15, 8, 16, 13],
+      "Gerbil Racing Team": [16, 22, 10, 14, 0, 0, 24, 21, 19, 13],
+      "Roadsick Racing": [16, 13, 21, 9, 7, 0, 0, 28, 9, 9]
+    }
+  },
   // GT7 Season 16 – club's "Trailblazers S16 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
   // Tuesday was scored 12-11-10…0 this season. Gerbil had no Tuesday starters (0 on the sheet) – left out.
   "wrx-evo-gr4-s16": {
