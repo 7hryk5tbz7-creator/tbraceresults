@@ -1,6 +1,39 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 12 – club's "Trailblazers Season 12 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
+  // Tuesday 15-14-13…0, Narly Cup and WJF 18-17-16…0. Privateers scored as a team in the Narly Cup only (RSR_Robbo-Sport a Privateer in S12).
+  "wrx-evo-gr4-s12": {
+    scale: 15,
+    teams: {
+      "Mad Turtle Racing": [40, 40, 36, 39, 40, 39, 36, 32, 39, 40],
+      "Roadsick Racing": [33, 29, 38, 36, 35, 34, 39, 41, 36, 35],
+      "Triple R Motorsport": [19, 30, 10, 17, 17, 19, 9, 19, 9, 17],
+      "Gerbil Racing Team": [7, 6, 0, 7, 7, 7, 8, 0, 8, 7]
+    }
+  },
+  "narly-cup-s12": {
+    scale: 18,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [48, 43, 46, 45, 44, 46, 46, 50, 50, 51],
+      "Mad Turtle Racing": [44, 37, 35, 39, 40, 35, 45, 42, 42, 42],
+      "Triple R Motorsport": [31, 13, 29, 29, 14, 16, 14, 24, 13, 23],
+      "Gerbil Racing Team": [9, 15, 16, 20, 20, 20, 11, 10, 11, 10],
+      "MC Motorsport": [6, 18, 17, 17, 17, 0, 0, 0, 0, 0],
+      "Privateer": [18, 9, 0, 0, 0, 18, 0, 0, 0, 0]
+    }
+  },
+  "gt3-endurance-s12": {
+    scale: 18,
+    teams: {
+      "Mad Turtle Racing": [37, 51, 35, 41, 45, 27, 41, 40, 39, 44],
+      "MC Motorsport": [41, 11, 48, 45, 34, 43, 41, 41, 43, 48],
+      "Gerbil Racing Team": [30, 34, 31, 38, 30, 26, 38, 41, 19, 28],
+      "Triple R Motorsport": [20, 34, 27, 26, 19, 28, 11, 28, 25, 21],
+      "Roadsick Racing": [37, 20, 15, 0, 37, 32, 19, 6, 30, 21]
+    }
+  },
   // GT7 Season 13 – club's "Trailblazers Season 13 Team Championship Standings" sheet (checked 3 Nov 2026 – matches the drivers' results exactly
   // once Luke_GT13 is a Privateer). Tuesday and Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored as a team (Narly Cup, WJF). Narly R2 not run.
   "wrx-evo-gr4-s13": {

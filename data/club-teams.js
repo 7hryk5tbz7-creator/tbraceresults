@@ -507,7 +507,7 @@ window.SEASON_TEAMS[12] = {
   "allaussie": "MC Motorsport",
   "N-spud-P666": "MC Motorsport",
   "NWR_NICO71": "MC Motorsport",
-  "RSR_Robbo-Sport": "MC Motorsport",
+  "RSR_Robbo-Sport": "Privateer", /* MC on the S12 list – Privateer per the club's S12 team standings (confirmed 3 Nov) */
   "Rusty-Nutz-75": "MC Motorsport",
   "hazza5432": "MC Motorsport",
   "crackpipetom": "MC Motorsport",
