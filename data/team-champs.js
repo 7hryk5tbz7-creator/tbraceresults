@@ -1,6 +1,42 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 13 – club's "Trailblazers Season 13 Team Championship Standings" sheet (checked 3 Nov 2026 – matches the drivers' results exactly
+  // once Luke_GT13 is a Privateer). Tuesday and Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored as a team (Narly Cup, WJF). Narly R2 not run.
+  "wrx-evo-gr4-s13": {
+    scale: 15,
+    teams: {
+      "Roadsick Racing": [34, 34, 38, 39, 40, 36, 35, 33, 38, 36],
+      "Mad Turtle Racing": [33, 32, 30, 36, 34, 38, 39, 42, 37, 38],
+      "Triple R Motorsport": [32, 33, 31, 9, 10, 10, 10, 9, 0, 10],
+      "Gerbil Racing Team": [0, 6, 0, 8, 8, 8, 0, 0, 0, 0]
+    }
+  },
+  "narly-cup-s13": {
+    scale: 15,
+    privateersScore: true,
+    note: "Round 2 was not run.",
+    notRun: [2],
+    teams: {
+      "Roadsick Racing": [39, 0, 40, 41, 39, 42, 42, 42, 42, 39],
+      "Mad Turtle Racing": [36, 0, 35, 32, 36, 31, 33, 31, 33, 34],
+      "Triple R Motorsport": [24, 0, 16, 11, 0, 19, 0, 11, 0, 11],
+      "Gerbil Racing Team": [6, 0, 8, 8, 9, 7, 9, 7, 9, 8],
+      "Privateer": [0, 0, 0, 0, 0, 0, 0, 8, 0, 0]
+    }
+  },
+  "gt3-endurance-s13": {
+    scale: 18,
+    privateersScore: true,
+    teams: {
+      "MC Motorsport": [45, 41, 46, 43, 47, 50, 39, 48, 45, 47],
+      "Mad Turtle Racing": [45, 49, 39, 41, 46, 35, 41, 44, 42, 37],
+      "Gerbil Racing Team": [28, 29, 36, 32, 32, 29, 23, 32, 20, 30],
+      "Roadsick Racing": [25, 23, 20, 17, 0, 25, 32, 10, 18, 17],
+      "Triple R Motorsport": [22, 13, 15, 10, 10, 11, 0, 9, 0, 8],
+      "Privateer": [0, 6, 0, 7, 0, 0, 0, 7, 10, 11]
+    }
+  },
   // GT7 Season 14 – club's "Trailblazers Season 14 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
   // Tuesday 12-11-10…0, Narly Cup and WJF 15-14-13…0 (WJF Round 9 matches 18-17-16…). In S14 Privateers took points places and
   // scored together as "Privateer" (Narly Cup, WJF) – shown in the season's standings, not counted on the Teams' Titles page.

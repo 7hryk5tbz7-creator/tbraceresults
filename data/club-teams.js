@@ -481,7 +481,7 @@ window.SEASON_TEAMS[13] = {
   "simple-crackers9": "Triple R Motorsport",
   "Khush_Vekaria": "Triple R Motorsport",
   "homer7201": "Privateer", /* raced S13, not on the list – Privateer confirmed by the club */
-  "Luke_GT13": "MC Motorsport" /* raced WJF S13 (#13), not on the list – club team kept */
+  "Luke_GT13": "Privateer" /* raced WJF S13 R9–R10 (#13), not on the list – Privateer per the club's S13 team standings (confirmed 3 Nov) */
 };
 
 // Season 12: the club's Season 12 entry list (1 Nov). DK666_Racing is on it twice (Privateer and Mad Turtle) – Mad Turtle confirmed by the club.
