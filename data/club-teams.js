@@ -1091,3 +1091,6 @@ window.RACE_NUMBERS = {
 [10, 11, 12, 13, 14].forEach(function (n) { if (window.SEASON_TEAMS[n]) window.SEASON_TEAMS[n]["Fly-balding072"] = "MC Motorsport"; });
 // Tonyaudio1: Roadsick Racing in Seasons 15 and 16 (club decision, 2 Nov – Roadsick in every earlier season).
 [15, 16].forEach(function (n) { window.SEASON_TEAMS[n] = Object.assign({}, window.SEASON_TEAMS[n], { "Tonyaudio1": "Roadsick Racing" }); });
+// Carried forward from their earlier seasons (club, 2 Nov): Steve_73_GOOF and Sirily90 Triple R (S15), JorgeyBuckets Privateer (S15), Bentstik_7 Privateer (S16).
+window.SEASON_TEAMS[15] = Object.assign({}, window.SEASON_TEAMS[15], { "Steve_73_GOOF": "Triple R Motorsport", "Sirily90": "Triple R Motorsport", "JorgeyBuckets": "Privateer" });
+window.SEASON_TEAMS[16] = Object.assign({}, window.SEASON_TEAMS[16], { "Bentstik_7": "Privateer" });
