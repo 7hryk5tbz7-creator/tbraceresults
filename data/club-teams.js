@@ -261,6 +261,47 @@ window.SEASON_TEAMS[11] = {
   "PorscheNut92": "Gerbil Racing Team" /* raced WJF S11 (#911), not on the S11 list – Gerbil confirmed by the club */
 };
 
+// GT7 Season 2: the club's Season 2 entry lists (2 Nov). One team per driver for the season (GR3-sheet team differences treated as typos);
+// GR3-only drivers use their GR3 team. NeonEmpyreal Roadsick (club, from the Tuesday sheet); stavros_magpie, Dissposable_Hero, Vipersfang from the Tuesday sheet.
+window.SEASON_TEAMS[2] = {
+  "S7R_Ando787": "Roadsick Racing",
+  "Colin_t24": "Roadsick Racing",
+  "Kezaudio": "Roadsick Racing",
+  "MAD_MITCH_76": "Mad Turtle Racing",
+  "Rusty-Nutz-75": "Team RSR",
+  "Hamitothebone": "Mad Turtle Racing",
+  "BigBruceTheShark": "Mad Turtle Racing",
+  "NeonEmpyreal": "Roadsick Racing",
+  "Tim_turtle_79": "Mad Turtle Racing",
+  "MrDonovan": "Triple R Motorsport",
+  "R0B_B021": "Mad Turtle Racing",
+  "MalevolentOne666": "Mad Turtle Racing",
+  "jmillsy85": "Privateer",
+  "PingTwoHigh69": "Triple R Motorsport",
+  "NarlyDude71": "Mad Turtle Racing",
+  "Pjmack75": "Roadsick Racing",
+  "Trickybrewer": "Triple R Motorsport",
+  "allaussie": "Team RSR",
+  "P-Toots": "Roadsick Racing",
+  "Tonyaudio1": "Roadsick Racing",
+  "ricreene": "Triple R Motorsport",
+  "GLR_Scotty": "Mad Turtle Racing",
+  "RSR_Robbo-Sport": "Team RSR",
+  "Jrh666-demon": "Mad Turtle Racing",
+  "Wrestler0909": "Team RSR",
+  "BikeGooRoo": "Mad Turtle Racing",
+  "Aus_RedRaptor": "Triple R Motorsport",
+  "N-spud-P666": "Team RSR",
+  "Steve_73_GOOF": "Triple R Motorsport",
+  "Fly-balding072": "Mad Turtle Racing",
+  "Risque-Clinic2": "Mad Turtle Racing",
+  "Tdmack1234": "Triple R Motorsport",
+  "WAR_SOULS_71": "Mad Turtle Racing",
+  "stavros_magpie": "Privateer",
+  "Dissposable_Hero": "Privateer",
+  "Vipersfang": "Roadsick Racing"
+};
+
 // Season 14: the club's Season 14 entry list (2 Nov). Tankneo-1, Scorpion_Fury77 and WallFinder were Privateers in S14 (confirmed by the club).
 window.SEASON_TEAMS[14] = {
   "O-PUNCHY-_-P": "Gerbil Racing Team",
