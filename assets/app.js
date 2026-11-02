@@ -354,18 +354,15 @@
     $("source").textContent = S.standingsSource || "";
     $("teamFilter").parentNode.hidden = true;
 
-    var winners = rounds.map(function (r) {
-      var w = S.standings.filter(function (x) { return /^\d+p1d?$/.test(x[3][r - 1]); })[0];
-      var ne = !w && S.standings.some(function (x) { return x[3][r - 1] === "NE"; });
-      var np = !w && (ne || S.standings.some(function (x) { return x[3][r - 1] === "NP"; }));
-      return '<div class="tile-row"><span>Round ' + r + (S.roundNames && S.roundNames[r - 1] ? ' · <span style="color:var(--dim)">' + esc(S.roundNames[r - 1]) + "</span>" : "") + "</span><span" + (np ? ' style="color:var(--dim);font-weight:400"' : "") + ">" + (np ? (ne ? "No event" : S.npLabel || "Not run") : w ? esc(w[1]) : "—") + "</span></div>";
+    // Podium boxes (same style as team standings): champion, 2nd, 3rd – team, points and round wins.
+    var showTeamsT = (S.season || 99) >= (window.TEAMS_FROM_SEASON || 0) || !!(window.SEASON_TEAMS || {})[S.season];
+    var MEDAL = ["var(--gold)", "var(--silver)", "var(--bronze)"], LBL = ["Champion", "2nd", "3rd"];
+    $("tiles").innerHTML = [champ, second, third].filter(Boolean).map(function (x, i) {
+      var t = showTeamsT ? clubTeam(x[1], S.season) : null;
+      var w = x[3].filter(function (v) { return /^\d+p1d?$/.test(v); }).length;
+      return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '"><div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px">' + (t ? '<span class="bar" style="background:' + t.colour + ';height:22px"></span>' : "") + esc(x[1]) + '</div><div class="sub">' + (t ? esc(t.name) + " · " : "") + x[6] + " pts · " + w + (w === 1 ? " win" : " wins") + "</div></div>";
     }).join("");
-    $("tiles").innerHTML =
-      '<div class="tile"><div class="label">Champion</div>' +
-      '<div class="tile-row" style="align-items:baseline"><span class="tile-big champion">' + esc(champ[1]) + '</span><span class="tile-big">' + champ[6] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
-      '<div class="tile-row"><span>2nd</span><span>' + esc(second[1]) + " · " + second[6] + "</span></div>" +
-      '<div class="tile-row"><span>3rd</span><span>' + esc(third[1]) + " · " + third[6] + "</span></div></div>" +
-      '<div class="tile"><div class="label">Round winners</div>' + winners + "</div>";
+    $("tiles").classList.add("tiles3");
 
     var hasPen = S.standings.some(function (x) { return x[7]; });
     var showTeams = (S.season || 99) >= (window.TEAMS_FROM_SEASON || 0) || !!(window.SEASON_TEAMS || {})[S.season];
