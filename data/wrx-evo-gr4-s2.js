@@ -4,8 +4,7 @@
 // on the sheet (fixed 4s, no win bonus in R5, no 9 in R9) – kept as published (confirmed by the club). Podium places worked out from the points.
 // Tie on 121: MAD_MITCH_76 (four 3rds) placed ahead of Kezaudio (one 3rd) on countback; the club's sheet listed them the other way round.
 // Names: Ando787 = S7R_Ando787, kezaudio = Kezaudio, r0b_B021 = R0B_B021, Tony2sips = Tonyaudio1, Ricreene = ricreene, DISSPOSABLE_HERO = Dissposable_Hero.
-// Vipersfang (#74) is a different driver from Mcdivott (confirmed). jmillsy85 entered but scored 0 in every round – left out. All cars: Radical.
-
+// Vipersfang (#74) is a different driver from Mcdivott (confirmed). jmillsy85 scored 0 in every round (did not race Tuesdays) – listed with no starts because he raced the GR4 series. All cars: Radical.
 window.SERIES = window.SERIES || {};
 window.SERIES["wrx-evo-gr4-s2"] = {
   id: "wrx-evo-gr4-s2",
@@ -18,9 +17,9 @@ window.SERIES["wrx-evo-gr4-s2"] = {
   final: true,
   seasonCar: "Radical",
   roundNames: ["Tokyo South Counter-clockwise", "Autodromo Nazionale Monza", "Sardegna A Reverse", "Autodromo de Interlagos", "Watkins Glen International (Long Course)", "Mount Panorama Circuit (Endurance Week)", "Trial Mountain Circuit", "Circuit de Spa-Francorchamps", "Suzuka Circuit", "Kyoto Driving Park Yamagiwa + Miyabi Reverse"],
-  standingsMeta: "Final standings · 23 drivers · No drop rounds · Round-by-round points · All cars: Radical",
+  standingsMeta: "Final standings · 24 drivers · No drop rounds · Round-by-round points · All cars: Radical",
   standingsKey: ["swatches", "– = did not race that week"],
-  standingsRules: "No drop rounds in Season 2: each driver's total is all 10 rounds added together. Points depend on the number of finishers in each race: last finisher scores 5 and each place higher scores 1 more, with a 1-point bonus for 2nd and a 2-point bonus for the win. Some rounds on the club's sheet don't follow the scale exactly (Rounds 4, 5, 6, 9 and 10) and are shown as published. Ties are split on countback (most wins, then 2nds, 3rds and so on).",
+  standingsRules: "No drop rounds in Season 2: each driver's total is all 10 rounds added together. Points depend on the number of finishers in each race: last finisher scores 5 and each place higher scores 1 more, with a 1-point bonus for 2nd and a 2-point bonus for the win. Some rounds on the club's sheet don't follow the scale exactly and are shown as published. Ties are split on countback (most wins, then 2nds, 3rds and so on).",
   standingsSource: "Standings as published by the club at the end of Season 2.",
 
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
@@ -49,6 +48,7 @@ window.SERIES["wrx-evo-gr4-s2"] = {
     ["20","Tonyaudio1","44",["8","–","5","4","–","–","–","–","–","5"],22,0,22,0],
     ["21","stavros_magpie","6",["–","–","–","–","–","–","–","–","6","13"],19,0,19,0],
     ["22","Dissposable_Hero","51",["–","–","–","–","–","–","–","–","4","9"],13,0,13,0],
-    ["23","Vipersfang","74",["–","–","–","–","4","–","–","–","–","–"],4,0,4,0]
+    ["23","Vipersfang","74",["–","–","–","–","4","–","–","–","–","–"],4,0,4,0],
+    ["24","jmillsy85","360",["–","–","–","–","–","–","–","–","–","–"],0,0,0,0]
   ]
 };

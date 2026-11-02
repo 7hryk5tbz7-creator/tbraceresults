@@ -299,7 +299,9 @@ window.SEASON_TEAMS[2] = {
   "WAR_SOULS_71": "Mad Turtle Racing",
   "stavros_magpie": "Privateer",
   "Dissposable_Hero": "Privateer",
-  "Vipersfang": "Roadsick Racing"
+  "Vipersfang": "Roadsick Racing",
+  "meatncheesepie": "Privateer", /* GR4 sheet */
+  "Spannshouse": "Roadsick Racing" /* GR4 sheet */
 };
 
 // Season 14: the club's Season 14 entry list (2 Nov). Tankneo-1, Scorpion_Fury77 and WallFinder were Privateers in S14 (confirmed by the club).
