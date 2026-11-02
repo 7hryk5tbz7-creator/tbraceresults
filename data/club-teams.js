@@ -17,7 +17,6 @@ window.CLUB_TEAMS = {
 };
 
 window.DRIVER_TEAMS = {
-  "MoldyBox321": "Privateer",
   "Luke_GT13": "MC Motorsport",
   "crackpipetom": "MC Motorsport",
   "brettubrettu26": "Mad Turtle Racing",
@@ -1096,3 +1095,6 @@ window.SEASON_TEAMS[15] = Object.assign({}, window.SEASON_TEAMS[15], { "Steve_73
 window.SEASON_TEAMS[16] = Object.assign({}, window.SEASON_TEAMS[16], { "Bentstik_7": "Privateer" });
 // JahJah_2015: Privateer in Season 17 (club, 2 Nov – team championship sheet).
 window.SEASON_TEAMS[17] = Object.assign({}, window.SEASON_TEAMS[17], { "JahJah_2015": "Privateer" });
+// MoldyBox321: Privateer in Season 16, Triple R Motorsport in Season 17 (club, 3 Nov). Removed from the club list so Driver Records shows his latest team.
+window.SEASON_TEAMS[16] = Object.assign({}, window.SEASON_TEAMS[16], { "MoldyBox321": "Privateer" });
+window.SEASON_TEAMS[17] = Object.assign({}, window.SEASON_TEAMS[17], { "MoldyBox321": "Triple R Motorsport" });

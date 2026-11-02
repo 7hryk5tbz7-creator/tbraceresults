@@ -36,7 +36,6 @@ window.TEAM_CHAMPS = {
   // GT7 Season 17 – club's "Trailblazers S17 Team Championship Standings" sheet (checked 2–3 Nov 2026; kept as the sheet – club decision).
   "wrx-evo-gr4-s17": {
     scale: 9,
-    note: "Round 1 Triple R points include MoldyBox321 (a Privateer) as on the club's sheet.",
     teams: {
       "Roadsick Racing": [23, 23, 24, 23, 24, 22, 24, 24, 24, 23],
       "Triple R Motorsport": [12, 6, 5, 12, 9, 13, 11, 11, 11, 7],
