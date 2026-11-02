@@ -1,6 +1,38 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 11 – club's "Trailblazers Season 11 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
+  // Tuesday and Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored as a team in the Tuesday Series (WJF Privateer row all 0 – left out).
+  "wrx-evo-gr4-s11": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [42, 42, 42, 39, 40, 37, 36, 40, 38, 39],
+      "Mad Turtle Racing": [31, 33, 31, 36, 35, 38, 39, 33, 37, 35],
+      "Triple R Motorsport": [11, 17, 17, 7, 8, 8, 0, 17, 0, 18],
+      "Gerbil Racing Team": [8, 7, 7, 8, 7, 0, 8, 8, 9, 7],
+      "Privateer": [7, 0, 13, 9, 9, 9, 9, 7, 0, 0]
+    }
+  },
+  "narly-cup-s11": {
+    scale: 15,
+    teams: {
+      "Roadsick Racing": [42, 38, 41, 42, 40, 42, 41, 38, 42, 37],
+      "Mad Turtle Racing": [31, 37, 33, 31, 35, 33, 34, 36, 33, 37],
+      "Triple R Motorsport": [19, 17, 18, 11, 9, 0, 0, 18, 9, 10],
+      "Gerbil Racing Team": [7, 7, 0, 0, 8, 9, 0, 7, 8, 8]
+    }
+  },
+  "gt3-endurance-s11": {
+    scale: 18,
+    teams: {
+      "MC Motorsport": [48, 35, 49, 38, 49, 48, 48, 18, 45, 43],
+      "Mad Turtle Racing": [36, 41, 24, 47, 40, 45, 35, 48, 39, 39],
+      "Gerbil Racing Team": [28, 44, 18, 33, 36, 32, 34, 38, 37, 34],
+      "Triple R Motorsport": [23, 30, 39, 22, 24, 25, 18, 12, 8, 16],
+      "Roadsick Racing": [30, 0, 26, 16, 7, 6, 30, 0, 21, 18]
+    }
+  },
   // GT7 Season 12 – club's "Trailblazers Season 12 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
   // Tuesday 15-14-13…0, Narly Cup and WJF 18-17-16…0. Privateers scored as a team in the Narly Cup only (RSR_Robbo-Sport a Privateer in S12).
   "wrx-evo-gr4-s12": {
