@@ -1089,3 +1089,5 @@ window.RACE_NUMBERS = {
 
 // Fly-balding072: MC Motorsport from Season 10 on (club decision, 2 Nov – overrides Privateer on the S10–S14 lists).
 [10, 11, 12, 13, 14].forEach(function (n) { if (window.SEASON_TEAMS[n]) window.SEASON_TEAMS[n]["Fly-balding072"] = "MC Motorsport"; });
+// Tonyaudio1: Roadsick Racing in Seasons 15 and 16 (club decision, 2 Nov – Roadsick in every earlier season).
+[15, 16].forEach(function (n) { window.SEASON_TEAMS[n] = Object.assign({}, window.SEASON_TEAMS[n], { "Tonyaudio1": "Roadsick Racing" }); });
