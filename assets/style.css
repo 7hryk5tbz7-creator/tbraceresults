@@ -271,3 +271,7 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 .calm a { color: var(--soft); text-decoration: none; }
 .calm.nx { color: var(--red-text); font-family: var(--cond); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 @media (max-width: 640px) { .calc { display: none; } .calm { display: block; } body[data-page="calendar"] td .driver { white-space: normal; } }
+.home .hero p.welcome { font-size: 18px; line-height: 1.55; color: var(--text); max-width: 760px; margin: 0 0 12px; }
+.home .hero p.welcome b { color: #fff; font-weight: 600; }
+.home .hero p.sub3 { font-size: 14px; color: var(--dim); }
+@media (max-width: 600px) { .home .hero p.welcome { font-size: 16px; } }
