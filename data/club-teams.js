@@ -261,6 +261,48 @@ window.SEASON_TEAMS[11] = {
   "PorscheNut92": "Gerbil Racing Team" /* raced WJF S11 (#911), not on the S11 list – Gerbil confirmed by the club */
 };
 
+// GT7 Season 1: teams from the club's Season 1 results sheets (no entry list); the same team in every series (2 Nov).
+window.SEASON_TEAMS[1] = {
+  "S7R_Ando787": "Roadsick Racing",
+  "MrDonovan": "Triple R Motorsport",
+  "Trickybrewer": "Triple R Motorsport",
+  "Pjmack75": "Roadsick Racing",
+  "Bluebloss": "Triple R Motorsport",
+  "Colin_t24": "Roadsick Racing",
+  "BigBruceTheShark": "Mad Turtle Racing",
+  "PingTwoHigh69": "Triple R Motorsport",
+  "MAD_MITCH_76": "Mad Turtle Racing",
+  "Steve_73_GOOF": "Triple R Motorsport",
+  "TTV_B1teTheRoses": "Team RSR",
+  "Hamitothebone": "Mad Turtle Racing",
+  "Tim_turtle_79": "Mad Turtle Racing",
+  "NarlyDude71": "Mad Turtle Racing",
+  "GLR_Scotty": "Mad Turtle Racing",
+  "Bozza777": "Team RSR",
+  "DK666_Racing": "Mad Turtle Racing",
+  "CmeCrash": "Mad Turtle Racing",
+  "ricreene": "Triple R Motorsport",
+  "Aus_RedRaptor": "Triple R Motorsport",
+  "Tonyaudio1": "Roadsick Racing",
+  "R0B_B021": "Mad Turtle Racing",
+  "M_a_s_u_z_o": "Privateer",
+  "NeonEmpyreal": "Privateer",
+  "Spannshouse": "Roadsick Racing",
+  "MalevolentOne666": "Mad Turtle Racing",
+  "Wrestler0909": "Team RSR",
+  "WAR_SOULS_71": "Mad Turtle Racing",
+  "Kezaudio": "Roadsick Racing",
+  "N-spud-P666": "Team RSR",
+  "RSR_Robbo-Sport": "Team RSR",
+  "WJF73": "Triple R Motorsport",
+  "EBM_Brandosa34": "Team RSR",
+  "Aussie_Kopite": "Team RSR",
+  "ICER_MarchyBoy96": "Team RSR",
+  "allaussie": "Team RSR",
+  "Tdmack1234": "Roadsick Racing",
+  "Braz195": "Team RSR"
+};
+
 // GT7 Season 2: the club's Season 2 entry lists (2 Nov). One team per driver for the season (GR3-sheet team differences treated as typos);
 // GR3-only drivers use their GR3 team. NeonEmpyreal Roadsick (club, from the Tuesday sheet); stavros_magpie, Dissposable_Hero, Vipersfang from the Tuesday sheet.
 window.SEASON_TEAMS[2] = {

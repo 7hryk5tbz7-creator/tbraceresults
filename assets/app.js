@@ -283,7 +283,66 @@
     return found;
   }
 
+  /* Season 1 style: no points, no champion – finishing places, starts, wins, podiums, win % and podium %. */
+  function noPointsPage() {
+    var n = S.roundCount, rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
+    $("eyebrow").textContent = S.eyebrow + " · Final results";
+    if ($("h1title")) $("h1title").textContent = "Driver Results";
+    $("meta").textContent = S.standingsMeta || "";
+    document.title = "Results · " + S.navLabel + " Season " + S.season + " · TB Race Results";
+    $("key").innerHTML = keyHtml(S.standingsKey);
+    $("rules").textContent = S.standingsRules || "";
+    $("source").textContent = S.standingsSource || "";
+    $("teamFilter").parentNode.hidden = true;
+    var started = function (v) { return /^\d/.test(v) || v === "DNF" || v === "RGQ" || v === "DQ" || v === "CC"; };
+    var rows = S.standings.map(function (x) {
+      var st = x[3].filter(started).length, w = x[3].filter(function (v) { return /p1$/.test(v); }).length, pd = x[3].filter(function (v) { return /p[123]$/.test(v); }).length;
+      return { x: x, starts: st, wins: w, pods: pd, wp: st ? w / st : 0, pp: st ? pd / st : 0 };
+    });
+    var pct = function (v) { return (Math.round(v * 1000) / 10).toFixed(1) + "%"; };
+    var winners = rounds.map(function (r) {
+      var w = S.standings.filter(function (x) { return /^1p1$/.test(x[3][r - 1]); }).map(function (x) { return esc(x[1]); });
+      return '<div class="tile-row"><span>Round ' + r + "</span><span>" + (w.join(" / ") || "—") + "</span></div>";
+    }).join("");
+    var most = function (k, label) {
+      var best = Math.max.apply(null, rows.map(function (o) { return o[k]; }));
+      var who = rows.filter(function (o) { return o[k] === best; }).map(function (o) { return o.x[1]; });
+      return '<div class="tile-row"><span>' + label + "</span><span>" + esc(who.slice(0, 2).join(", ")) + (who.length > 2 ? " +" + (who.length - 2) : "") + " · " + best + "</span></div>";
+    };
+    $("tiles").innerHTML =
+      '<div class="tile"><div class="label">No official champion</div><div class="tile-big" style="font-size:20px">No points system in Season 1</div>' +
+      '<div class="sub" style="white-space:normal;margin-bottom:6px">Drivers are listed by race starts, sorted by wins, podiums, win %, podium % and then starts.</div>' +
+      most("wins", "Most wins") + most("pods", "Most podiums") + most("starts", "Most starts") + "</div>" +
+      '<div class="tile"><div class="label">Round winners</div>' + winners + "</div>";
+    var showTeams = !!(window.SEASON_TEAMS || {})[S.season];
+    var hasCar = !!(S.carOf || S.seasonCar);
+    var carOf = function (nm) { return (S.carOf && S.carOf[nm]) || (S.carOf ? "" : S.seasonCar) || ""; };
+    $("head").parentNode.classList.add("compact");
+    $("head").innerHTML = "<tr>" +
+      '<th scope="col">Pos</th><th scope="col">' + (showTeams ? "Driver / Team" : "Driver") + '</th><th scope="col" class="r">#</th>' + (hasCar ? '<th scope="col">Car</th>' : "") +
+      rounds.map(function (r) { return '<th class="c" scope="col">R' + r + "</th>"; }).join("") +
+      '<th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th><th scope="col" class="r">Win %</th><th scope="col" class="r">Podium %</th></tr>';
+    var cell = function (v) { var m = /^(\d+)(p[123])$/.exec(v); return m ? '<span class="rp ' + m[2] + '">P' + m[1] + "</span>" : /^\d+$/.test(v) ? '<span class="t">P' + v + "</span>" : roundCell(v); };
+    $("rows").innerHTML = rows.map(function (o) {
+      var x = o.x, p = Number(x[0]);
+      return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
+        '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
+        '<td><div class="driver">' + esc(x[1]) + "</div>" +
+          (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
+        '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
+        (hasCar ? '<td class="car">' + (esc(carOf(x[1])) || "—") + "</td>" : "") +
+        x[3].map(function (v) { return '<td class="c">' + cell(v) + "</td>"; }).join("") +
+        '<td class="t r">' + o.starts + "</td>" +
+        '<td class="t r">' + (o.wins || '<span class="none">0</span>') + "</td>" +
+        '<td class="t r">' + (o.pods || '<span class="none">0</span>') + "</td>" +
+        '<td class="t r">' + (o.wins ? pct(o.wp) : '<span class="none">0.0%</span>') + "</td>" +
+        '<td class="r"><span class="points" style="font-size:18px">' + (o.pods ? pct(o.pp) : '<span class="none">0.0%</span>') + "</span></td></tr>";
+    }).join("");
+  }
+
   function archivePage() {
+    if (S.noPoints) return noPointsPage();
+    if ($("h1title")) $("h1title").textContent = "Driver Standings";
     var n = S.roundCount;
     var rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
     var champ = S.standings[0], second = S.standings[1], third = S.standings[2];
@@ -337,7 +396,7 @@
   /* ---------------- Champions page ---------------- */
   // Only finished seasons count; the current season is added once it is complete.
   function championsPage() {
-    var done = RSEASONS.filter(function (x) { return x.final && x.standings && x.standings.length; });
+    var done = RSEASONS.filter(function (x) { return x.final && !x.noChampion && x.standings && x.standings.length; });
     var pts = function (x, r) { return x.standingsFormat === "archive" ? r[6] : r[8]; };
     var map = {};
     done.forEach(function (x) {
@@ -564,7 +623,7 @@
         if (any) rounds++;
         Object.keys(seen).forEach(function (k) { map[k].starts++; });
       }
-      if (x.final) {
+      if (x.final && !x.noChampion) {
         var champ = teamOf(x.standings[0]);
         if (champ && (window.TEAM_ALIASES || {})[champ]) champ = window.TEAM_ALIASES[champ];
         if (champ && map[champ]) map[champ].titles++;
@@ -652,6 +711,7 @@
 
   function championshipPage() {
     teamClick = null;
+    if ($("h1title")) $("h1title").textContent = "Driver Standings";
     $("teamFilter").parentNode.hidden = false;
     if (S.standingsFormat === "archive") return archivePage();
     var h = readHash();
@@ -737,7 +797,7 @@
       var tm = function (k) { return (x.teams && x.teams[k]) || { name: k, colour: "#8C939D" }; };
       var top = (x.standings || []).slice(0, 3);
       var lr = x.rounds && x.rounds.length ? x.rounds[x.rounds.length - 1] : null;
-      var past = Object.keys(ALL).map(function (k) { return ALL[k]; }).filter(function (y) { return groupOf(y) === x.id && y.final && y.standings && y.standings.length; })
+      var past = Object.keys(ALL).map(function (k) { return ALL[k]; }).filter(function (y) { return groupOf(y) === x.id && y.final && !y.noChampion && y.standings && y.standings.length; })
         .sort(function (a, b) { return b.season - a.season; })[0];
       return '<article class="card"><div class="day">' + (DAY[x.id] || "") + "</div><h3>" + esc(x.navLabel) + '</h3><div class="sub2">' + esc(SUB[x.id] || x.title) + "</div>" +
         (MEM[x.id] ? '<div class="mem">' + MEM[x.id] + "</div>" : "") +
