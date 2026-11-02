@@ -459,6 +459,11 @@
     return cells.filter(function (v) { return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; }).length;
   }
 
+  var TEAM_SHORT = { "Roadsick Racing": "Roadsick", "Mad Turtle Racing": "Mad Turtle", "MC Motorsport": "MC", "Triple R Motorsport": "Triple R", "Gerbil Racing Team": "Gerbil", "Team RNR": "RNR", "Team RSR": "RSR" };
+  var teamLine = function (o) {
+    if (o.teams) return '<div class="sub tlist">' + o.teams.map(function (t) { return '<span class="tl">' + bar(t.colour) + '<span class="tfull">' + esc(t.name) + '</span><span class="tshort">' + esc(TEAM_SHORT[t.name] || t.name) + "</span></span>"; }).join("") + "</div>";
+    return o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "";
+  };
   function recordsPage() {
     var seasons = RSEASONS.filter(function (x) { return x.standings; });
     var map = {};
@@ -544,6 +549,30 @@
         o.team = { name: nm, colour: CT[nm] || CT[ALI2[nm]] || "#8C939D" };
       });
     })();
+    // Every team a driver has raced for (not Privateer), most starts first; shown only when there are two or more.
+    // Team RSR / Team RNR count with MC Motorsport (shown under the name they last raced under).
+    (function () {
+      var started = function (v) { v = String(v || ""); return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; };
+      var ALI3 = window.TEAM_ALIASES || {}, cnt = {}, lastName = {};
+      var add = function (n, t, k, season) {
+        if (!t || !k || t === "Privateer") return;
+        var fam = ALI3[t] || t, c = cnt[n] || (cnt[n] = {}), L = lastName[n] || (lastName[n] = {});
+        c[fam] = (c[fam] || 0) + k;
+        if (!L[fam] || L[fam].s <= season) L[fam] = { s: season, name: t };
+      };
+      Object.keys(ALL).forEach(function (k) {
+        var x = ALL[k]; if (!x.standings) return;
+        if (x.standingsFormat === "archive") x.standings.forEach(function (r) { var t = clubTeam(r[1], x.season); add(r[1], t && t.name, r[3].filter(started).length, x.season); });
+        else x.standings.forEach(function (r) { var t = x.teams && x.teams[r[2]]; add(r[1], t && t.name, r[9], x.season || 18); });
+      });
+      all.forEach(function (o) {
+        var c = cnt[o.name]; if (!c) return;
+        var fams = Object.keys(c); if (fams.length < 2) return;
+        var main = o.team ? (ALI3[o.team.name] || o.team.name) : null;
+        fams.sort(function (a, b) { return (b === main) - (a === main) || c[b] - c[a] || lastName[o.name][b].s - lastName[o.name][a].s; });
+        o.teams = fams.map(function (f) { var nm = f === main && o.team ? o.team.name : lastName[o.name][f].name; return { name: nm, colour: CT[nm] || CT[ALI3[nm]] || "#8C939D" }; });
+      });
+    })();
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = uniq(seasons.map(function (x) { return x.season || 18; })).sort(function (a, b) { return a - b; });
@@ -590,7 +619,7 @@
         if (key !== prev) pos = i + 1; prev = key;
         return '<tr class="' + (pos <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
-          '<td><div class="driver">' + esc(o.name) + (o.no ? ' <span class="rno" title="Last race number used">#' + esc(o.no) + "</span>" : "") + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
+          '<td><div class="driver">' + esc(o.name) + (o.no ? ' <span class="rno" title="Last race number used">#' + esc(o.no) + "</span>" : "") + "</div>" + teamLine(o) + "</td>" +
           '<td class="t r' + (k === "nseasons" ? " hot" : "") + '" title="Seasons ' + o.seasons.slice().sort(function (a, b) { return a - b; }).join(", ") + '">' + o.nseasons + "</td>" +
           '<td class="t r' + (k === "starts" ? " hot" : "") + '">' + o.starts + "</td>" +
           '<td class="t r' + (k === "wins" ? " hot" : "") + '">' + (o.wins || '<span class="none">0</span>') + "</td>" +

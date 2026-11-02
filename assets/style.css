@@ -282,3 +282,9 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 #viewSwitch .pill { min-height: 38px; }
 .tiles.tiles3 { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 640px) { .tiles.tiles3 { grid-template-columns: 1fr; } }
+/* Driver Records: every team a driver raced for (2+ teams) */
+.tlist { display: flex; flex-wrap: wrap; gap: 2px 12px; }
+.tlist .tl { white-space: nowrap; }
+.tlist .tl .bar { margin-right: 6px; }
+.tlist .tshort { display: none; }
+@media (max-width: 640px) { .tlist .tfull { display: none; } .tlist .tshort { display: inline; } }
