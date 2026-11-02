@@ -517,6 +517,33 @@
       .forEach(function (x) { x.standings.forEach(function (r) { if (r[2] && r[2] !== "1" && archiveStarts(r[3]) > 0) lastNo[r[1]] = r[2]; }); });
     Object.keys(RN).forEach(function (n) { if (String(RN[n]) !== "1") lastNo[n] = String(RN[n]); });
     all.forEach(function (o) { o.no = lastNo[o.name] || ""; });
+    // Drivers no longer racing (no Season 18 start): show the team they raced the most races for, across every season and series.
+    // Team RSR / Team RNR count with MC Motorsport (shown under the name they last raced under). Privateer only if they never raced for a team.
+    (function () {
+      var active = {};
+      ORDER.forEach(function (id) { (ALL[id].standings || []).forEach(function (r) { if (r[9] > 0) active[r[1]] = true; }); });
+      var started = function (v) { v = String(v || ""); return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; };
+      var ALI2 = window.TEAM_ALIASES || {}, cnt = {}, lastName = {};
+      Object.keys(ALL).forEach(function (k) {
+        var x = ALL[k]; if (x.standingsFormat !== "archive" || !x.standings) return;
+        x.standings.forEach(function (r) {
+          if (active[r[1]]) return;
+          var n = r[3].filter(started).length; if (!n) return;
+          var t = clubTeam(r[1], x.season); if (!t) return;
+          var fam = ALI2[t.name] || t.name, c = cnt[r[1]] || (cnt[r[1]] = {}), L = lastName[r[1]] || (lastName[r[1]] = {});
+          c[fam] = (c[fam] || 0) + n;
+          if (!L[fam] || L[fam].s <= x.season) L[fam] = { s: x.season, name: t.name };
+        });
+      });
+      all.forEach(function (o) {
+        var c = cnt[o.name]; if (!c) return;
+        var teams = Object.keys(c).filter(function (t) { return t !== "Privateer"; });
+        if (!teams.length) { o.team = { name: "Privateer", colour: CT.Privateer || "#8C939D" }; return; }
+        teams.sort(function (a, b) { return c[b] - c[a] || lastName[o.name][b].s - lastName[o.name][a].s; });
+        var nm = lastName[o.name][teams[0]].name;
+        o.team = { name: nm, colour: CT[nm] || CT[ALI2[nm]] || "#8C939D" };
+      });
+    })();
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
 
     var nums = uniq(seasons.map(function (x) { return x.season || 18; })).sort(function (a, b) { return a - b; });
