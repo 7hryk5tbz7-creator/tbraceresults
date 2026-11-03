@@ -850,7 +850,7 @@
     document.title = "Team Standings · " + S.navLabel + " Season " + S.season + " · TB Race Results";
     $("teamFilter").parentNode.hidden = true;
     $("key").innerHTML = '<span><span class="rp p1" style="min-width:20px">&nbsp;</span> <span class="rp p2" style="min-width:20px">&nbsp;</span> <span class="rp p3" style="min-width:20px">&nbsp;</span> = top three teams in the round</span>';
-    $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. " + (c.privateersScore ? "This season Privateers took points places and scored together as \u201cPrivateer\u201d (shown here, but not a team on the Teams\u2019 Titles page)." : "Privateers don't score and don't take a points place.") + " Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
+    $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. " + "A DC (disconnected) finish doesn't score team points. " + (c.privateersScore ? "This season Privateers took points places and scored together as \u201cPrivateer\u201d (shown here, but not a team on the Teams\u2019 Titles page)." : "Privateers don't score and don't take a points place.") + " Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
     $("source").textContent = live ? "Team standings as published by the club after Round " + n + "." : "Team standings as published by the club.";
     var rank = rounds.map(function (r) {
       var vals = tab.map(function (t) { return t.pts[r - 1]; });
@@ -969,9 +969,19 @@
         .sort(function (a, b) { return b.season - a.season; })[0];
       return '<article class="card"><div class="day">' + (DAY[x.id] || "") + "</div><h3>" + esc(x.navLabel) + '</h3><div class="sub2">' + esc(SUB[x.id] || x.title) + "</div>" +
         (MEM[x.id] ? '<div class="mem">' + MEM[x.id] + "</div>" : "") +
-        '<div class="lb">' + top.map(function (r, i) {
+        (function () {
+          var drv = '<div class="lb">' + top.map(function (r, i) {
           return '<div><span class="p p' + (i + 1) + '">' + esc(r[0]) + '</span><span class="nm"><i style="background:' + tm(r[2]).colour + '"></i>' + esc(r[1]) + '</span><span class="pts">' + r[8] + "</span></div>";
-        }).join("") + "</div>" +
+        }).join("") + "</div>";
+          var c = (window.TEAM_CHAMPS || {})[x.id];
+          if (!c) return drv;
+          // Drivers and Teams side by side (current season team standings).
+          var TS = { "Roadsick Racing": "Roadsick", "Mad Turtle Racing": "Mad Turtle", "MC Motorsport": "MC", "Triple R Motorsport": "Triple R", "Gerbil Racing Team": "Gerbil" };
+          var tt = Object.keys(c.teams).filter(function (t) { return t !== "Privateer"; }).map(function (t) { return [t, c.teams[t].reduce(function (a, b) { return a + b; }, 0)]; })
+            .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 3);
+          var teams = '<div class="lb">' + tt.map(function (t, i) { return '<div><span class="p p' + (i + 1) + '">' + (i + 1) + '</span><span class="nm"><i style="background:' + ((window.CLUB_TEAMS || {})[t[0]] || "#8C939D") + '"></i>' + esc(TS[t[0]] || t[0]) + '</span><span class="pts">' + t[1] + "</span></div>"; }).join("") + "</div>";
+          return '<div class="two"><div><div class="colh">Drivers</div>' + drv + '</div><div><div class="colh">Teams</div>' + teams + "</div></div>";
+        })() +
         '<div class="facts">' + (lr ? "Last winner: <b>" + esc(lr.rows[0][0]) + "</b> · " + esc(lr.short) + "<br>" : "") +
         (past ? "Season " + past.season + " champion: <b>" + esc(past.standings[0][1]) + "</b>" : "") + "</div>" +
         '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a></div></article>';

@@ -282,3 +282,9 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 #viewSwitch .pill { min-height: 38px; }
 .tiles.tiles3 { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 640px) { .tiles.tiles3 { grid-template-columns: 1fr; } }
+/* Home cards: Drivers and Teams side by side */
+.home .card .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.home .card .two .colh { font-family: var(--cond); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); margin: 0 0 4px; font-weight: 600; }
+.home .card .two .lb div { gap: 7px; }
+.home .card .two .nm { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.home .card .two .pts { font-size: 12px; }
