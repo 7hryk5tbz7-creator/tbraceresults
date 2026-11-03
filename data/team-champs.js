@@ -1,6 +1,45 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 10 – club's "Trailblazers Season 10 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision,
+  // except Tuesday Round 6: the sheet's 27 sat on Gerbil's row – no Gerbil driver raced that round, so it is Triple R's (club, 3 Nov)).
+  // Tuesday 18-17-16…0, Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored as a team in all three series. Narly MC row (all 0, no starters) left out.
+  "wrx-evo-gr4-s10": {
+    scale: 18,
+    privateersScore: true,
+    note: "Round 6: the club's sheet had Triple R's 27 points on Gerbil's row (no Gerbil driver raced that round) – corrected.",
+    teams: {
+      "Roadsick Racing": [39, 44, 43, 40, 42, 45, 48, 38, 38, 45],
+      "Mad Turtle Racing": [44, 42, 42, 44, 45, 42, 24, 45, 43, 42],
+      "MC Motorsport": [30, 28, 33, 35, 29, 18, 32, 18, 18, 18],
+      "Triple R Motorsport": [28, 23, 28, 21, 27, 27, 19, 13, 27, 21],
+      "Privateer": [15, 17, 8, 11, 0, 11, 12, 11, 0, 0],
+      "Gerbil Racing Team": [0, 7, 11, 14, 0, 0, 8, 8, 9, 0]
+    }
+  },
+  "narly-cup-s10": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [41, 37, 33, 36, 39, 28, 34, 41, 36, 36],
+      "Mad Turtle Racing": [29, 38, 36, 39, 33, 35, 35, 32, 39, 37],
+      "Triple R Motorsport": [25, 15, 26, 22, 18, 9, 8, 8, 8, 8],
+      "Privateer": [19, 19, 15, 0, 15, 12, 15, 18, 9, 11],
+      "Gerbil Racing Team": [3, 5, 4, 8, 5, 0, 7, 6, 7, 7]
+    }
+  },
+  "gt3-endurance-s10": {
+    scale: 18,
+    privateersScore: true,
+    teams: {
+      "Mad Turtle Racing": [46, 42, 47, 46, 45, 44, 29, 45, 48, 41],
+      "MC Motorsport": [25, 46, 29, 45, 43, 43, 31, 33, 30, 30],
+      "Gerbil Racing Team": [27, 28, 24, 18, 31, 31, 36, 31, 33, 38],
+      "Triple R Motorsport": [28, 18, 27, 30, 17, 22, 27, 9, 17, 19],
+      "Roadsick Racing": [19, 25, 33, 22, 14, 16, 20, 25, 15, 15],
+      "Privateer": [23, 9, 8, 7, 6, 0, 22, 7, 0, 7]
+    }
+  },
   // GT7 Season 18 (current) – club's "Trailblazers S18 Team Championship Standings" after Round 4 (checked 3 Nov 2026).
   // Keyed by the current-season ids; in progress, so not counted on the Teams' Titles page until the season is final.
   "wrx-evo-gr4": {
