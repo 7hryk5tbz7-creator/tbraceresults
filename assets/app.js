@@ -790,12 +790,14 @@
     $("meta").textContent = keys.length ? span + " · " + keys.length + (keys.length === 1 ? " team championship" : " team championships") + " · " + all.length + " teams · more seasons to be added" : "No team championships on the site yet";
     document.title = "Teams' Titles · " + LABEL + " · TB Race Results";
     var enteredLabel = SCOPE_ALL ? "Series entered" : "Seasons entered";
-    $("rules").textContent = (SCOPE_ALL ? "Series entered = team championships (one series in one season) in which at least one of the team's drivers started a race. " : "Seasons entered = seasons of the " + BASE.navLabel + " in which at least one of the team's drivers started a race. ") +
+    $("rules").textContent = "Titles = team championships won. " + (SCOPE_ALL ? "Series entered = team championships (one series in one season) in which at least one of the team's drivers started a race. " : "Seasons entered = seasons of the " + BASE.navLabel + " in which at least one of the team's drivers started a race. ") +
+      "Points = team championship points: each round a team's best three drivers score, on a points scale set for each series and season (see each season's team standings). Privateers don't count as a team. Team RSR and Team RNR count as MC Motorsport. Starts, wins and podiums are on Team Records. Figures as published by the club.";
       "Starts = rounds in which at least one of the team's drivers started. Titles = team championships won. Points = team championship points: each round a team's best three drivers score (points for the highest-placed scoring driver set for each series and season – e.g. GT7 Season 17: Tuesday Series 9, Narly Cup 12, WJF Trophy 15, each down to 0; see each season\u2019s team standings). Privateers don't score. Team RSR and Team RNR count as MC Motorsport. Teams are ranked by titles, then points. Figures as published by the club.";
     if (!all.length) { $("tiles").innerHTML = ""; $("head").innerHTML = ""; $("rows").innerHTML = '<tr><td class="empty">No team championships on the site yet.</td></tr>'; $("head2").innerHTML = ""; $("rows2").innerHTML = ""; return; }
     var top = function (k) { var v = Math.max.apply(null, all.map(function (o) { return o[k]; })); return { v: v, who: all.filter(function (o) { return o[k] === v; }).map(function (o) { return o.name; }) }; };
     var tile = function (label, t) { return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + t.v + '</div><div class="sub" style="white-space:normal">' + esc(t.who.join(", ")) + "</div></div>"; };
-    $("tiles").innerHTML = tile("Most team titles", top("titles")) + tile("Most team points", top("points")) + tile("Most starts", top("starts"));
+    $("tiles").innerHTML = tile("Most team titles", top("titles")) + tile("Most team points", top("points")) +
+      '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + all.filter(function (o) { return o.titles; }).length + '</div><div class="sub">from ' + champs.length + (champs.length === 1 ? " championship" : " championships") + "</div></div>";
     var tag = function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + '#view=teams">S' + x.season + (SCOPE_ALL ? " " + esc(SHORT(baseOf(x))) : "") + "</a>"; };
     var subList = function (o) {
       if (!SCOPE_ALL) return o.list.map(function (x) { return "S" + x.season; }).sort(function (a, b) { return parseInt(a.slice(1)) - parseInt(b.slice(1)); }).join(" · ");
@@ -803,30 +805,19 @@
       var multi = o.list.length > Object.keys(c).length;
       return ORDER.map(function (id) { return SHORT(ALL[id]); }).filter(function (s2) { return c[s2]; }).map(function (s2) { return multi ? s2 + " " + c[s2] : s2; }).join(" · ");
     };
-    var COLS = [["entered", enteredLabel], ["starts", "Starts"], ["titles", "Titles"], ["points", "Points"]];
-    var h = readHash();
-    var state = { sort: COLS.some(function (c) { return c[0] === h.sort; }) ? h.sort : "titles" };
-    function render() {
-      writeHash(state.sort === "titles" ? {} : state);
-      var k = state.sort;
-      var rows = all.slice().sort(function (a, b) { return b[k] - a[k] || b.titles - a.titles || b.points - a.points || b.starts - a.starts || a.name.localeCompare(b.name); });
-      $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Team</th>' + COLS.map(function (c) {
-        var on = c[0] === k;
-        return '<th scope="col" class="r" aria-sort="' + (on ? "descending" : "none") + '"><button type="button" class="sortbtn' + (on ? " on" : "") + '" data-sort="' + c[0] + '">' + c[1] + (on ? " ▾" : "") + "</button></th>";
-      }).join("") + "</tr>";
-      var prev = null, pos = 0;
-      $("rows").innerHTML = rows.map(function (o, i) {
-        var key = [o[k], o.titles, o.points, o.starts].join("|");
-        if (key !== prev) pos = i + 1; prev = key;
-        var td = function (c, html) { return '<td class="t r' + (k === c ? " hot" : "") + '">' + html + "</td>"; };
-        return '<tr class="' + (pos <= 3 ? "podium" : "") + '"><td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
-          '<td><div class="driver nowrap">' + tbar(o.name) + esc(o.name) + '</div><div class="sub nowrap" style="color:var(--dim)">' + esc(subList(o)) + "</div></td>" +
-          td("entered", o.entered) + td("starts", o.starts) + td("titles", o.titles || '<span class="none">0</span>') +
-          '<td class="r"><span class="points">' + o.points + "</span></td></tr>";
-      }).join("");
-    }
-    document.addEventListener("click", function (e) { var b = e.target.closest("button.sortbtn"); if (!b) return; state.sort = b.dataset.sort; render(); });
-    render();
+    // Ranked by titles, then points (like Drivers' Titles): big Titles number, a tag for every title won, then series/seasons entered and points.
+    var rows = all.slice().sort(function (a, b) { return b.titles - a.titles || b.points - a.points || a.name.localeCompare(b.name); });
+    $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Team</th><th scope="col" class="r">Titles</th><th scope="col">Titles won</th><th scope="col" class="r">' + enteredLabel + '</th><th scope="col" class="r">Points</th></tr>';
+    var prev = null, pos = 0;
+    $("rows").innerHTML = rows.map(function (o, i) {
+      if (o.titles !== prev) pos = i + 1; prev = o.titles;
+      var won = o.won.slice().sort(function (a, b) { return b.season - a.season || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99); });
+      return '<tr class="' + (pos <= 3 ? "podium" : "") + '"><td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
+        '<td><div class="driver nowrap' + (pos === 1 && o.titles ? " champion" : "") + '">' + tbar(o.name) + esc(o.name) + '</div><div class="sub nowrap" style="color:var(--dim)">' + esc(subList(o)) + "</div></td>" +
+        '<td class="r"><span class="points">' + (o.titles || '<span class="none">0</span>') + "</span></td>" +
+        '<td class="tagwrap">' + (won.length ? won.map(tag).join("") : '<span class="none">—</span>') + "</td>" +
+        '<td class="t r">' + o.entered + '</td><td class="t r" style="color:var(--muted)">' + o.points + "</td></tr>";
+    }).join("");
     $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Team champions</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
     $("rows2").innerHTML = champs.map(function (c) {
       var w = c.tab[0], r2 = c.tab[1];
