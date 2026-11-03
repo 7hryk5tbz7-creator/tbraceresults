@@ -1,6 +1,41 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 7 – club's Season 7 team standings (checked 3 Nov 2026; kept as the sheet – club decision).
+  // All three series 15-14-13…0, Privateers scored as a team. Team RNR = MC Motorsport on Teams' Titles.
+  "wrx-evo-gr4-s7": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [42, 42, 42, 37, 42, 39, 41, 41, 42, 41],
+      "Mad Turtle Racing": [29, 33, 30, 31, 27, 32, 21, 25, 27, 24],
+      "Triple R Motorsport": [12, 17, 19, 13, 18, 15, 15, 20, 22, 21],
+      "Privateer": [9, 7, 8, 11, 18, 19, 28, 24, 8, 13],
+      "Team RNR": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  },
+  "narly-cup-s7": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [39, 41, 34, 35, 35, 31, 32, 41, 41, 37],
+      "Mad Turtle Racing": [32, 34, 38, 37, 38, 42, 40, 31, 34, 36],
+      "Triple R Motorsport": [7, 22, 27, 20, 25, 19, 27, 24, 17, 19],
+      "Privateer": [21, 8, 6, 18, 15, 18, 15, 9, 13, 7],
+      "Team RNR": [6, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  },
+  "gt3-endurance-s7": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Mad Turtle Racing": [38, 34, 27, 36, 38, 36, 40, 28, 29, 35],
+      "Triple R Motorsport": [27, 32, 30, 26, 36, 28, 22, 21, 29, 30],
+      "Team RNR": [26, 29, 29, 30, 18, 20, 21, 35, 24, 29],
+      "Roadsick Racing": [14, 10, 28, 12, 17, 24, 24, 21, 18, 15],
+      "Privateer": [5, 5, 6, 13, 8, 9, 10, 12, 17, 5]
+    }
+  },
   // GT7 Season 8 – club's Season 8 team standings (checked 3 Nov 2026; kept as the sheet – club decision).
   // Tuesday (ETC) was a MANUFACTURERS' championship (drivers picked a car and scored for AMG, Ford or BMW): shown in the Season 8
   // standings only, NOT counted on Teams' Titles / Team Records (club). No car-per-driver data, so it can't be checked.
