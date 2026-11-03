@@ -1,6 +1,43 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 8 – club's Season 8 team standings (checked 3 Nov 2026; kept as the sheet – club decision).
+  // Tuesday (ETC) was a MANUFACTURERS' championship (drivers picked a car and scored for AMG, Ford or BMW): shown in the Season 8
+  // standings only, NOT counted on Teams' Titles / Team Records (club). No car-per-driver data, so it can't be checked.
+  "wrx-evo-gr4-s8": {
+    scale: 9,
+    manufacturers: true,
+    note: "Season 8 Tuesday was a manufacturers' championship: drivers picked a car and scored for its manufacturer. It does not count towards team records or Teams' Titles.",
+    teams: {
+      "AMG": [23, 22, 22, 20, 18, 23, 22, 24, 24, 12],
+      "Ford": [16, 17, 17, 13, 17, 9, 15, 11, 9, 24],
+      "BMW": [6, 6, 6, 12, 10, 13, 8, 10, 12, 9]
+    }
+  },
+  // Narly Cup 15-14-13…0 (Privateers scored as a team; sheet kept – Triple R / Privateer differ from the drivers' results in R1, R3, R6–R9).
+  // WJF 18-17-16…0 (Privateers scored as a team; Team RNR = MC Motorsport; sheet kept – Privateer R3 26 vs 29, Roadsick R9 22 vs 26).
+  "narly-cup-s8": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [42, 42, 40, 42, 38, 40, 42, 40, 39, 40],
+      "Mad Turtle Racing": [28, 31, 33, 30, 37, 35, 30, 31, 35, 35],
+      "Triple R Motorsport": [25, 26, 11, 22, 17, 9, 27, 21, 18, 0],
+      "Privateer": [10, 6, 21, 11, 0, 8, 6, 7, 7, 0]
+    }
+  },
+  "gt3-endurance-s8": {
+    scale: 18,
+    privateersScore: true,
+    teams: {
+      "Team RNR": [33, 50, 42, 27, 49, 44, 37, 42, 49, 49],
+      "Mad Turtle Racing": [43, 36, 42, 42, 39, 34, 40, 37, 41, 39],
+      "Gerbil Racing Team": [21, 18, 21, 28, 22, 33, 32, 32, 25, 34],
+      "Roadsick Racing": [40, 24, 10, 32, 20, 25, 22, 10, 22, 8],
+      "Triple R Motorsport": [20, 13, 24, 22, 20, 10, 18, 15, 15, 24],
+      "Privateer": [14, 30, 26, 17, 20, 19, 19, 14, 9, 7]
+    }
+  },
   // GT7 Season 9 – club's Season 9 team championship standings (checked 3 Nov 2026; kept as the sheet – club decision).
   // Tuesday and Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored only in the WJF Trophy. All-zero rows with no starters left out
   // (Tuesday MC, Gerbil, Privateer; Narly MC, Privateer). WJF R3: only six classified finishers scored (the rest were on 5 points).
@@ -334,4 +371,11 @@ window.TEAM_CHAMPS = {
       "Roadsick Racing": [18, 21, 0, 5, 24, 10, 0, 6, 0, 0]
     }
   }
+};
+
+// Manufacturer colours (Season 8 Tuesday): two-colour bars where needed.
+window.MANUFACTURER_COLOURS = {
+  "AMG": "#C3C8CF",
+  "Ford": "linear-gradient(180deg, #1F5FD0 50%, #FFFFFF 50%)",
+  "BMW": "linear-gradient(180deg, #1C69D4 50%, #E22718 50%)"
 };
