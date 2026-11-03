@@ -1,6 +1,35 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 18 (current) – club's "Trailblazers S18 Team Championship Standings" after Round 4 (checked 3 Nov 2026).
+  // Keyed by the current-season ids; in progress, so not counted on the Teams' Titles page until the season is final.
+  "wrx-evo-gr4": {
+    scale: 9,
+    teams: {
+      "Roadsick Racing": [14, 24, 16, 24],
+      "Triple R Motorsport": [19, 15, 15, 12],
+      "Mad Turtle Racing": [12, 6, 14, 8]
+    }
+  },
+  "narly-cup": {
+    scale: 12,
+    teams: {
+      "Roadsick Racing": [30, 33, 23, 26],
+      "Mad Turtle Racing": [24, 23, 26, 31],
+      "Triple R Motorsport": [13, 14, 19, 5],
+      "Gerbil Racing Team": [5, 5, 4, 6]
+    }
+  },
+  "gt3-endurance": {
+    scale: 15,
+    teams: {
+      "Mad Turtle Racing": [36, 33, 31, 39],
+      "Triple R Motorsport": [27, 31, 36, 17],
+      "MC Motorsport": [14, 29, 15, 15],
+      "Gerbil Racing Team": [16, 12, 0, 23],
+      "Roadsick Racing": [21, 9, 10, 11]
+    }
+  },
   // GT7 Season 11 – club's "Trailblazers Season 11 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
   // Tuesday and Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored as a team in the Tuesday Series (WJF Privateer row all 0 – left out).
   "wrx-evo-gr4-s11": {

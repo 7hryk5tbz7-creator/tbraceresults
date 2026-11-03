@@ -768,7 +768,7 @@
   }
 
   function teamTitlesPage() {
-    var keys = Object.keys(TC).filter(function (k) { return ALL[k] && (SCOPE_ALL || groupOf(ALL[k]) === BASE.id); })
+    var keys = Object.keys(TC).filter(function (k) { return ALL[k] && ALL[k].final && (SCOPE_ALL || groupOf(ALL[k]) === BASE.id); })
       .sort(function (a, b) { return (ALL[b].season || 18) - (ALL[a].season || 18) || (baseOf(ALL[b]).navOrder || 0) - (baseOf(ALL[a]).navOrder || 0); });
     var map = {}, champs = [];
     var get = function (n) { return map[n] || (map[n] = { name: n, entered: 0, list: [], starts: 0, titles: 0, points: 0, won: [] }); };
@@ -844,20 +844,21 @@
     var c = TC[S.id], tab = tcTable(S, S.id), n = tab[0].pts.length, rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
     var notRun = c.notRun || [];
     if ($("h1title")) $("h1title").textContent = "Team Standings";
-    $("eyebrow").textContent = S.eyebrow + " · Final standings";
+    var live = !S.final;
+    $("eyebrow").textContent = S.eyebrow + (live ? " · After Round " + n : " · Final standings");
     $("meta").textContent = tab.length + " teams · best three drivers score each round · " + c.scale + "-" + (c.scale - 1) + "-" + (c.scale - 2) + "…0";
     document.title = "Team Standings · " + S.navLabel + " Season " + S.season + " · TB Race Results";
     $("teamFilter").parentNode.hidden = true;
     $("key").innerHTML = '<span><span class="rp p1" style="min-width:20px">&nbsp;</span> <span class="rp p2" style="min-width:20px">&nbsp;</span> <span class="rp p3" style="min-width:20px">&nbsp;</span> = top three teams in the round</span>';
     $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. " + (c.privateersScore ? "This season Privateers took points places and scored together as \u201cPrivateer\u201d (shown here, but not a team on the Teams\u2019 Titles page)." : "Privateers don't score and don't take a points place.") + " Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
-    $("source").textContent = "Team standings as published by the club.";
+    $("source").textContent = live ? "Team standings as published by the club after Round " + n + "." : "Team standings as published by the club.";
     var rank = rounds.map(function (r) {
       var vals = tab.map(function (t) { return t.pts[r - 1]; });
       return tab.map(function (t) { var v = t.pts[r - 1]; return v > 0 ? 1 + vals.filter(function (w) { return w > v; }).length : 0; });
     });
     var champ = tab[0];
     // Podium boxes: champions, 2nd, 3rd – points and round wins (round wins = rounds where the team had the best score).
-    var MEDAL = ["var(--gold)", "var(--silver)", "var(--bronze)"], LBL = ["Team champions", "2nd", "3rd"];
+    var MEDAL = ["var(--gold)", "var(--silver)", "var(--bronze)"], LBL = [live ? "Leaders" : "Team champions", "2nd", "3rd"];
     $("tiles").innerHTML = tab.slice(0, 3).map(function (t, i) {
       var w = t.pts.filter(function (v, r) { return notRun.indexOf(r + 1) < 0 && rank[r][tab.indexOf(t)] === 1; }).length;
       return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '"><div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px"><span class="bar" style="background:' + teamColour(t.name) + ';height:22px"></span>' + esc(t.name) + '</div><div class="sub">' + t.total + " pts · " + w + " round win" + (w === 1 ? "" : "s") + "</div></div>";
@@ -868,7 +869,7 @@
     $("rows").innerHTML = tab.map(function (t, i) {
       var p = i + 1;
       return '<tr class="' + (p <= 3 ? "podium" : "") + '"><td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + p + "</span></td>" +
-        '<td><div class="driver nowrap' + (p === 1 ? " champion" : "") + '">' + tbar(t.name) + esc(t.name) + (p === 1 ? ' <span class="crown">Champions</span>' : "") + "</div></td>" +
+        '<td><div class="driver nowrap' + (p === 1 ? " champion" : "") + '">' + tbar(t.name) + esc(t.name) + (p === 1 && !live ? ' <span class="crown">Champions</span>' : "") + "</div></td>" +
         t.pts.map(function (v, r) { var k = rank[r][i]; return '<td class="c">' + (notRun.indexOf(r + 1) >= 0 ? '<span class="np" title="Round not run">NP</span>' : k && k <= 3 ? '<span class="rp p' + k + '">' + v + "</span>" : '<span class="t">' + v + "</span>") + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + (p === 1 ? "–" : "−" + (champ.total - t.total)) + '</td><td class="r"><span class="points">' + t.total + "</span></td></tr>";
     }).join("");
