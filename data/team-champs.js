@@ -1,6 +1,39 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 6 – club's Season 6 team standings, 8 rounds (checked 3 Nov 2026; kept as the sheet – club decision).
+  // All three series 15-14-13…0. Privateers scored as a team in the Tuesday Series and WJF (not the Narly Cup). Team RNR = MC Motorsport on Teams' Titles.
+  "wrx-evo-gr4-s6": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Roadsick Racing": [38, 37, 32, 42, 34, 36, 36, 38],
+      "Triple R Motorsport": [32, 26, 36, 27, 26, 23, 39, 27],
+      "Mad Turtle Racing": [21, 33, 24, 30, 33, 11, 15, 27],
+      "Team RNR": [19, 14, 14, 6, 15, 35, 15, 18],
+      "Privateer": [9, 4, 8, 0, 6, 0, 0, 0]
+    }
+  },
+  "narly-cup-s6": {
+    scale: 15,
+    teams: {
+      "Roadsick Racing": [42, 40, 15, 41, 27, 29, 29, 41],
+      "Mad Turtle Racing": [30, 24, 25, 21, 33, 20, 18, 33],
+      "Team RNR": [12, 24, 23, 22, 23, 32, 32, 10],
+      "Triple R Motorsport": [25, 11, 29, 15, 9, 11, 20, 8]
+    }
+  },
+  "gt3-endurance-s6": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Mad Turtle Racing": [33, 32, 35, 32, 30, 25, 40, 37],
+      "Team RNR": [33, 38, 25, 26, 33, 32, 27, 26],
+      "Roadsick Racing": [31, 17, 26, 32, 19, 31, 24, 31],
+      "Triple R Motorsport": [17, 23, 19, 14, 26, 16, 19, 19],
+      "Privateer": [5, 9, 0, 15, 6, 15, 4, 4]
+    }
+  },
   // GT7 Season 7 – club's Season 7 team standings (checked 3 Nov 2026; kept as the sheet – club decision).
   // All three series 15-14-13…0, Privateers scored as a team. Team RNR = MC Motorsport on Teams' Titles.
   "wrx-evo-gr4-s7": {
