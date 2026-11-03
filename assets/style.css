@@ -288,3 +288,4 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 .home .card .two .lb div { gap: 7px; }
 .home .card .two .nm { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .home .card .two .pts { font-size: 12px; }
+body[data-page="teamtitles"] .tagwrap { min-width: 250px; }
