@@ -1,6 +1,42 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 4 – club's Season 4 team standings (checked 3 Nov 2026; kept as the sheet – club decision).
+  // All three series 15-14-13…0, Privateers scored as a team. Tuesday: Roadsick (Colin_t24, Kezaudio) not scored. Team RSR = MC Motorsport on Teams' Titles.
+  "wrx-evo-gr4-s4": {
+    scale: 15,
+    privateersScore: true,
+    note: "Roadsick Racing's drivers weren't scored in this championship, as on the club's sheet.",
+    teams: {
+      "Mad Turtle Racing": [27, 39, 28, 37, 35, 25, 34, 34, 38, 38],
+      "Triple R Motorsport": [38, 24, 33, 28, 24, 38, 33, 34, 25, 31],
+      "Privateer": [34, 36, 38, 34, 40, 36, 32, 31, 36, 30]
+    }
+  },
+  "narly-cup-s4": {
+    scale: 15,
+    privateersScore: true,
+    notRun: [6],
+    note: "Round 6 was not run.",
+    teams: {
+      "Triple R Motorsport": [36, 34, 30, 20, 34, 0, 41, 34, 33, 29],
+      "Roadsick Racing": [26, 32, 32, 34, 31, 0, 10, 35, 36, 15],
+      "Mad Turtle Racing": [25, 23, 16, 21, 32, 0, 30, 27, 25, 37],
+      "Team RSR": [11, 20, 4, 19, 6, 0, 9, 5, 5, 6],
+      "Privateer": [22, 10, 32, 25, 16, 0, 15, 13, 15, 27]
+    }
+  },
+  "gt3-endurance-s4": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Mad Turtle Racing": [18, 29, 28, 25, 30, 25, 27, 28, 36, 38],
+      "Team RSR": [21, 25, 28, 28, 41, 27, 39, 34, 28, 9],
+      "Triple R Motorsport": [23, 34, 25, 26, 22, 30, 23, 32, 32, 29],
+      "Roadsick Racing": [25, 25, 28, 30, 15, 24, 13, 10, 9, 22],
+      "Privateer": [33, 7, 11, 11, 11, 14, 12, 15, 14, 21]
+    }
+  },
   // GT7 Season 6 – club's Season 6 team standings, 8 rounds (checked 3 Nov 2026; kept as the sheet – club decision).
   // All three series 15-14-13…0. Privateers scored as a team in the Tuesday Series and WJF (not the Narly Cup). Team RNR = MC Motorsport on Teams' Titles.
   "wrx-evo-gr4-s6": {

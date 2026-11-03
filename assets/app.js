@@ -856,7 +856,9 @@
   });
 
   function teamStandingsPage() {
-    var c = TC[S.id], tab = tcTable(S, S.id), n = tab[0].pts.length, rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
+    var c = TC[S.id], all = tcTable(S, S.id), n = all[0].pts.length, rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
+    // Privateers aren't a team: listed below the teams, without a position, and left out of the round places.
+    var priv = all.filter(function (t) { return t.name === "Privateer"; }), tab = all.filter(function (t) { return t.name !== "Privateer"; });
     var notRun = c.notRun || [];
     var manu = !!c.manufacturers;
     if ($("h1title")) $("h1title").textContent = manu ? "Manufacturer Standings" : "Team Standings";
@@ -867,7 +869,7 @@
     $("teamFilter").parentNode.hidden = true;
     $("key").innerHTML = '<span><span class="rp p1" style="min-width:20px">&nbsp;</span> <span class="rp p2" style="min-width:20px">&nbsp;</span> <span class="rp p3" style="min-width:20px">&nbsp;</span> = top three ' + (manu ? "manufacturers" : "teams") + ' in the round</span>';
     if (manu) { $("rules").textContent = (c.note || "") + " Points as published by the club. Gold, silver and bronze = the top three manufacturers in each round."; }
-    else $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. " + "A DC (disconnected) finish doesn't score team points. " + (c.privateersScore ? "This season Privateers took points places and scored together as \u201cPrivateer\u201d (shown here, but not a team on the Teams\u2019 Titles page)." : "Privateers don't score and don't take a points place.") + " Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
+    else $("rules").textContent = "Each round a team's best three drivers score: " + c.scale + " points for the highest-placed scoring driver, then " + (c.scale - 1) + ", " + (c.scale - 2) + " … down to 0. " + "A DC (disconnected) finish doesn't score team points. " + (c.privateersScore ? "This season Privateers took points places and scored together as \u201cPrivateer\u201d \u2013 shown below the teams without a position; they can\u2019t win the team title or a round, and aren\u2019t a team on the Teams\u2019 Titles page." : "Privateers don't score and don't take a points place.") + " Gold, silver and bronze = the top three teams in each round." + (c.note ? " " + c.note : "");
     $("source").textContent = live ? "Team standings as published by the club after Round " + n + "." : "Team standings as published by the club.";
     var rank = rounds.map(function (r) {
       var vals = tab.map(function (t) { return t.pts[r - 1]; });
@@ -889,6 +891,10 @@
         '<td><div class="driver nowrap' + (p === 1 ? " champion" : "") + '">' + tbar(t.name) + esc(t.name) + (p === 1 && !live ? ' <span class="crown">Champions</span>' : "") + "</div></td>" +
         t.pts.map(function (v, r) { var k = rank[r][i]; return '<td class="c">' + (notRun.indexOf(r + 1) >= 0 ? '<span class="np" title="Round not run">NP</span>' : k && k <= 3 ? '<span class="rp p' + k + '">' + v + "</span>" : '<span class="t">' + v + "</span>") + "</td>"; }).join("") +
         '<td class="t r" style="color:var(--muted)">' + (p === 1 ? "–" : "−" + (champ.total - t.total)) + '</td><td class="r"><span class="points">' + t.total + "</span></td></tr>";
+    }).join("") + priv.map(function (t) {
+      return '<tr class="priv"><td><span class="chip">–</span></td><td><div class="driver nowrap">' + tbar(t.name) + esc(t.name) + ' <span class="sub" style="color:var(--dim)">not a team</span></div></td>' +
+        t.pts.map(function (v, r) { return '<td class="c">' + (notRun.indexOf(r + 1) >= 0 ? '<span class="np" title="Round not run">NP</span>' : '<span class="t">' + v + "</span>") + "</td>"; }).join("") +
+        '<td class="t r" style="color:var(--muted)">–</td><td class="r"><span class="points">' + t.total + "</span></td></tr>";
     }).join("");
   }
 
