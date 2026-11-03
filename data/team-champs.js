@@ -1,6 +1,39 @@
 // Team championships (published club figures). Key = season data id. scale = points for the top scoring driver each round (… down to 0).
 // Each round a team's best three drivers score; Privateers don't score or take a place. Figures as published by the club.
 window.TEAM_CHAMPS = {
+  // GT7 Season 9 – club's Season 9 team championship standings (checked 3 Nov 2026; kept as the sheet – club decision).
+  // Tuesday and Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored only in the WJF Trophy. All-zero rows with no starters left out
+  // (Tuesday MC, Gerbil, Privateer; Narly MC, Privateer). WJF R3: only six classified finishers scored (the rest were on 5 points).
+  "wrx-evo-gr4-s9": {
+    scale: 15,
+    teams: {
+      "Roadsick Racing": [37, 42, 39, 37, 36, 41, 39, 35, 37, 37],
+      "Mad Turtle Racing": [38, 33, 36, 38, 39, 34, 36, 40, 36, 38],
+      "Triple R Motorsport": [9, 17, 17, 17, 17, 17, 17, 9, 15, 17]
+    }
+  },
+  "narly-cup-s9": {
+    scale: 15,
+    teams: {
+      "Roadsick Racing": [40, 42, 42, 42, 40, 42, 40, 42, 40, 42],
+      "Mad Turtle Racing": [32, 31, 30, 29, 31, 32, 35, 33, 35, 30],
+      "Gerbil Racing Team": [21, 14, 17, 18, 24, 23, 21, 17, 11, 16],
+      "Triple R Motorsport": [21, 23, 25, 10, 15, 13, 9, 18, 24, 17]
+    }
+  },
+  "gt3-endurance-s9": {
+    scale: 18,
+    privateersScore: true,
+    note: "Round 3: only the six classified finishers scored team points.",
+    teams: {
+      "Mad Turtle Racing": [40, 38, 16, 38, 47, 38, 42, 51, 51, 44],
+      "MC Motorsport": [44, 29, 0, 42, 44, 48, 48, 31, 33, 17],
+      "Gerbil Racing Team": [28, 28, 32, 24, 28, 33, 36, 33, 34, 33],
+      "Triple R Motorsport": [22, 17, 28, 19, 24, 21, 24, 28, 24, 34],
+      "Roadsick Racing": [22, 43, 17, 27, 13, 16, 6, 13, 19, 22],
+      "Privateer": [12, 0, 0, 15, 0, 0, 0, 0, 0, 0]
+    }
+  },
   // GT7 Season 10 – club's "Trailblazers Season 10 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision,
   // except Tuesday Round 6: the sheet's 27 sat on Gerbil's row – no Gerbil driver raced that round, so it is Triple R's (club, 3 Nov)).
   // Tuesday 18-17-16…0, Narly Cup 15-14-13…0, WJF 18-17-16…0. Privateers scored as a team in all three series. Narly MC row (all 0, no starters) left out.
