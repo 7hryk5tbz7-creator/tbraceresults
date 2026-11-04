@@ -825,7 +825,7 @@ window.SEASON_TEAMS[6] = {
   "M_Waseem-007": "Privateer"
 };
 
-// Season 5 (club's Season 5 entry list, all three series; NWR_NICO71, MasoMarvel87 Privateer and Zippy_Nathman Triple R confirmed).
+// Season 5 (club's Season 5 entry list, all three series; MasoMarvel87 Privateer and Zippy_Nathman Triple R confirmed). Changed 4 Nov 2026 to match the club's Season 5 team championship sheet: Yoda_Raptor Triple R; STAFTURBO, hazza5432, K3N-MUTT Privateer; NWR_NICO71, Zorrow1234, Budsy76 Team RNR; SpeedySnoopyAU Roadsick.
 // Drivers not on the list are Privateer until Season 4 data arrives (club's decision).
 window.SEASON_TEAMS[5] = {
   "Tim_turtle_79": "Mad Turtle Racing",
@@ -848,7 +848,7 @@ window.SEASON_TEAMS[5] = {
   "bummiecakes": "Privateer",
   "rorycalhoon": "Privateer",
   "MRT_KPH2020": "Privateer",
-  "NWR_NICO71": "Privateer",
+  "NWR_NICO71": "Team RNR" /* club, 4 Nov 2026 (team championship sheet) */,
   "CamaroKidGP": "Privateer",
   "SquatBenchDeadli": "Privateer",
   "Bentstik_7": "Privateer",
@@ -871,7 +871,7 @@ window.SEASON_TEAMS[5] = {
   "TimDiragz": "Privateer",
   "bogzlR": "Privateer",
   "Mickcliff": "Privateer",
-  "STAFTURBO": "Triple R Motorsport",
+  "STAFTURBO": "Privateer" /* club, 4 Nov 2026 (team championship sheet) */,
   "MrDonovan": "Triple R Motorsport",
   "Trickybrewer": "Triple R Motorsport",
   "ricreene": "Triple R Motorsport",
@@ -880,7 +880,7 @@ window.SEASON_TEAMS[5] = {
   "Soulslayer_71": "Triple R Motorsport",
   "Zippy_Nathman": "Triple R Motorsport",
   "DanZambe": "Triple R Motorsport",
-  "K3N-MUTT": "Triple R Motorsport",
+  "K3N-MUTT": "Privateer" /* club, 4 Nov 2026 (team championship sheet) */,
   "S7R_Ando787": "Roadsick Racing",
   "Colin_t24": "Roadsick Racing",
   "Spannshouse": "Roadsick Racing",
@@ -899,16 +899,16 @@ window.SEASON_TEAMS[5] = {
   "Wrestler0909": "Team RNR",
   "allaussie": "Team RNR",
   "N-spud-P666": "Team RNR",
-  "Yoda_Raptor": "Privateer",
-  "hazza5432": "Team RNR" /* confirmed by the club */,
+  "Yoda_Raptor": "Triple R Motorsport" /* club, 4 Nov 2026 (team championship sheet) */,
+  "hazza5432": "Privateer" /* club, 4 Nov 2026 (team championship sheet) */,
   "DK666_Racing": "Privateer",
   "IronValkyrie": "Privateer",
   // WJF Trophy drivers not on the list (Privateer until Season 4 data arrives); bogzIR = bogzlR
   "Rollscanhardly": "Mad Turtle Racing" /* confirmed by the club */,
-  "Zorrow1234": "Privateer",
+  "Zorrow1234": "Team RNR" /* club, 4 Nov 2026 (team championship sheet) */,
   "M_Waseem-007": "Privateer",
-  "Budsy76": "Privateer",
-  "SpeedySnoopyAU": "Privateer",
+  "Budsy76": "Team RNR" /* club, 4 Nov 2026 (team championship sheet) */,
+  "SpeedySnoopyAU": "Roadsick Racing" /* club, 4 Nov 2026 (team championship sheet) */,
   "bogzIR": "Privateer"
 };
 

@@ -37,6 +37,43 @@ window.TEAM_CHAMPS = {
       "Privateer": [33, 7, 11, 11, 11, 14, 12, 15, 14, 21]
     }
   },
+  // GT7 Season 5 – club's Season 5 team standings (checked 4 Nov 2026; kept as the sheet – club decision, except Narly R6 corrected).
+  // All three series 15-14-13…0, Privateers scored as a team. Team RNR = MC Motorsport on Teams' Titles.
+  "wrx-evo-gr4-s5": {
+    scale: 15,
+    privateersScore: true,
+    note: "Team RNR's Rounds 1–4 are 0 as on the club's sheet.",
+    teams: {
+      "Roadsick Racing": [36, 28, 15, 35, 29, 42, 35, 27, 40, 25],
+      "Mad Turtle Racing": [39, 33, 38, 30, 25, 26, 25, 22, 32, 36],
+      "Triple R Motorsport": [24, 25, 23, 13, 25, 19, 20, 26, 20, 21],
+      "Team RNR": [0, 0, 0, 0, 4, 3, 3, 0, 0, 0],
+      "Privateer": [15, 24, 27, 34, 31, 27, 34, 35, 18, 23]
+    }
+  },
+  "narly-cup-s5": {
+    scale: 15,
+    privateersScore: true,
+    note: "Round 6: the club's sheet had 13 of Roadsick's points (Kezaudio, P-Toots) on Team RNR's row – corrected.",
+    teams: {
+      "Mad Turtle Racing": [36, 27, 19, 33, 35, 30, 26, 20, 33, 33],
+      "Triple R Motorsport": [31, 37, 30, 30, 34, 27, 22, 21, 20, 24],
+      "Roadsick Racing": [25, 15, 29, 21, 15, 28, 29, 41, 24, 13],
+      "Team RNR": [5, 13, 13, 14, 0, 14, 13, 10, 15, 14],
+      "Privateer": [13, 7, 8, 12, 0, 11, 9, 0, 0, 0]
+    }
+  },
+  "gt3-endurance-s5": {
+    scale: 15,
+    privateersScore: true,
+    teams: {
+      "Mad Turtle Racing": [36, 35, 33, 42, 40, 37, 33, 32, 34, 38],
+      "Team RNR": [24, 22, 23, 27, 26, 28, 29, 23, 33, 20],
+      "Triple R Motorsport": [25, 28, 25, 19, 25, 33, 28, 22, 19, 17],
+      "Roadsick Racing": [29, 25, 25, 11, 14, 7, 15, 37, 13, 24],
+      "Privateer": [6, 10, 11, 15, 5, 12, 9, 5, 0, 6]
+    }
+  },
   // GT7 Season 6 – club's Season 6 team standings, 8 rounds (checked 3 Nov 2026; kept as the sheet – club decision).
   // All three series 15-14-13…0. Privateers scored as a team in the Tuesday Series and WJF (not the Narly Cup). Team RNR = MC Motorsport on Teams' Titles.
   "wrx-evo-gr4-s6": {
