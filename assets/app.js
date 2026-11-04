@@ -979,7 +979,14 @@
     $("eyebrow").textContent = "Season " + season + (after ? " · after Round " + after : "");
     var CAL = window.CALENDAR, nr = CAL && CAL.season === season ? CAL.rounds.filter(function (r) { return r.no === after + 1; })[0] : null;
     if (nr) {
-      $("next").innerHTML = '<div><div class="k">Next up · Round ' + nr.no + '</div><div class="t">' + esc(nr.track) + '</div></div><div class="d">' + nr.dates.map(function (d, i) { var x = cur[i]; return '<a class="nd" href="' + (x ? x.pages.results : "#") + '"><small>' + esc(x ? x.navLabel : "") + "</small>" + esc(d) + "</a>"; }).join("") + "</div>";
+      $("next").innerHTML = '<div><div class="k">Next up · Round ' + nr.no + '</div><div class="t">' + esc(nr.track) + '</div></div><div class="d">' + nr.dates.map(function (d, i) {
+        var x = cur[i];
+        // Once a series has run this round: green box, tick and the winner (top lobby), linking to that round's results.
+        var res = x && (x.rounds || []).filter(function (r) { return r.no === nr.no; })[0];
+        var win = res && (res.rows.filter(function (y) { return y[5] === "Winner"; })[0] || res.rows[0]);
+        if (res) return '<a class="nd done" href="' + x.pages.results + "#round=" + nr.no + '"><small>' + esc(x.navLabel) + '</small><span><span class="ok" aria-label="Done">\u2713</span>' + esc(d) + "</span>" + (win ? '<span class="w">Won by ' + esc(win[0]) + "</span>" : "") + "</a>";
+        return '<a class="nd" href="' + (x ? x.pages.results : "#") + '"><small>' + esc(x ? x.navLabel : "") + "</small>" + esc(d) + "</a>";
+      }).join("") + "</div>";
     } else $("next").hidden = true;
     var DAY = { "wrx-evo-gr4": "Tuesday", "narly-cup": "Thursday", "gt3-endurance": "Friday" };
     var MEM = { "narly-cup": "In memory of Cav Bennett (NarlyDude71)", "gt3-endurance": "In memory of Wayne Fraser (WJF73)" };
