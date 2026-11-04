@@ -613,8 +613,8 @@
   // top-3 finish by its drivers; titles = this series' driver championships won by its drivers.
   // Each driver counts for the team they raced for in that season. Privateers are left out.
   function teamRecordsPage() {
-    // Team data applies from GT7 Season 4 (club decision); Seasons 1–3 are left out of team records.
-    var seasons = RSEASONS.filter(function (x) { return x.standings && (x.season || 18) >= 4; });
+    // Team records count every season on the site (GT7 Seasons 1–18); team titles count from Season 4 (Teams' Titles page).
+    var seasons = RSEASONS.filter(function (x) { return x.standings; });
     var CT = window.CLUB_TEAMS || {}, DT = window.DRIVER_TEAMS || {};
     var started = function (v) { v = String(v || ""); return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; };
     var map = {}, rounds = 0, formerly = {};
@@ -675,7 +675,7 @@
     var noteBox = $("teamNote");
     if (!noteBox && notes.length) { noteBox = document.createElement("div"); noteBox.id = "teamNote"; $("rules").parentNode.insertBefore(noteBox, $("rules")); }
     if (noteBox) noteBox.innerHTML = notes.join("<br>");
-    $("rules").textContent = "Team records cover GT7 Seasons 4\u201318 \u2013 team data applies from Season 4; Seasons 1\u20133 are not included. " + (SCOPE_ALL ? "All Time adds together all three series: Tuesday Series, Narly Cup and WJF Trophy" : "Records cover every season of this series from Season 4") + after + ". Starts: one per team for every round in which at least one of its drivers started (including DC, RGQ, DNF, DQ and CC), however many of its drivers raced; DNS, WTD (withdrawn) and rounds that weren't run don't count. Wins and podiums: every win and top-3 finish by the team's drivers, so two drivers on the podium in one round is two podiums. Win % = wins ÷ starts. Drivers' titles = " + (SCOPE_ALL ? "driver championships in all three series" : BASE.navLabel + " driver championships") + " won by the team's drivers. Each driver counts for the team they raced for in that season. Privateers and drivers with no team on record are not included. Teams are ranked by wins, then podiums, then drivers' titles, then starts.";
+    $("rules").textContent = "Team records cover every season on the site, GT7 Seasons 1\u201318 (team championship titles count from Season 4 \u2013 see Teams\u2019 Titles). " + (SCOPE_ALL ? "All Time adds together all three series: Tuesday Series, Narly Cup and WJF Trophy" : "Records cover every season of this series on the site") + after + ". Starts: one per team for every round in which at least one of its drivers started (including DC, RGQ, DNF, DQ and CC), however many of its drivers raced; DNS, WTD (withdrawn) and rounds that weren't run don't count. Wins and podiums: every win and top-3 finish by the team's drivers, so two drivers on the podium in one round is two podiums. Win % = wins ÷ starts. Drivers' titles = " + (SCOPE_ALL ? "driver championships in all three series" : BASE.navLabel + " driver championships") + " won by the team's drivers. Each driver counts for the team they raced for in that season. Privateers and drivers with no team on record are not included. Teams are ranked by wins, then podiums, then drivers' titles, then starts.";
 
     var top = function (key) {
       var best = all.slice().sort(function (a, b) { return b[key] - a[key] || b.wins - a.wins || a.name.localeCompare(b.name); });
