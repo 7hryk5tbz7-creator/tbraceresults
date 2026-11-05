@@ -295,3 +295,7 @@ body[data-page="calendar"] .subnav { font-size: 16px; letter-spacing: 0.05em; ga
 .home .card .two .nm { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .home .card .two .pts { font-size: 12px; }
 body[data-page="teamtitles"] .tagwrap { min-width: 250px; }
+/* Provisional note (pending stewards' reviews) */
+.provnote { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; border: 1px solid rgba(224,163,58,.6); background: rgba(224,163,58,.10); border-radius: 8px; padding: 8px 14px; margin: 0 0 14px; width: fit-content; max-width: 100%; }
+.provnote b { font-family: var(--cond); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: #F2C46B; }
+.provnote span { font-size: 14px; color: #E2D3B3; }

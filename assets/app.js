@@ -132,6 +132,15 @@
   }
 
   /* ---------------- Race results page ---------------- */
+  // Provisional note (pending stewards' reviews): series data `provisional: { rounds: [5], text }` – shown on those rounds' results and on the current standings.
+  function provNote(show) {
+    var box = $("provNote"), eb = $("eyebrow");
+    if (!show) { if (box) box.hidden = true; return; }
+    if (!box && eb) { box = document.createElement("div"); box.id = "provNote"; box.className = "provnote"; eb.parentNode.insertBefore(box, eb); }
+    if (!box) return;
+    box.hidden = false;
+    box.innerHTML = "<b>Provisional</b><span>" + esc(S.provisional.text || "All results are pending any stewards\u2019 reviews") + "</span>";
+  }
   function resultsPage() {
     var h = readHash();
     var last = S.rounds[S.rounds.length - 1].no;
@@ -174,6 +183,7 @@
       }).join("");
 
       $("eyebrow").textContent = S.eyebrow + " · Round " + R.no;
+      provNote(!!(S.provisional && (S.provisional.rounds || []).indexOf(R.no) >= 0));
       $("title").textContent = R.track;
       $("meta").textContent = R.lobbies || "";
       $("meta").hidden = !R.lobbies;
@@ -286,7 +296,7 @@
   /* Season 1 style: no points, no champion – finishing places, starts, wins, podiums, win % and podium %. */
   function noPointsPage() {
     var n = S.roundCount, rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
-    $("eyebrow").textContent = S.eyebrow + " · Final results";
+    $("eyebrow").textContent = S.eyebrow + " · Final results"; provNote(false);
     if ($("h1title")) $("h1title").textContent = "Driver Results";
     $("meta").textContent = S.standingsMeta || "";
     document.title = "Results · " + S.navLabel + " Season " + S.season + " · TB Race Results";
@@ -346,7 +356,7 @@
     var n = S.roundCount;
     var rounds = []; for (var i = 1; i <= n; i++) rounds.push(i);
     var champ = S.standings[0], second = S.standings[1], third = S.standings[2];
-    $("eyebrow").textContent = S.eyebrow + " · Final standings";
+    $("eyebrow").textContent = S.eyebrow + " · Final standings"; provNote(false);
     $("meta").textContent = S.standingsMeta || "";
     document.title = "Championship · " + S.navLabel + " Season " + S.season + " · TB Race Results";
     $("key").innerHTML = keyHtml(S.standingsKey);
@@ -864,6 +874,7 @@
     if ($("h1title")) $("h1title").textContent = manu ? "Manufacturer Standings" : "Team Standings";
     var live = !S.final;
     $("eyebrow").textContent = S.eyebrow + (live ? " · After Round " + n : " · Final standings");
+    provNote(!!(live && S.provisional));
     $("meta").textContent = manu ? tab.length + " manufacturers · " + c.scale + "-" + (c.scale - 1) + "-" + (c.scale - 2) + "…0 · as published by the club" : tab.length + " teams · best three drivers score each round · " + c.scale + "-" + (c.scale - 1) + "-" + (c.scale - 2) + "…0";
     document.title = "Team Standings · " + S.navLabel + " Season " + S.season + " · TB Race Results";
     $("teamFilter").parentNode.hidden = true;
@@ -913,6 +924,7 @@
     var cols = 10 + S.rounds.length;
 
     $("eyebrow").textContent = S.eyebrow + " · After Round " + S.standingsAfter;
+    provNote(!!S.provisional);
     $("rules").textContent = S.standingsRules || "";
     $("source").textContent = S.standingsSource || "";
     $("meta").textContent = S.standingsMeta || ((S.seriesLine ? S.seriesLine + " · " : "") + "Each driver's lowest round is dropped");
