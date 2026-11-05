@@ -16,7 +16,7 @@ window.SERIES["narly-cup"] = {
   pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", calendar: "narly-cup-calendar.html", records: "records-drivers.html?series=narly-cup", teamrecords: "records-teams.html?series=narly-cup", champions: "records-titles.html?series=narly-cup" },
   hasLobbies: false,
   // Provisional until the club confirms stewards' reviews are done (remove when told).
-  provisional: { rounds: [5], text: "All results are pending any stewards\u2019 reviews" },
+  provisional: { rounds: [5], text: "Results pending Round 5 stewards\u2019 reviews" },
   resultNotes: ["DNS = did not start", "DNF = did not finish (no points)", "DQ = disqualified", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–5 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DC scores its finishing position. DNS scores 0 and counts as the drop. RGQ and DQ (disqualification) score 0 and are not a drop round (next-lowest score is dropped instead). Ties split on countback: most wins, then 2nds, 3rds and so on.",
