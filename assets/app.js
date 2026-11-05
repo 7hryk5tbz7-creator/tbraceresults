@@ -1102,3 +1102,28 @@
   if (page === "teamtitles") teamTitlesPage();
   if (mainEl) gameLabels(mainEl);
 })();
+
+/* Background preview switch – only active when a page is opened with ?bg=a|b|c|d (remembered while browsing; ?bg=off or "Exit" clears it). */
+(function () {
+  var KEY = "tbBgPreview", NAMES = { a: "A Red glow", b: "B Racing lines", c: "C Carbon", d: "D Chequered" }, cur = null;
+  try {
+    var m = /[?&]bg=([a-z]+)/.exec(location.search);
+    if (m) { if (NAMES[m[1]]) localStorage.setItem(KEY, m[1]); else localStorage.removeItem(KEY); }
+    cur = localStorage.getItem(KEY);
+  } catch (e) { var m2 = /[?&]bg=([a-d])\b/.exec(location.search); cur = m2 ? m2[1] : null; }
+  if (!cur || !NAMES[cur]) return;
+  var root = document.documentElement;
+  var set = function (k) { Object.keys(NAMES).forEach(function (n) { root.classList.remove("bg-" + n); }); if (k) root.classList.add("bg-" + k); };
+  set(cur);
+  var bar = document.createElement("div"); bar.className = "bgpick";
+  var draw = function () {
+    bar.innerHTML = "<b>Background preview</b>" + '<button data-k="">Current</button>' + Object.keys(NAMES).map(function (k) { return '<button data-k="' + k + '"' + (k === cur ? ' class="on"' : "") + ">" + NAMES[k] + "</button>"; }).join("") + '<button class="x" data-k="off">Exit</button>';
+    if (!cur) bar.querySelector('[data-k=""]').className = "on";
+  };
+  bar.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; var k = b.getAttribute("data-k");
+    if (k === "off") { try { localStorage.removeItem(KEY); } catch (x) {} set(null); bar.remove(); return; }
+    cur = k || null; try { if (cur) localStorage.setItem(KEY, cur); } catch (x) {} set(cur); draw();
+  });
+  draw(); document.body.appendChild(bar);
+})();
