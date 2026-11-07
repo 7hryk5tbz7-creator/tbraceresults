@@ -17,7 +17,7 @@ window.SERIES["gt3-endurance"] = {
   hasLobbies: true,
   // Provisional until the club confirms stewards' reviews are done (remove when told).
   provisional: { rounds: [5], text: "Results pending Round 5 stewards\u2019 reviews" },
-  resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results", "† = lapped (Round 5): own finish time + that lobby\u2019s fastest lap × laps down (Red 1:18.358, Blue 1:18.751)"],
+  resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results", "Lapped drivers (Round 5): laps down to the leader, with the gap to the car ahead as in the club\u2019s results"],
   source: "Results transcribed from the club's Round 1–5 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0 and counts as the drop. RGQ scores 0 and is not a drop round. Ties split on countback: most wins, then 2nds, 3rds and so on. STARTS include DC and RGQ; PODIUMS include wins.",
   standingsSource: "Standings as published by the club after Round 5.",
@@ -165,12 +165,12 @@ window.SERIES["gt3-endurance"] = {
         ["MAD_MITCH_76","MT","Blue","F296","1:22:14.266","+1:09.245","+13.116","1:19.111","c"],
         ["VETERANPP","GB","Red","RCF","1:22:26.683","+1:21.662","+12.417","1:20.062","c"],
         ["Trickybrewer","R3","Blue","RCF","1:22:27.810","+1:22.789","+1.127","1:18.923","c"],
-        ["Meggs1","GB","Red","RCF","1:22:40.374 †","+1:35.353","+12.564","1:19.656","l"],
-        ["ExpatChamp","MT","Blue","V12","1:22:41.340 †","+1:36.319","+0.966","1:19.780","l"],
-        ["Barberphil","GB","Red","RCF","1:23:03.728 †","+1:58.707","+22.388","1:20.151","l"],
-        ["Fatalreaper666","MT","Blue","F296","1:23:49.728 †","+2:44.707","+46.000","1:19.226","l"],
-        ["Hamitothebone","MT","Red","F296","1:25:22.362 †","+4:17.341","+1:32.634","1:21.609","l"],
-        ["GGCAS_39","R3","Red","RCF","1:25:55.542 †","+4:50.521","+33.180","1:20.970","l"],
+        ["Meggs1","GB","Red","RCF","1 Lap","+1 Lap","+12.564","1:19.656","l"],
+        ["ExpatChamp","MT","Blue","V12","1 Lap","+1 Lap","+0.966","1:19.780","l"],
+        ["Barberphil","GB","Red","RCF","1 Lap","+1 Lap","+22.388","1:20.151","l"],
+        ["Fatalreaper666","MT","Blue","F296","1 Lap","+1 Lap","+46.000","1:19.226","l"],
+        ["Hamitothebone","MT","Red","F296","3 Laps","+3 Laps","+1:32.634","1:21.609","l"],
+        ["GGCAS_39","R3","Red","RCF","3 Laps","+3 Laps","+33.180","1:20.970","l"],
         ["N-spud-P666","MC","Red","F296","DNS","DNS","","","o"],
         ["jmillsy85","R3","Red","M6","DNS","DNS","","","o"]
       ]
