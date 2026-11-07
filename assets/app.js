@@ -1194,6 +1194,29 @@
   if (page === "teamtitles") teamTitlesPage();
   if (page === "milestones") milestonesPage();
   if (page === "seasoncal") seasonCalPage();
+
+  /* ---------------- Discord buttons (home page + bottom of every page) ---------------- */
+  // Set DISCORD_URL to the server's invite link (never-expiring) to switch the buttons on; until then they show "Coming soon".
+  var DISCORD_URL = "";
+  (function discord() {
+    var main = document.querySelector("main"); if (!main) return;
+    var icon = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4.5 3.5V17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm4 6.2a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6zm4 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6zm4 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z"/></svg>';
+    var soon = DISCORD_URL ? "" : '<span class="dcsoon">Coming soon</span>';
+    var btn = function (cls, inner) {
+      return DISCORD_URL ? '<a class="' + cls + '" href="' + DISCORD_URL + '" target="_blank" rel="noopener">' + inner + "</a>"
+        : '<span class="' + cls + ' off" aria-disabled="true" title="Discord link coming soon">' + inner + "</span>";
+    };
+    if (page === "home") {
+      var sub = document.querySelector(".sub3");
+      if (sub && !document.querySelector(".dcbtn")) sub.insertAdjacentHTML("afterend", '<div class="dcwrap">' + btn("dcbtn", icon + "Join us on Discord<small>Chat, race briefings and results</small>") + soon + "</div>");
+    }
+    if (!document.querySelector(".dcfoot")) {
+      var f = document.createElement("section"); f.className = "dcfoot"; f.setAttribute("aria-label", "Discord");
+      f.innerHTML = "<div><b>Race with us</b><span class=\"dctx\">Join the Trailblazers Discord for race nights, briefings and lobby details.</span></div><div class=\"dcact\">" + btn("dcgo", icon + "Join on Discord") + soon + "</div>";
+      main.appendChild(f);
+    }
+  })();
+
   if (mainEl) gameLabels(mainEl);
 })();
 
