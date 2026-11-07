@@ -300,3 +300,57 @@ body[data-page="teamtitles"] .tagwrap { min-width: 250px; }
 .provnote b { font-family: var(--cond); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: #F2C46B; }
 .provnote span { font-size: 14px; color: #E2D3B3; }
 
+
+/* ---- Home: six pickers (3 x 2) ---- */
+.home .pick { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 820px) { .home .pick { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .home .pick .pk { gap: 6px; padding-left: 14px; padding-right: 12px; } .home .pick .pt1 { font-size: 19px; } }
+
+/* ---- Milestones ---- */
+.mssub { margin: 14px 0 10px; font-size: 14px; color: var(--dim); }
+.mslist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 8px; }
+@media (max-width: 700px) { .mslist { grid-template-columns: 1fr; } }
+.ms { display: flex; align-items: center; gap: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.ms .num { min-width: 64px; text-align: center; font: 700 26px/1 var(--cond); color: #F2CC5B; }
+.ms .num small { display: block; font-size: 10px; letter-spacing: .14em; color: var(--dim); margin-top: 4px; text-transform: uppercase; }
+.ms .msb { flex: 1; min-width: 0; }
+.ms .who { font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 7px; }
+.ms .what { font-size: 14px; color: var(--muted); margin-top: 3px; }
+.ms .prog { width: 100%; height: 5px; background: #22262C; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.ms .prog i { display: block; height: 100%; background: var(--red); }
+.club { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: center; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; }
+.club .cn { display: block; font: 700 30px/1 var(--cond); color: #fff; }
+.club .cl { display: block; font: 700 12px var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--red-text); margin-top: 3px; }
+.club .cc { display: block; font-size: 12px; color: var(--dim); margin-top: 3px; }
+.club .cd { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.dp { display: inline-flex; align-items: center; gap: 7px; background: #1A1D22; border: 1px solid #262A31; border-radius: 6px; padding: 5px 9px; font-size: 14px; }
+.dp b { font: 500 13px var(--mono); color: var(--soft); }
+.dp.old { color: #9AA0A8; opacity: .75; }
+.none { color: var(--dim); font-size: 14px; }
+@media (max-width: 600px) { .club { grid-template-columns: 1fr; gap: 8px; } }
+
+/* ---- Season calendar (all three series) ---- */
+.calg { display: grid; gap: 10px; margin: 18px 0; }
+.calhead, .cr { display: grid; grid-template-columns: 70px 1.3fr repeat(3, 1fr); gap: 12px; align-items: center; }
+.calhead { padding: 0 16px; font: 700 12px var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.cr { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+.cr.nx { border-color: var(--red); background: linear-gradient(90deg, rgba(215,38,30,.16), var(--panel) 60%); }
+.cr .rn { font: 700 13px var(--cond); letter-spacing: .14em; color: var(--dim); text-transform: uppercase; }
+.cr .rn b { display: block; font-size: 30px; color: #fff; letter-spacing: 0; line-height: 1; }
+.cr .tk { font: 700 20px var(--cond); text-transform: uppercase; letter-spacing: .02em; }
+.cr .tk small { display: block; font: 600 11px var(--cond); letter-spacing: .16em; color: var(--red-text); margin-top: 3px; }
+.cs { display: flex; flex-direction: column; border: 1px solid #262A31; border-radius: 8px; padding: 8px 10px; background: #0F1114; color: inherit; text-decoration: none; min-width: 0; }
+.cs .sn { font: 700 11px var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--red-text); }
+.cs .dt { font: 700 15px var(--cond); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+.cs .wn { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cs.done { border-color: rgba(52,196,110,.45); background: rgba(52,196,110,.08); }
+.cs.done:hover { border-color: #34C46E; }
+.cs.done .sn { color: #34C46E; }
+.cs .ok { color: #34C46E; margin-right: 5px; }
+@media (max-width: 820px) {
+  .calhead { display: none; }
+  .cr { grid-template-columns: 52px 1fr; }
+  .cr .cs { grid-column: span 2; flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .cr .cs .dt, .cr .cs .wn { margin: 0; }
+  .cr .rn b { font-size: 24px; }
+}

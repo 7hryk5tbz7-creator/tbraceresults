@@ -7,8 +7,8 @@
   });
   var page = document.body.getAttribute("data-page");
   // Records pages are club-wide (records-*.html): ?series=<id> shows one series, otherwise All Time.
-  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles)$/;
-  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html" };
+  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|seasoncal)$/;
+  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html", milestones: "records-milestones.html", seasoncal: "season-calendar.html" };
   var wantSeries = RECORD_PAGES.test(page) ? new URLSearchParams(location.search).get("series") : null;
   var BASE = (wantSeries && ALL[wantSeries] && !ALL[wantSeries].group ? ALL[wantSeries] : null) || ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var groupOf = function (x) { return x.group || x.id; };
@@ -81,8 +81,8 @@
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
       // Records section: its own tabs; Teams' Titles is shown once team championship data exists.
-      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"]].map(function (t) {
-        return '<a href="' + REC[t[0]] + recQuery + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
+      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["seasoncal", "Calendar"]].map(function (t) {
+        return '<a href="' + REC[t[0]] + (t[0] === "seasoncal" ? "" : recQuery) + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
       }).join("");
     }
     // Series pages: current-season race results and championship standings only.
@@ -94,7 +94,7 @@
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
 
     // Records pages: All Time / Tuesday / Narly / WJF picker.
-    if (RECORD_PAGES.test(page)) {
+    if (RECORD_PAGES.test(page) && page !== "seasoncal") {
       var sp = $("scopePicker");
       if (!sp) {
         sp = document.createElement("div"); sp.id = "scopePicker"; sp.className = "pills scope";
@@ -469,24 +469,26 @@
     return cells.filter(function (v) { return /^\d/.test(v) || v === "RGQ" || v === "DNF" || v === "CC" || v === "DQ"; }).length;
   }
 
-  function recordsPage() {
+  // Career totals per driver (starts, wins, podiums, championship points, team) for the seasons in scope – used by Driver Records and Milestones.
+  function driverRecordsData() {
     var seasons = RSEASONS.filter(function (x) { return x.standings; });
     var map = {};
     seasons.slice().reverse().forEach(function (x) { // oldest first, so the newest team wins
       x.standings.forEach(function (r) {
         var name = r[1];
-        var o = map[name] || (map[name] = { name: name, starts: 0, wins: 0, podiums: 0, seasons: [], team: null });
-        var starts, wins, podiums;
+        var o = map[name] || (map[name] = { name: name, starts: 0, wins: 0, podiums: 0, points: 0, seasons: [], team: null });
+        var starts, wins, podiums, pts;
         if (x.standingsFormat === "archive") {
           starts = archiveStarts(r[3]);
           wins = r[3].filter(function (v) { return /p1$/.test(v); }).length;
           podiums = r[3].filter(function (v) { return /p[123]$/.test(v); }).length;
+          pts = x.noPoints ? 0 : (+r[6] || 0);
         } else {
-          starts = r[9]; wins = r[10]; podiums = r[11];
+          starts = r[9]; wins = r[10]; podiums = r[11]; pts = +r[8] || 0;
           var t = x.teams && x.teams[r[2]];
           if (t) o.team = t;
         }
-        o.starts += starts; o.wins += wins; o.podiums += podiums;
+        o.starts += starts; o.wins += wins; o.podiums += podiums; o.points += pts;
         if (starts > 0 && o.seasons.indexOf(x.season || 18) < 0) o.seasons.push(x.season || 18);
       });
     });
@@ -555,6 +557,11 @@
       });
     })();
     all.forEach(function (o) { o.nseasons = o.seasons.length; o.pct = o.starts ? o.wins / o.starts : 0; o.ppct = o.starts ? o.podiums / o.starts : 0; o.seasons.sort(function (a, b) { return b - a; }); });
+    return { all: all, seasons: seasons };
+  }
+
+  function recordsPage() {
+    var DRD = driverRecordsData(), seasons = DRD.seasons, all = DRD.all;
 
     var nums = uniq(seasons.map(function (x) { return x.season || 18; })).sort(function (a, b) { return a - b; });
     var span = nums.length > 1 ? "Seasons " + nums[0] + "–" + nums[nums.length - 1] : "Season " + nums[0];
@@ -1032,6 +1039,91 @@
 
   /* ---------------- Calendar page (one series) ---------------- */
   // Season calendar from data/calendar.js; finished rounds show the winner and link to the results.
+  /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */
+  function milestonesPage() {
+    var DRD = driverRecordsData(), all = DRD.all, seasons = DRD.seasons;
+    var active = {};
+    ORDER.forEach(function (id) { (ALL[id].standings || []).forEach(function (r) { if (r[9] > 0) active[r[1]] = true; }); });
+    var nums = uniq(seasons.map(function (x) { return x.season || 18; })).sort(function (a, b) { return a - b; });
+    $("eyebrow").textContent = "Records · " + LABEL + " · Seasons " + nums[0] + "–" + nums[nums.length - 1];
+    $("meta").textContent = "Career starts and points" + (SCOPE_ALL ? " across all three series" : " in the " + BASE.navLabel) + " · updated after every round";
+    document.title = "Milestones · " + LABEL + " · TB Race Results";
+    var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
+    var bar = function (o) { return '<span class="bar" style="background:' + ((o.team && o.team.colour) || "#8C939D") + '"></span>'; };
+    var KINDS = [["starts", 100, "starts"], ["points", 1000, "points"]];
+    // Closing in: current drivers nearest their next club.
+    var near = [];
+    KINDS.forEach(function (k) {
+      near = near.concat(all.filter(function (o) { return active[o.name] && o[k[0]] > 0; }).map(function (o) {
+        var next = (Math.floor(o[k[0]] / k[1]) + 1) * k[1];
+        return { o: o, k: k, next: next, go: next - o[k[0]], pct: Math.round((o[k[0]] - (next - k[1])) / k[1] * 100) };
+      }).sort(function (a, b) { return a.go - b.go; }).slice(0, 4));
+    });
+    var leader = function (key) { return all.slice().sort(function (a, b) { return b[key] - a[key]; })[0]; };
+    var LS = leader("starts"), LP = leader("points");
+    var firstClub = function (L, step, unit) {
+      var next = (Math.floor(L[unit] / step) + 1) * step;
+      return { next: next, go: next - L[unit] };
+    };
+    var fs = firstClub(LS, 100, "starts"), fp = firstClub(LP, 1000, "points");
+    $("tiles").innerHTML =
+      '<div class="tile"><div class="label">Most starts</div><div class="tile-big">' + fmt(LS.starts) + '</div><div class="sub">' + esc(LS.name) + (active[LS.name] ? " · " + fs.go + " from the " + fmt(fs.next) + " club – no one there yet" : "") + "</div></div>" +
+      '<div class="tile"><div class="label">Most points</div><div class="tile-big">' + fmt(LP.points) + '</div><div class="sub">' + esc(LP.name) + " · in the " + fmt(Math.floor(LP.points / 1000) * 1000) + " club</div></div>" +
+      '<div class="tile"><div class="label">Club members</div><div class="tile-big">' + all.filter(function (o) { return o.starts >= 100; }).length + " · " + all.filter(function (o) { return o.points >= 1000; }).length + '</div><div class="sub">100+ starts · 1,000+ points</div></div>';
+    $("near").innerHTML = near.length ? near.map(function (n) {
+      return '<div class="ms"><div class="num">' + fmt(n.go) + '<small>to go</small></div><div class="msb"><div class="who">' + bar(n.o) + esc(n.o.name) + '</div><div class="what">' + fmt(n.next) + " " + n.k[2] + " club · on " + fmt(n.o[n.k[0]]) + '</div><div class="prog"><i style="width:' + n.pct + '%"></i></div></div></div>';
+    }).join("") : '<div class="none">No current drivers yet.</div>';
+    var clubs = function (key, step, unit) {
+      var top = Math.floor(Math.max.apply(null, all.map(function (o) { return o[key]; })) / step) * step, h = "";
+      for (var m = top; m >= step; m -= step) {
+        var ds = all.filter(function (o) { return o[key] >= m && o[key] < m + step; }).sort(function (a, b) { return b[key] - a[key]; });
+        if (!ds.length) continue;
+        var total = all.filter(function (o) { return o[key] >= m; }).length;
+        h += '<div class="club"><div class="ch"><span class="cn">' + fmt(m) + '</span><span class="cl">' + unit + ' club</span><span class="cc">' + total + " driver" + (total > 1 ? "s" : "") + '</span></div><div class="cd">' +
+          ds.map(function (o) { return '<span class="dp' + (active[o.name] ? "" : " old") + '" title="' + (active[o.name] ? "Racing this season" : "Not racing this season") + '">' + bar(o) + esc(o.name) + " <b>" + fmt(o[key]) + "</b></span>"; }).join("") + "</div></div>";
+      }
+      return h || '<div class="none">No one yet.</div>';
+    };
+    $("clubsStarts").innerHTML = clubs("starts", 100, "starts");
+    $("clubsPoints").innerHTML = clubs("points", 1000, "points");
+    $("rules").textContent = "Starts are counted as on Driver Records (classified finishes, RGQ, DNF, CC and DQ; not DNS). Points are each season's championship points added together (after drops and penalties; GT7 Season 1 had no points). Seasons 2–10 used the field-size points system and Seasons 11–18 score 45 for a win, so recent seasons add more points. Each driver is shown in their highest club; faded = not racing this season." + (SCOPE_ALL ? " All Time adds the three series together." : "");
+  }
+
+  /* ---------------- Season calendar (all three series) ---------------- */
+  function seasonCalPage() {
+    var CAL = window.CALENDAR;
+    document.title = "Season Calendar · TB Race Results";
+    if (!CAL) { $("cal").innerHTML = '<div class="none">The calendar for this season isn’t on the site yet.</div>'; return; }
+    var ids = ORDER.slice(0, 3), DAYS = ["Tuesday", "Thursday", "Friday"];
+    var byNo = ids.map(function (id) { var m = {}; (ALL[id].rounds || []).forEach(function (r) { m[r.no] = r; }); return m; });
+    var allDone = function (no) { return byNo.every(function (m) { return m[no]; }); };
+    var next = CAL.rounds.filter(function (r) { return !allDone(r.no); })[0];
+    var doneRounds = CAL.rounds.filter(function (r) { return allDone(r.no); }).length;
+    var races = byNo.reduce(function (a, m) { return a + Object.keys(m).length; }, 0);
+    var last = CAL.rounds[CAL.rounds.length - 1];
+    $("eyebrow").textContent = "Season " + CAL.season + " · All three series";
+    $("meta").textContent = "Same track for all three series each round · " + ids.map(function (id, i) { return ALL[id].navLabel + " (" + DAYS[i] + ")"; }).join(", ");
+    $("tiles").innerHTML =
+      (next ? '<div class="tile calnexttile"><div class="label">Next up · Round ' + next.no + '</div><div class="tile-big">' + esc(next.track) + '</div><div class="sub">' + next.dates.map(esc).join(" · ") + "</div></div>" :
+        '<div class="tile"><div class="label">Season</div><div class="tile-big">Complete</div></div>') +
+      '<div class="tile"><div class="label">Rounds completed</div><div class="tile-big">' + doneRounds + " of " + CAL.rounds.length + '</div><div class="sub">' + races + " races run across the three series</div></div>" +
+      '<div class="tile"><div class="label">Final round · Round ' + last.no + '</div><div class="tile-big">' + esc(last.track) + (last.tbc ? ' <span class="tbc">TBC</span>' : "") + '</div><div class="sub">' + last.dates.map(esc).join(" · ") + "</div></div>";
+    $("cal").innerHTML = '<div class="calhead"><span>Round</span><span>Track</span>' + DAYS.map(function (d) { return "<span>" + d + "</span>"; }).join("") + "</div>" +
+      CAL.rounds.map(function (r) {
+        var isNext = next && r.no === next.no;
+        var cells = ids.map(function (id, i) {
+          var x = ALL[id], res = byNo[i][r.no];
+          if (res) {
+            var w = res.rows.filter(function (y) { return y[5] === "Winner"; })[0] || res.rows[0], t = x.teams[w[1]] || { colour: "#8C939D" };
+            return '<a class="cs done" href="' + x.pages.results + "#round=" + r.no + '"><span class="sn">' + esc(x.navLabel) + '</span><span class="dt"><span class="ok" aria-label="Done">✓</span>' + esc(r.dates[i]) + '</span><span class="wn"><span class="bar" style="background:' + t.colour + '"></span>' + esc(w[0]) + "</span></a>";
+          }
+          return '<div class="cs"><span class="sn">' + esc(x.navLabel) + '</span><span class="dt">' + esc(r.dates[i]) + "</span></div>";
+        }).join("");
+        return '<div class="cr' + (isNext ? " nx" : "") + '"><div class="rn">Rd<b>' + r.no + '</b></div><div class="tk">' + esc(r.track) + (r.tbc ? ' <span class="tbc" title="Track still to be decided by the club">TBC</span>' : "") + (isNext ? "<small>Next up</small>" : "") + "</div>" + cells + "</div>";
+      }).join("");
+    $("rules").textContent = "✓ = raced – the winner is shown (top lobby when there are two); tap for the results. TBC = the club is still choosing the track.";
+  }
+
   function calendarPage() {
     var CAL = window.CALENDAR, DI = { "wrx-evo-gr4": 0, "narly-cup": 1, "gt3-endurance": 2 }, di = DI[BASE.id] || 0;
     var DAYS = ["Tuesdays", "Thursdays", "Fridays"];
@@ -1100,6 +1192,8 @@
   if (page === "teamrecords") teamRecordsPage();
   if (page === "champions") championsPage();
   if (page === "teamtitles") teamTitlesPage();
+  if (page === "milestones") milestonesPage();
+  if (page === "seasoncal") seasonCalPage();
   if (mainEl) gameLabels(mainEl);
 })();
 
