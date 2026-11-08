@@ -15,8 +15,6 @@ window.SERIES["gt3-endurance"] = {
   seriesLine: "Trailblazers S18 WJF Trophy",
   pages: { results: "wjf-trophy.html", championship: "championship.html", calendar: "wjf-calendar.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
   hasLobbies: true,
-  // Provisional until the club confirms stewards' reviews are done (remove when told).
-  provisional: { rounds: [5], text: "Results pending Round 5 stewards\u2019 reviews" },
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results", "Lapped drivers (Round 5): laps down to the leader, with the gap to the car ahead as in the club\u2019s results"],
   source: "Results transcribed from the club's Round 1–5 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0 and counts as the drop. RGQ scores 0 and is not a drop round. Ties split on countback: most wins, then 2nds, 3rds and so on. STARTS include DC and RGQ; PODIUMS include wins.",
@@ -176,7 +174,7 @@ window.SERIES["gt3-endurance"] = {
       ]
     }
   ],
-  // Standings after Round 5, as published by the club (provisional – pending Round 5 stewards' reviews).
+  // Standings after Round 5, as published by the club (confirmed after stewards' reviews).
   // [pos, driver, team, car, [R1..R5], total, drop, gap, points, starts, wins, podiums]
   // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "21*" = DC; "DNS"; "RGQ"; "–" = did not enter
   standingsAfter: 5,
