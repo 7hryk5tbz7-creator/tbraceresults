@@ -17,8 +17,6 @@ window.SERIES["wrx-evo-gr4"] = {
   hasLobbies: false,
   // Provisional until the club confirms stewards' reviews are done (remove when told).
   provisional: { rounds: [6], text: "Results pending Round 6 stewards\u2019 reviews" },
-  // Provisional until the club confirms stewards' reviews are done (remove when told).
-  provisional: { rounds: [6], text: "Results pending Round 6 stewards\u2019 reviews" },
   resultNotes: ["DNS = did not start", "DC = disconnected", "RGQ = scores 0, not a drop round"],
   source: "Results transcribed from the club's Round 1–6 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0. DC = points for classified position. RGQ scores 0 and is not a drop round (next-lowest score is dropped instead). Ties split on countback: most wins, then 2nds, 3rds and so on.",
