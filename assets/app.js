@@ -1133,10 +1133,10 @@
     var trs = rows.map(function (r) {
       var b = baseOf(r.x), href = b.pages.championship + seasonQuery(r.x);
       var cls = r.pos === 1 && r.fin && !r.x.noChampion ? " g" : r.pos === 2 ? " s" : r.pos === 3 ? " b" : "";
-      return "<tr" + (r.champ ? ' class="pfchamp"' : "") + '><td class="nowrap"><a href="' + href + '">Season ' + r.season + "</a>" + (r.fin ? "" : '<span class="pfcur">current</span>') + "</td>" +
+      return "<tr" + (r.champ ? ' class="pfchamp"' : r.fin ? "" : ' class="pfnow"') + '><td class="nowrap"><a href="' + href + '">Season ' + r.season + "</a>" + (r.fin ? "" : '<span class="pfcur">in progress</span>') + "</td>" +
         '<td><div class="nowrap">' + esc(b.navLabel) + (r.champ ? ' <span class="crown">Champion</span>' : "") + '</div><div class="sub">' + esc((r.x.title || "").replace(/\s*Season \d+\s*/, " ").trim()) + "</div></td>" +
         '<td class="nowrap">' + (r.team ? bar(r.team.colour) + esc(r.team.name) : '<span class="none">–</span>') + "</td>" +
-        '<td class="nowrap"><span class="pfpos' + cls + '">' + r.pos + '</span> <span class="pfof">of ' + r.field + "</span></td>" +
+        '<td class="nowrap"><span class="pfpos' + cls + '">' + r.pos + '</span> <span class="pfof">of ' + r.field + "</span>" + (r.fin ? "" : '<div class="pfprog">Season in progress \u00b7 after Round ' + (r.x.standingsAfter || "?") + "</div>") + "</td>" +
         '<td class="r">' + r.st + '</td><td class="r">' + r.w + '</td><td class="r">' + r.pd + '</td><td class="r">' + (r.pts == null ? "–" : fmt(r.pts)) + "</td></tr>";
     }).join("");
     $("profile").innerHTML =
@@ -1146,7 +1146,7 @@
       ms("starts", 100, "starts") + ms("points", 1000, "points") +
       '<div class="pfsers">' + series + "</div>" +
       '<h2 class="section-title">Season by season</h2><div class="scroll"><table class="pftable"><thead><tr><th scope="col">Season</th><th scope="col">Series</th><th scope="col">Team</th><th scope="col">Finish</th><th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th><th scope="col" class="r">Points</th></tr></thead><tbody>' + trs + "</tbody></table></div>" +
-      '<p class="pfnote">Starts, wins and podiums are counted as on Driver Records. Points are each season’s championship points (after drops and penalties; Season 1 had no points). Finish = championship position out of the drivers in that season’s standings. Teams are from each season’s team list.</p>';
+      '<p class="pfnote">Starts, wins and podiums are counted as on Driver Records. Points are each season’s championship points (after drops and penalties; Season 1 had no points). Finish = championship position out of the drivers in that season’s standings; for the current season it\u2019s the position so far, after the latest round. Teams are from each season’s team list.</p>';
   }
 
   /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */
