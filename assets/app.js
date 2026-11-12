@@ -472,8 +472,12 @@
   }
 
   // Career totals per driver (starts, wins, podiums, championship points, team) for the seasons in scope – used by Driver Records and Milestones.
-  function driverRecordsData() {
-    var seasons = RSEASONS.filter(function (x) { return x.standings; });
+  // allSeasons: every season of all three series, whatever series is picked (driver search and profiles).
+  function driverRecordsData(allSeasons) {
+    var src = allSeasons ? Object.keys(ALL).map(function (k) { return ALL[k]; }).sort(function (a, b) {
+      return (b.season || 0) - (a.season || 0) || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99);
+    }) : RSEASONS;
+    var seasons = src.filter(function (x) { return x.standings; });
     var map = {};
     seasons.slice().reverse().forEach(function (x) { // oldest first, so the newest team wins
       x.standings.forEach(function (r) {
@@ -1084,7 +1088,7 @@
   /* ---------------- Driver profile (driver.html?name=…) ---------------- */
   function driverPage() {
     var q = new URLSearchParams(location.search).get("name") || "";
-    var DRD = driverRecordsData(), all = DRD.all;
+    var DRD = driverRecordsData(true), all = DRD.all;
     var o = all.filter(function (d) { return d.name === q; })[0] || all.filter(function (d) { return d.name.toLowerCase() === q.toLowerCase(); })[0];
     driverSearch($("profileTop"), searchList(DRD), !o);
     if (!o) {
@@ -1301,7 +1305,7 @@
   if (page === "milestones") milestonesPage();
   if (page === "seasoncal") seasonCalPage();
   if (page === "driver") driverPage();
-  if (page === "home") driverSearch(document.querySelector(".sub3"), searchList(driverRecordsData()));
+  if (page === "home") driverSearch(document.querySelector(".sub3"), searchList(driverRecordsData(true)));
 
   /* ---------------- Discord buttons (home page + bottom of every page) ---------------- */
   // Set DISCORD_URL to the server's invite link (never-expiring) to switch the buttons on; until then they show "Coming soon".
