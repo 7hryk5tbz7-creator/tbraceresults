@@ -1240,6 +1240,224 @@
       '<p class="pfnote">Counted as on Driver Records. “Finished ahead” compares every round both drivers started in the same race (for older seasons, by round points; same points don’t count). Gold = the better figure.</p>';
   }
 
+  /* ---------------- Download image (race results + driver / team standings pages only) ----------------
+     Draws a club-styled PNG of what the visitor is looking at, on their own device with the browser's
+     built-in canvas – nothing is uploaded or stored and no outside code is loaded. */
+  function dlButton() {
+    if ((page !== "results" && page !== "championship") || !$("eyebrow") || $("dlWrap")) return;
+    var w = document.createElement("div"); w.id = "dlWrap"; w.className = "dlwrap";
+    w.innerHTML = '<button type="button" class="dlbtn" id="dlBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg><span>Download image</span></button><span class="dlmsg" id="dlMsg" role="status"></span>';
+    $("eyebrow").parentNode.insertBefore(w, $("eyebrow"));
+    $("dlBtn").addEventListener("click", function () {
+      var btn = $("dlBtn"), msg = $("dlMsg"), lbl = btn.querySelector("span");
+      btn.disabled = true; lbl.textContent = "Making image…"; msg.textContent = "";
+      makeCard().then(function () { lbl.textContent = "Download image"; btn.disabled = false; })
+        .catch(function () { lbl.textContent = "Download image"; btn.disabled = false; msg.textContent = "Couldn’t make the image – please try again."; });
+    });
+  }
+
+  function makeCard() {
+    var C = { bg: "#0B0C0E", panel: "#101215", head: "#15171B", line: "#1C1F24", border: "#1F2227", text: "#E8E9EB", soft: "#C9CDD3", muted: "#A9AEB5", dim: "#8E949D", red: "#D7261E", redT: "#F0605A", gold: "#D4AF37", silver: "#C3C8CF", bronze: "#C9884F", fl: "#E3CCFF", flBg: "rgba(150,90,255,.28)" };
+    var COND = "'Barlow Condensed', 'Arial Narrow', sans-serif", BODY = "'Barlow', system-ui, sans-serif", MONO = "'JetBrains Mono', ui-monospace, monospace";
+    var W = 1200, PAD = 46, SC = 2;
+    var colourOf = function (t) { var c = t && t.colour || "#8C939D"; var m = /#[0-9A-Fa-f]{6}/.exec(c); return m ? m[0] : "#8C939D"; };
+    var teamByName = function (n) { var c = (window.CLUB_TEAMS || {})[n] || (window.MANUFACTURER_COLOURS || {})[n]; return { name: n, colour: c || "#8C939D" }; };
+    var secs = function (t) { var m = /^(?:(\d+):)?(\d+):(\d+\.\d+)$/.exec(t || ""); return m ? (+(m[1] || 0)) * 3600 + (+m[2]) * 60 + (+m[3]) : Infinity; };
+    var spec;   // { file, eyebrow, title, meta, badge, cols, rows, foot }
+    var view = page === "championship" && TC[S.id] && readHash().view === "teams" ? "teams" : page === "championship" ? "drivers" : "results";
+    var finalSeason = !!S.final || S.standingsFormat === "archive";
+    var stdBadge = finalSeason ? { t: "Final standings", k: "final" } : S.provisional ? { t: "Provisional", s: (S.provisional.text || "Pending stewards’ reviews"), k: "prov" } : { t: "Official", k: "off" };
+    var safe = function (s) { return String(s).replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, ""); };
+    var tag = S.navLabel.replace(/\s+/g, "") + "-S" + (S.season || 18);
+    // Cell helpers: {t: text, st: "p1|p2|p3|drop|dim|fl|win|bold", font}
+    var roundCell = function (v) {
+      v = String(v); var m = /^(\d+)(p[123])?(d)?(\*)?$/.exec(v);
+      if (!m) return { t: v, st: "dim", small: true };
+      return { t: m[1] + (m[4] ? "*" : ""), st: m[3] ? "drop" : m[2] || "" };
+    };
+    if (view === "results") {
+      var h = readHash(), R = S.rounds.filter(function (r) { return r.no === (Number(h.round) || S.rounds[S.rounds.length - 1].no); })[0] || S.rounds[S.rounds.length - 1];
+      var best = Math.min.apply(null, R.rows.map(function (x) { return secs(x[7]); }));
+      var prov = S.provisional && (S.provisional.rounds || []).indexOf(R.no) >= 0;
+      var cols = [{ l: "Pos", w: 64, k: "pos" }, { l: "Driver / Team", w: 300, k: "drv" }];
+      if (S.hasLobbies) cols.push({ l: "Lobby", w: 90 });
+      cols = cols.concat([{ l: "Car", w: 0 }, { l: "Race time", w: 150, a: "r" }, { l: "To leader", w: 120, a: "r" }, { l: "To car ahead", w: 130, a: "r" }, { l: "Best lap", w: 116, a: "r" }]);
+      spec = {
+        file: tag + "-R" + R.no + "-" + safe(R.short || R.track) + (prov ? "-Provisional" : "-Official") + "-Result.png",
+        eyebrow: S.eyebrow + " · Round " + R.no, title: R.track,
+        meta: R.entries + " entries · " + R.starters + " starters" + (R.leadLap ? " · " + R.leadLap + " on the lead lap" : R.finishers ? " · " + R.finishers + " finishers" : ""),
+        badge: prov ? { t: "Provisional", s: S.provisional.text || "Results pending stewards’ reviews", k: "prov" } : { t: "Official Result", k: "off" },
+        cols: cols,
+        rows: R.rows.map(function (x, i) {
+          var out = x[8] === "o", t = S.teams[x[1]], c = [{ pos: i + 1, out: out }, { name: x[0], team: t }];
+          if (S.hasLobbies) c.push({ t: x[2] || "", lobby: x[2] });
+          c.push({ t: car(x[3]) || "–", st: "soft" });
+          c.push({ t: x[4], font: "mono" });
+          c.push(x[5] === "Winner" ? { t: "WINNER", st: "win" } : { t: x[5], font: "mono" });
+          c.push({ t: x[6], font: "mono", st: "dim" });
+          c.push({ t: x[7], font: "mono", st: secs(x[7]) === best ? "fl" : "" });
+          return { cells: c, out: out, pod: !out && i < 3 };
+        }),
+        foot: "Gaps in seconds, as listed in the results. Purple = fastest lap of the race." + (S.resultNotes && S.resultNotes.length ? " " + S.resultNotes.join(" · ") + "." : "")
+      };
+    } else if (view === "drivers") {
+      var arch = S.standingsFormat === "archive", st = S.standings, n = arch ? (S.roundCount || st[0][3].length) : S.rounds.length;
+      var after = arch ? "Final standings" : "After Round " + S.standingsAfter;
+      var dcols = [{ l: "Pos", w: 64, k: "pos" }, { l: "Driver / Team", w: 0, k: "drv" }];
+      for (var i = 1; i <= n; i++) dcols.push({ l: "R" + i, w: n > 8 ? 54 : 62, a: "c" });
+      dcols = dcols.concat(S.noPoints ? [{ l: "Starts", w: 76, a: "r" }, { l: "Wins", w: 66, a: "r" }, { l: "Podiums", w: 90, a: "r" }] : arch ? [{ l: "Total", w: 76, a: "r" }, { l: "Drop", w: 64, a: "r" }, { l: "Points", w: 86, a: "r" }] : [{ l: "Total", w: 72, a: "r" }, { l: "Drop", w: 62, a: "r" }, { l: "Gap", w: 64, a: "r" }, { l: "Points", w: 86, a: "r" }]);
+      spec = {
+        file: tag + "-Driver-Standings-" + (arch ? "Final" : "after-R" + S.standingsAfter) + ".png",
+        eyebrow: S.eyebrow + " · " + after, title: "Championship Standings",
+        meta: S.noPoints ? "No points system this season" : "Each driver's lowest round is dropped",
+        badge: stdBadge, cols: dcols,
+        rows: st.map(function (r) {
+          var pos = parseInt(r[0], 10), t = arch ? clubTeam(r[1], S.season) : S.teams[r[2]];
+          var c = [{ pos: isNaN(pos) ? r[0] : pos }, { name: r[1], team: t }].concat((arch ? r[3] : r[4]).map(roundCell));
+          if (S.noPoints) c = c.concat([{ t: String(archiveStarts(r[3])), font: "mono", st: "dim" }, { t: String(r[3].filter(function (v) { return /p1$/.test(v); }).length), font: "mono" }, { t: String(r[3].filter(function (v) { return /p[123]$/.test(v); }).length), st: "pts" }]);
+          else if (arch) c = c.concat([{ t: String(r[4]), font: "mono", st: "dim" }, { t: String(r[5] || 0), font: "mono", st: "dim" }, { t: String(r[6]), st: "pts" }]);
+          else c = c.concat([{ t: String(r[5]), font: "mono", st: "dim" }, { t: String(r[6] || 0), font: "mono", st: "dim" }, { t: r[7] === "Leader" ? "–" : String(r[7]), font: "mono", st: "dim" }, { t: String(r[8]), st: "pts" }]);
+          return { cells: c, pod: pos <= 3 };
+        }),
+        foot: S.noPoints ? "Finishing position in each round. No points system and no official champion this season \u2013 sorted by wins, then podiums. \u2013 = did not enter." : "Gold / silver / bronze = 1st / 2nd / 3rd in that round. Struck out = dropped round. * = DC, scored on finishing position. – = did not enter."
+      };
+    } else {
+      var tc = TC[S.id], all = tcTable(S, S.id), m = all[0].pts.length, notRun = tc.notRun || [];
+      var tab = all.filter(function (t) { return t.name !== "Privateer"; }), priv = all.filter(function (t) { return t.name === "Privateer"; });
+      var rank = []; for (var r = 0; r < m; r++) { (function (r) { var vals = tab.map(function (t) { return t.pts[r]; }); rank.push(function (v) { return v > 0 ? 1 + vals.filter(function (w) { return w > v; }).length : 0; }); })(r); }
+      var tcols = [{ l: "Pos", w: 64, k: "pos" }, { l: tc.manufacturers ? "Manufacturer" : "Team", w: 0, k: "drv" }];
+      for (var j = 1; j <= m; j++) tcols.push({ l: "R" + j, w: m > 8 ? 56 : 64, a: "c" });
+      tcols = tcols.concat([{ l: "Gap", w: 70, a: "r" }, { l: "Points", w: 90, a: "r" }]);
+      var L = tab[0].total;
+      var trow = function (t, i, isPriv) {
+        return { pod: !isPriv && i < 3, cells: [{ pos: isPriv ? "–" : i + 1 }, { name: t.name, team: teamByName(t.name), sub: isPriv ? "not a team" : "" }].concat(t.pts.map(function (v, r) {
+          if (notRun.indexOf(r + 1) >= 0) return { t: "NP", st: "dim", small: true };
+          var k = isPriv ? 0 : rank[r](v); return { t: String(v), st: k && k <= 3 ? "p" + k : "" };
+        })).concat([{ t: isPriv || !i ? "–" : "-" + (L - t.total), font: "mono", st: "dim" }, { t: String(t.total), st: "pts" }]) };
+      };
+      spec = {
+        file: tag + "-Team-Standings-" + (finalSeason ? "Final" : "after-R" + m) + ".png",
+        eyebrow: S.eyebrow + " · " + (finalSeason ? "Final standings" : "After Round " + m), title: tc.manufacturers ? "Manufacturer Standings" : "Team Standings",
+        meta: tc.manufacturers ? "Manufacturers' championship" : "Each team's best three drivers score every round · " + tc.scale + "-" + (tc.scale - 1) + "-" + (tc.scale - 2) + "… down to 0",
+        badge: stdBadge, cols: tcols,
+        rows: tab.map(function (t, i) { return trow(t, i, false); }).concat(priv.map(function (t) { return trow(t, 0, true); })),
+        foot: tc.manufacturers ? "Points as published by the club. Gold / silver / bronze = top three in that round." : "Team points by finishing order among each team's best three drivers (Privateers skipped). A DC doesn't score team points. Gold / silver / bronze = top three teams in that round."
+      };
+    }
+    return Promise.all([
+      document.fonts && document.fonts.load ? Promise.all(["700 50px 'Barlow Condensed'", "600 16px 'Barlow'", "500 16px 'Barlow'", "500 15px 'JetBrains Mono'"].map(function (f) { return document.fonts.load(f).catch(function () {}); })) : null,
+      new Promise(function (res) { var im = new Image(); im.onload = function () { res(im); }; im.onerror = function () { res(null); }; im.src = "assets/logo.png"; })
+    ]).then(function (got) { return drawCard(spec, got[1]); });
+
+    function drawCard(sp, logo) {
+      sp.eyebrow = sp.eyebrow.replace(/(^|[^\w])(?:GT7 )?Season (\d+)/, "$1GT7 Season $2");
+      // Lay out columns: fixed widths, the flexible one (w: 0) takes what's left.
+      var inner = W - PAD * 2, fixed = sp.cols.reduce(function (a, c) { return a + c.w; }, 0), flex = sp.cols.filter(function (c) { return !c.w; }).length;
+      var x = PAD; sp.cols.forEach(function (c) { c.x = x; c.ww = c.w || Math.max(120, (inner - fixed) / (flex || 1)); x += c.ww; });
+      var ROW = 50, HEAD = 42, top = 0;
+      var cv = document.createElement("canvas"), g = cv.getContext("2d");
+      var meas = function (font, t) { g.font = font; return g.measureText(t).width; };
+      var wrap = function (font, t, maxW) { var words = String(t).split(" "), lines = [], cur = ""; words.forEach(function (w) { var tryL = cur ? cur + " " + w : w; if (meas(font, tryL) > maxW && cur) { lines.push(cur); cur = w; } else cur = tryL; }); if (cur) lines.push(cur); return lines; };
+      var titleFont = "700 50px " + COND, footFont = "400 13px " + BODY;
+      var titleLines = wrap(titleFont, sp.title.toUpperCase(), inner);
+      var footLines = wrap(footFont, sp.foot, inner - 330);
+      var tableTop = 6 + 38 + 70 + 26 + 10 + titleLines.length * 54 + 36;
+      var H = tableTop + HEAD + sp.rows.length * ROW + 24 + Math.max(2, footLines.length) * 19 + 34;
+      cv.width = W * SC; cv.height = H * SC; g.scale(SC, SC);
+      var rr = function (x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); };
+      var text = function (t, x, y, font, col, align, ls) { g.font = font; g.fillStyle = col; g.textAlign = align || "left"; g.textBaseline = "middle"; if (ls && "letterSpacing" in g) g.letterSpacing = ls; g.fillText(t, x, y); if ("letterSpacing" in g) g.letterSpacing = "0px"; };
+      var fit = function (t, font, maxW) { if (meas(font, t) <= maxW) return t; while (t.length > 1 && meas(font, t + "…") > maxW) t = t.slice(0, -1); return t + "…"; };
+      // Background + red stripe + glow
+      g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+      var grd = g.createRadialGradient(W * 0.85, -60, 0, W * 0.85, -60, 700); grd.addColorStop(0, "rgba(215,38,30,.22)"); grd.addColorStop(1, "rgba(215,38,30,0)"); g.fillStyle = grd; g.fillRect(0, 0, W, 600);
+      g.fillStyle = C.red; g.fillRect(0, 0, W, 6);
+      // Header: logo + club name, badge on the right
+      var hy = 6 + 38 + 31;
+      if (logo) { g.save(); g.beginPath(); g.arc(PAD + 31, hy, 31, 0, Math.PI * 2); g.clip(); g.drawImage(logo, PAD, hy - 31, 62, 62); g.restore(); }
+      text("TRAILBLAZERS eSPORTS RACING", PAD + 76, hy - 11, "700 22px " + COND, C.text, "left", "1.6px");
+      text("RESULTS & STATISTICS", PAD + 76, hy + 14, "700 14px " + COND, C.redT, "left", "2.8px");
+      var b = sp.badge, bx = W - PAD;
+      if (b) {
+        var bt = b.t.toUpperCase(), bw = Math.max(meas("700 14px " + COND, bt) + 2.2 * bt.length, b.s ? meas("400 13px " + BODY, b.s) : 0) + 30, bh = b.s ? 52 : 36, by = hy - bh / 2;
+        var bc = b.k === "prov" ? "#E0A33A" : b.k === "off" ? C.red : "#4A4F58";
+        rr(bx - bw, by, bw, bh, 8); g.fillStyle = b.k === "prov" ? "rgba(224,163,58,.10)" : b.k === "off" ? "rgba(215,38,30,.10)" : "rgba(255,255,255,.04)"; g.fill(); g.lineWidth = 1.5; g.strokeStyle = bc; g.stroke();
+        text(bt, bx - 15, by + (b.s ? 17 : bh / 2), "700 14px " + COND, b.k === "prov" ? "#F2C46B" : "#fff", "right", "2.2px");
+        if (b.s) text(b.s, bx - 15, by + 36, "400 13px " + BODY, "#D9C9A8", "right");
+      }
+      // Eyebrow, title, meta
+      var ey = 6 + 38 + 70 + 13;
+      text(fit(sp.eyebrow.toUpperCase(), "700 15px " + COND, inner * 0.92), PAD, ey, "700 15px " + COND, C.redT, "left", "2.1px");
+      var ty = ey + 23 + 27; titleLines.forEach(function (l, i) { text(l, PAD, ty + i * 54, titleFont, C.text); });
+      text(sp.meta, PAD, ty + (titleLines.length - 1) * 54 + 44, "400 16px " + BODY, C.muted);
+      // Table panel
+      top = tableTop; var th = HEAD + sp.rows.length * ROW;
+      rr(PAD - 16, top, inner + 32, th, 12); g.fillStyle = C.panel; g.fill(); g.strokeStyle = C.border; g.lineWidth = 1; g.stroke();
+      g.save(); rr(PAD - 16, top, inner + 32, th, 12); g.clip();
+      g.fillStyle = C.head; g.fillRect(PAD - 16, top, inner + 32, HEAD);
+      sp.cols.forEach(function (c) { var ax = c.a === "r" ? c.x + c.ww - 8 : c.a === "c" ? c.x + c.ww / 2 : c.x + (c.k === "pos" ? 4 : 8); text(c.l.toUpperCase(), ax, top + HEAD / 2, "700 12px " + COND, C.dim, c.a === "r" ? "right" : c.a === "c" ? "center" : "left", "1.2px"); });
+      sp.rows.forEach(function (row, ri) {
+        var y = top + HEAD + ri * ROW, cy = y + ROW / 2;
+        if (row.pod) { g.fillStyle = "#13161B"; g.fillRect(PAD - 16, y, inner + 32, ROW); }
+        if (row.out) { g.fillStyle = "#0D0E11"; g.fillRect(PAD - 16, y, inner + 32, ROW); }
+        if (ri) { g.fillStyle = C.line; g.fillRect(PAD - 16, y, inner + 32, 1); }
+        row.cells.forEach(function (v, ci) {
+          var c = sp.cols[ci]; if (!c) return;
+          if (c.k === "pos") {
+            var p = v.pos, cc = p === 1 ? C.gold : p === 2 ? C.silver : p === 3 ? C.bronze : null;
+            if (row.pod === false && (p === 1 || p === 2 || p === 3) && v.out) cc = null;
+            rr(c.x + 4, cy - 16, 32, 32, 6);
+            if (v.out) { g.setLineDash([3, 3]); g.strokeStyle = "#4A4F58"; g.stroke(); g.setLineDash([]); }
+            else if (cc && row.pod) { g.fillStyle = cc; g.fill(); }
+            else { g.fillStyle = "#1D2026"; g.fill(); g.strokeStyle = "#2C3038"; g.stroke(); }
+            text(String(p), c.x + 20, cy + 1, "700 17px " + COND, cc && row.pod && !v.out ? "#141210" : v.out ? C.dim : C.text, "center");
+            return;
+          }
+          if (c.k === "drv") {
+            var tcol = colourOf(v.team), nameW = c.ww - 16;
+            var tn = (v.team ? (v.team.name === v.name ? "" : v.team.name) : "Privateer") + (v.sub ? " · " + v.sub : "");
+            if (!tn) { g.fillStyle = tcol; rr(c.x + 8, cy - 8, 4, 16, 2); g.fill(); text(fit(v.name, "600 16px " + BODY, nameW - 12), c.x + 18, cy, "600 16px " + BODY, "#F2F3F5"); return; }
+            text(fit(v.name, "600 16px " + BODY, nameW), c.x + 8, cy - 9, "600 16px " + BODY, row.out ? C.dim : "#F2F3F5");
+            g.fillStyle = tcol; rr(c.x + 8, cy + 4, 4, 12, 2); g.fill();
+            text(fit(tn, "400 13px " + BODY, nameW - 12), c.x + 18, cy + 10, "400 13px " + BODY, C.muted);
+            return;
+          }
+          var ax = c.a === "r" ? c.x + c.ww - 8 : c.a === "c" ? c.x + c.ww / 2 : c.x + 8, al = c.a === "r" ? "right" : c.a === "c" ? "center" : "left";
+          if (v.lobby) { g.fillStyle = v.lobby === "Red" ? "#E5483F" : "#3C7BF0"; rr(c.x + 8, cy - 7, 4, 14, 2); g.fill(); text(v.lobby, c.x + 18, cy, "400 14px " + BODY, C.soft); return; }
+          var f = v.font === "mono" ? "500 14px " + MONO : v.st === "pts" ? "700 19px " + COND : v.st === "win" ? "700 15px " + COND : v.small ? "600 12px " + COND : "500 15px " + BODY;
+          var t = fit(String(v.t), f, c.ww - 12);
+          if (/^p[123]$/.test(v.st)) {
+            var w2 = Math.max(38, meas("600 14px " + MONO, t) + 14), pc = v.st === "p1" ? C.gold : v.st === "p2" ? C.silver : C.bronze;
+            rr(ax - (al === "center" ? w2 / 2 : al === "right" ? w2 : 0), cy - 13, w2, 26, 6); g.fillStyle = pc; g.fill();
+            text(t, al === "center" ? ax : al === "right" ? ax - w2 / 2 : ax + w2 / 2, cy + 1, "600 14px " + MONO, "#141210", "center"); return;
+          }
+          if (v.st === "fl") { var w3 = meas(f, t) + 14; rr(ax - w3, cy - 12, w3, 24, 4); g.fillStyle = C.flBg; g.fill(); text(t, ax - 7, cy + 1, f, C.fl, "right"); return; }
+          var col = v.st === "dim" ? C.dim : v.st === "soft" ? C.soft : v.st === "drop" ? "#7D838C" : v.st === "pts" || v.st === "win" ? "#fff" : C.text;
+          text(t, ax, cy + 1, v.st === "drop" ? "500 14px " + MONO : /^\d/.test(t) && c.a === "c" ? "500 14px " + MONO : f, col, al, v.st === "win" ? "1.2px" : null);
+          if (v.st === "drop") { var dw = meas("500 14px " + MONO, t); var x0 = al === "center" ? ax - dw / 2 : al === "right" ? ax - dw : ax; g.fillStyle = "#7D838C"; g.fillRect(x0 - 1, cy, dw + 2, 1.5); }
+        });
+      });
+      g.restore();
+      // Footer
+      var fy = top + th + 24;
+      footLines.forEach(function (l, i) { text(l, PAD, fy + i * 19, footFont, C.dim); });
+      text("7hryk5tbz7-creator.github.io/tbraceresults", W - PAD, fy, "400 13px " + BODY, C.soft, "right");
+      return new Promise(function (res, rej) {
+        cv.toBlob(function (blob) {
+          if (!blob) return rej(new Error("no image"));
+          var file = null; try { file = new File([blob], sp.file, { type: "image/png" }); } catch (e) {}
+          var touch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+          if (touch && file && navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], title: sp.title }).then(res, function (e) { if (e && e.name === "AbortError") res(); else save(); });
+          } else save();
+          function save() {
+            var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = sp.file; document.body.appendChild(a); a.click();
+            setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500); res();
+          }
+        }, "image/png");
+      });
+    }
+  }
+
   /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */
   function milestonesPage() {
     var DRD = driverRecordsData(), all = DRD.all, seasons = DRD.seasons;
@@ -1397,6 +1615,7 @@
   if (page === "seasoncal") seasonCalPage();
   if (page === "driver") driverPage();
   if (page === "compare") comparePage();
+  dlButton();
   if (page === "home") driverSearch(document.querySelector(".sub3"), searchList(driverRecordsData(true)));
 
   /* ---------------- Discord buttons (home page + bottom of every page) ---------------- */

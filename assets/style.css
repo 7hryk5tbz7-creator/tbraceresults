@@ -485,3 +485,11 @@ a.plink:hover { color: var(--red-text); text-decoration: underline; text-underli
   .cmps .cmpsn { grid-column: 1 / -1; order: -1; text-align: left; }
   .cmpsv { white-space: nowrap; font-size: 14px; }
 }
+
+/* ---- Download image button (results + standings pages) ---- */
+.dlwrap { display: flex; justify-content: flex-end; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; }
+.dlbtn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 8px; background: #1D2026; border: 1px solid #3A3F48; color: #fff; font: 700 14px var(--cond); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.dlbtn:hover { border-color: var(--red); }
+.dlbtn:disabled { opacity: .7; cursor: progress; }
+.dlmsg { order: -1; font-size: 13px; color: #F2C46B; }
+.dlmsg:empty { display: none; }
