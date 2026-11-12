@@ -7,7 +7,7 @@
   });
   var page = document.body.getAttribute("data-page");
   // Records pages are club-wide (records-*.html): ?series=<id> shows one series, otherwise All Time.
-  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|seasoncal|driver)$/;
+  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|seasoncal|driver|compare)$/;
   var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html", milestones: "records-milestones.html", seasoncal: "season-calendar.html" };
   var wantSeries = RECORD_PAGES.test(page) ? new URLSearchParams(location.search).get("series") : null;
   var BASE = (wantSeries && ALL[wantSeries] && !ALL[wantSeries].group ? ALL[wantSeries] : null) || ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
@@ -96,7 +96,7 @@
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
 
     // Records pages: All Time / Tuesday / Narly / WJF picker.
-    if (RECORD_PAGES.test(page) && page !== "seasoncal" && page !== "driver") {
+    if (RECORD_PAGES.test(page) && page !== "seasoncal" && page !== "driver" && page !== "compare") {
       var sp = $("scopePicker");
       if (!sp) {
         sp = document.createElement("div"); sp.id = "scopePicker"; sp.className = "pills scope";
@@ -1046,11 +1046,15 @@
   /* ---------------- Calendar page (one series) ---------------- */
   // Season calendar from data/calendar.js; finished rounds show the winner and link to the results.
   /* ---------------- Driver search (home page and profiles) ---------------- */
-  function driverSearch(where, list, autofocus) {
+  var dsCount = 0;
+  // hrefFn(name) → link for a picked driver (default: their profile); label / value optional.
+  function driverSearch(where, list, autofocus, hrefFn, label, value) {
+    hrefFn = hrefFn || function (n) { return "driver.html?name=" + encodeURIComponent(n); };
+    var uid = "ds" + (++dsCount);
     if (!where) return;
     var box = document.createElement("div"); box.className = "dsearch";
-    box.innerHTML = '<label class="dslabel" for="dsInput">Find a driver</label><div class="dsbox"><svg class="dsicon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>' +
-      '<input id="dsInput" type="search" autocomplete="off" spellcheck="false" placeholder="Type a driver’s name" aria-controls="dsList" aria-autocomplete="list"><div class="dsres" id="dsList" role="listbox" hidden></div></div>';
+    box.innerHTML = '<label class="dslabel" for="' + uid + '">' + esc(label || "Find a driver") + '</label><div class="dsbox"><svg class="dsicon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>' +
+      '<input id="' + uid + '" type="search" autocomplete="off" spellcheck="false" placeholder="Type a driver’s name" aria-controls="' + uid + 'L" aria-autocomplete="list"><div class="dsres" id="' + uid + 'L" role="listbox" hidden></div></div>';
     where.parentNode.insertBefore(box, where.nextSibling);
     var inp = box.querySelector("input"), res = box.querySelector(".dsres"), sel = 0, hits = [];
     var short = function (n) { return n.replace(" Racing Team", "").replace(" Racing", "").replace(" Motorsport", ""); };
@@ -1062,7 +1066,7 @@
         .sort(function (a, b) { return (b.name.toLowerCase().indexOf(q) === 0) - (a.name.toLowerCase().indexOf(q) === 0) || b.active - a.active || b.starts - a.starts; }).slice(0, 8);
       sel = 0;
       res.innerHTML = hits.length ? hits.map(function (o, i) {
-        return '<a role="option" href="driver.html?name=' + encodeURIComponent(o.name) + '"' + (i === sel ? ' class="on" aria-selected="true"' : "") + '><i style="background:' + ((o.team && o.team.colour) || "#8C939D") + '"></i><span class="dsn">' + hl(o.name, q) + "</span><small>" +
+        return '<a role="option" href="' + hrefFn(o.name) + '"' + (i === sel ? ' class="on" aria-selected="true"' : "") + '><i style="background:' + ((o.team && o.team.colour) || "#8C939D") + '"></i><span class="dsn">' + hl(o.name, q) + "</span><small>" +
           esc(o.team ? short(o.team.name) : "") + " · " + (o.active ? "Season 18" : o.starts + " starts") + "</small></a>";
       }).join("") : '<div class="dsnone">No driver found</div>';
       res.hidden = false;
@@ -1072,11 +1076,12 @@
     inp.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown" && hits.length) { sel = (sel + 1) % hits.length; mark(); e.preventDefault(); }
       else if (e.key === "ArrowUp" && hits.length) { sel = (sel - 1 + hits.length) % hits.length; mark(); e.preventDefault(); }
-      else if (e.key === "Enter" && hits[sel]) { location.href = "driver.html?name=" + encodeURIComponent(hits[sel].name); }
+      else if (e.key === "Enter" && hits[sel]) { location.href = hrefFn(hits[sel].name); }
       else if (e.key === "Escape") { inp.value = ""; draw(); }
     });
     document.addEventListener("click", function (e) { if (!box.contains(e.target)) res.hidden = true; });
     inp.addEventListener("focus", function () { if (inp.value.trim()) draw(); });
+    if (value) inp.value = value;
     if (autofocus) inp.focus();
   }
   function searchList(DRD) {
@@ -1141,12 +1146,98 @@
     }).join("");
     $("profile").innerHTML =
       '<div class="eyebrow">Driver profile</div>' +
-      '<div class="pfhead"><div class="pfno" style="background:' + t.colour + '">' + esc(o.no || "–") + '</div><div><h1>' + esc(N) + '</h1><div class="pfteam">' + bar(t.colour) + esc(t.name) + (active ? '<span class="pflive">Racing in Season 18</span>' : '<span class="pfold">Last raced Season ' + o.seasons[0] + "</span>") + "</div></div></div>" +
+      '<div class="pfhead"><div class="pfno" style="background:' + t.colour + '">' + esc(o.no || "–") + '</div><div><h1>' + esc(N) + '</h1><div class="pfteam">' + bar(t.colour) + esc(t.name) + (active ? '<span class="pflive">Racing in Season 18</span>' : '<span class="pfold">Last raced Season ' + o.seasons[0] + "</span>") + "</div>" +
+        '<a class="cmpbtn" href="compare.html?a=' + encodeURIComponent(N) + '"><span aria-hidden="true">\u21c4</span> Compare with another driver</a></div></div>' +
       '<div class="pftiles"><div><b>' + o.starts + "</b><span>Starts</span></div><div><b>" + o.wins + "</b><span>Wins</span></div><div><b>" + o.podiums + "</b><span>Podiums</span></div><div><b>" + titles.length + "</b><span>Titles</span></div><div><b>" + fmt(o.points) + "</b><span>Points</span></div><div><b>" + o.seasons.length + "</b><span>Seasons</span></div></div>" +
       ms("starts", 100, "starts") + ms("points", 1000, "points") +
       '<div class="pfsers">' + series + "</div>" +
       '<h2 class="section-title">Season by season</h2><div class="scroll"><table class="pftable"><thead><tr><th scope="col">Season</th><th scope="col">Series</th><th scope="col">Team</th><th scope="col">Finish</th><th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th><th scope="col" class="r">Points</th></tr></thead><tbody>' + trs + "</tbody></table></div>" +
       '<p class="pfnote">Starts, wins and podiums are counted as on Driver Records. Points are each season’s championship points (after drops and penalties; Season 1 had no points). Finish = championship position out of the drivers in that season’s standings; for the current season it\u2019s the position so far, after the latest round. Teams are from each season’s team list.</p>';
+  }
+
+  /* ---------------- Driver comparison (compare.html?a=…&b=…) ---------------- */
+  function comparePage() {
+    var P = new URLSearchParams(location.search), qa = P.get("a") || "", qb = P.get("b") || "";
+    var DRD = driverRecordsData(true), all = DRD.all, list = searchList(DRD);
+    var find = function (q) { return q ? (all.filter(function (d) { return d.name === q; })[0] || all.filter(function (d) { return d.name.toLowerCase() === q.toLowerCase(); })[0]) : null; };
+    var A = find(qa), B = find(qb);
+    var url = function (a, b) { var u = []; if (a) u.push("a=" + encodeURIComponent(a)); if (b) u.push("b=" + encodeURIComponent(b)); return "compare.html" + (u.length ? "?" + u.join("&") : ""); };
+    var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
+    document.title = (A && B ? A.name + " vs " + B.name + " · " : "") + "Head to head · TB Race Results";
+    // Pickers: one search box per side (choosing a driver keeps the other one).
+    var pick = function (side, cur, other) {
+      var wrap = document.createElement("div"); wrap.className = "cmppick";
+      $("cmpPick").appendChild(wrap);
+      var anchor = document.createElement("div"); wrap.appendChild(anchor);
+      driverSearch(anchor, list.filter(function (o) { return !other || o.name !== other.name; }), false, function (n) { return side === "a" ? url(n, other && other.name) : url(other && other.name, n); },
+        side === "a" ? "Driver 1" : "Driver 2", cur ? cur.name : "");
+    };
+    pick("a", A, B); pick("b", B, A);
+    if (!A || !B) {
+      $("cmp").innerHTML = '<p class="meta">' + ((qa && !A) || (qb && !B) ? "One of those drivers isn’t on the site. " : "") + "Pick two drivers to compare their careers – starts, wins, podiums, points and titles – and how often each finished ahead when they raced together.</p>";
+      return;
+    }
+    // Per-driver totals by series + titles.
+    var stats = function (o) {
+      var s = { ser: {}, titles: 0 };
+      Object.keys(ALL).map(function (k) { return ALL[k]; }).filter(function (x) { return x.standings; }).forEach(function (x) {
+        var r = x.standings.filter(function (y) { return y[1] === o.name; })[0]; if (!r) return;
+        var arch = x.standingsFormat === "archive", st, w, pd;
+        if (arch) { st = archiveStarts(r[3]); w = r[3].filter(function (v) { return /p1$/.test(v); }).length; pd = r[3].filter(function (v) { return /p[123]$/.test(v); }).length; }
+        else { st = r[9]; w = r[10]; pd = r[11]; }
+        if (!st) return;
+        var id = groupOf(x), q = s.ser[id] || (s.ser[id] = { st: 0, w: 0, pd: 0, t: 0 });
+        q.st += st; q.w += w; q.pd += pd;
+        if ((x.final || arch) && !x.noChampion && String(r[0]) === "1") { q.t++; s.titles++; }
+      });
+      return s;
+    };
+    var SA = stats(A), SB = stats(B);
+    // Head to head: every round both drivers started in the same race.
+    var hh = { n: 0, a: 0, b: 0 };
+    Object.keys(ALL).map(function (k) { return ALL[k]; }).forEach(function (x) {
+      if (x.standingsFormat === "archive") {
+        if (!x.standings) return;
+        var ra = x.standings.filter(function (y) { return y[1] === A.name; })[0], rb = x.standings.filter(function (y) { return y[1] === B.name; })[0];
+        if (!ra || !rb) return;
+        ra[3].forEach(function (v, i) {
+          var w = rb[3][i]; if (!/^\d/.test(v) || !/^\d/.test(w)) return;
+          var pa = parseInt(v, 10), pb = parseInt(w, 10); if (pa === pb) return;
+          hh.n++; if (x.noPoints ? pa < pb : pa > pb) hh.a++; else hh.b++;
+        });
+      } else {
+        (x.rounds || []).forEach(function (rd) {
+          var ia = -1, ib = -1;
+          rd.rows.forEach(function (y, i) { if (y[0] === A.name && y[8] !== "o") ia = i; if (y[0] === B.name && y[8] !== "o") ib = i; });
+          if (ia < 0 || ib < 0) return;
+          hh.n++; if (ia < ib) hh.a++; else hh.b++;
+        });
+      }
+    });
+    var head = function (o, side) {
+      var t = o.team || { name: "Privateer", colour: "#8C939D" };
+      return '<a class="cmph ' + side + '" href="driver.html?name=' + encodeURIComponent(o.name) + '"><div class="pfno" style="background:' + t.colour + '">' + esc(o.no || "–") + '</div><div class="cmphn"><div class="cmpn">' + esc(o.name) + '</div><div class="cmpt">' + bar(t.colour) + esc(t.name) + " · " + o.seasons.length + " season" + (o.seasons.length > 1 ? "s" : "") + "</div></div></a>";
+    };
+    var pct = function (a, b) { return b ? Math.round(a / b * 1000) / 10 : 0; };
+    var line = function (l, a, b, isPct) {
+      var t = a + b, wa = t ? a / t * 100 : 50, f = function (v) { return isPct ? v.toFixed(1) + "%" : fmt(v); };
+      return '<div class="cmpr"><div class="cmpv' + (a > b ? " w" : "") + '">' + f(a) + '</div><div class="cmpm"><div class="cmpl">' + l + '</div><div class="cmpb"><span style="width:' + wa + '%"></span></div></div><div class="cmpv r' + (b > a ? " w" : "") + '">' + f(b) + "</div></div>";
+    };
+    var c = function (x, y) { return '<span' + (x > y ? ' class="w"' : "") + ">" + x + "</span>"; };
+    var ser = ORDER.map(function (id) {
+      var a = SA.ser[id] || { st: 0, w: 0, pd: 0, t: 0 }, b = SB.ser[id] || { st: 0, w: 0, pd: 0, t: 0 };
+      return '<div class="cmps"><div class="cmpsv">' + c(a.st, b.st) + " · " + c(a.w, b.w) + " · " + c(a.pd, b.pd) + " · " + c(a.t, b.t) + '</div><div class="cmpsn">' + esc(ALL[id].navLabel) + '</div><div class="cmpsv r">' + c(b.st, a.st) + " · " + c(b.w, a.w) + " · " + c(b.pd, a.pd) + " · " + c(b.t, a.t) + "</div></div>";
+    }).join("");
+    $("cmp").innerHTML =
+      '<div class="cmpheads">' + head(A, "left") + '<div class="cmpvs">VS</div>' + head(B, "right") + "</div>" +
+      '<div class="cmpbox"><h2 class="cmph2">Career</h2>' +
+        line("Starts", A.starts, B.starts) + line("Wins", A.wins, B.wins) + line("Podiums", A.podiums, B.podiums) + line("Points", A.points, B.points) + line("Titles", SA.titles, SB.titles) +
+        line("Win %", pct(A.wins, A.starts), pct(B.wins, B.starts), true) + line("Podium %", pct(A.podiums, A.starts), pct(B.podiums, B.starts), true) + "</div>" +
+      '<div class="cmpbox"><h2 class="cmph2">When they’ve raced each other</h2>' +
+        (hh.n ? '<div class="cmphh"><div><b>' + hh.a + "</b><small>" + esc(A.name) + ' finished ahead</small></div><div class="mid">' + hh.n + " race" + (hh.n > 1 ? "s" : "") + '<br>together</div><div class="r"><b>' + hh.b + "</b><small>" + esc(B.name) + ' finished ahead</small></div></div><div class="cmpb big"><span style="width:' + (hh.a / hh.n * 100) + '%"></span></div>'
+          : '<p class="meta">They haven’t started the same race yet.</p>') + "</div>" +
+      '<div class="cmpbox"><h2 class="cmph2">By series <small>starts · wins · podiums · titles</small></h2>' + ser + "</div>" +
+      '<p class="pfnote">Counted as on Driver Records. “Finished ahead” compares every round both drivers started in the same race (for older seasons, by round points; same points don’t count). Gold = the better figure.</p>';
   }
 
   /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */
@@ -1305,6 +1396,7 @@
   if (page === "milestones") milestonesPage();
   if (page === "seasoncal") seasonCalPage();
   if (page === "driver") driverPage();
+  if (page === "compare") comparePage();
   if (page === "home") driverSearch(document.querySelector(".sub3"), searchList(driverRecordsData(true)));
 
   /* ---------------- Discord buttons (home page + bottom of every page) ---------------- */
