@@ -553,3 +553,14 @@ tr.sgrid td { vertical-align: top; }
 }
 @media (max-width: 600px) { #rows td.tagwrap { max-width: 130px; } #rows .tcount { flex-direction: column; align-items: flex-start; } #rows td:last-child { display: none; } #head th:last-child { display: none; } }
 @media (max-width: 600px) { #rows td.tagwrap { min-width: 0 !important; width: 120px; white-space: normal; } #rows td.tagwrap summary { white-space: nowrap; } #head th { white-space: nowrap; } }
+.tpgrid td.nowrap { white-space: nowrap; }
+.tpast { color: #34C46E; margin-left: 2px; }
+.tppos { min-width: 0; }
+.tpgrid th .sm { display: none; }
+.tpdrv .sub { white-space: nowrap; }
+@media (max-width: 600px) {
+  .tpgrid th .lg { display: none; } .tpgrid th .sm { display: inline; }
+  .tpgrid th, .tpgrid td { padding: 8px 8px; }
+}
+@media (max-width: 600px) { .tpdrv .sub { white-space: normal; } .tpdrv th, .tpdrv td { padding: 8px 7px; } .tpdrv th { letter-spacing: .06em; } }
+@media (max-width: 600px) { .tpdrv { font-size: 13px; } .tpdrv th, .tpdrv td { padding: 8px 5px; } .tpdrv th:first-child, .tpdrv td:first-child { padding-left: 8px; } }
