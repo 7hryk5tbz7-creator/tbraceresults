@@ -448,7 +448,12 @@
         return '<div class="tile"><div class="label">Most titles</div><div class="tile-big' + (who.length === 1 ? " champion" : "") + '">' + (who.length === 1 ? esc(who[0]) : top.titles + (top.titles === 1 ? " title each" : " titles each")) + '</div><div class="sub" style="white-space:normal">' +
           (who.length === 1 ? top.titles + (top.titles === 1 ? " title" : " titles") : esc(who.slice(0, 3).join(", ")) + (who.length > 3 ? " and " + (who.length - 3) + " more" : "")) + "</div></div>";
       })() +
-      '<div class="tile"><div class="label">Latest champion</div><div class="tile-big">' + esc(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>" +
+      (SCOPE_ALL ? (function () {
+        // Latest champion in each series.
+        var rows = ORDER.map(function (id) { var x = done.filter(function (d) { return groupOf(d) === id; })[0]; return x ? '<div class="lcrow"><span>' + esc(SHORT(ALL[id])) + "</span>" + plink(x.standings[0][1]) + '<small>S' + x.season + " · " + pts(x, x.standings[0]) + " pts</small></div>" : ""; }).join("");
+        return '<div class="tile"><div class="label">Latest champions</div>' + rows + "</div>";
+      })() :
+      '<div class="tile"><div class="label">Latest champion</div><div class="tile-big">' + esc(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>") +
       '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + list.length + '</div><div class="sub">from ' + done.length + (SCOPE_ALL ? " championships" : " seasons") + "</div></div>";
 
     $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">' + (SCOPE_ALL ? "Titles won" : "Seasons won") + "</th></tr>";
