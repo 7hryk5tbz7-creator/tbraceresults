@@ -564,3 +564,19 @@ tr.sgrid td { vertical-align: top; }
 }
 @media (max-width: 600px) { .tpdrv .sub { white-space: normal; } .tpdrv th, .tpdrv td { padding: 8px 7px; } .tpdrv th { letter-spacing: .06em; } }
 @media (max-width: 600px) { .tpdrv { font-size: 13px; } .tpdrv th, .tpdrv td { padding: 8px 5px; } .tpdrv th:first-child, .tpdrv td:first-child { padding-left: 8px; } }
+.tseasons[open] { margin-top: 6px; }
+.tsrow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; margin-top: 4px; }
+.tsrow > b { min-width: 62px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+.tsrow .seasontag { margin-right: 4px; }
+@media (max-width: 600px) { [data-page="champions"] .tagwrap { min-width: 0; } [data-page="champions"] .tcount { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 600px) { [data-page="champions"] #rows td.tagwrap { min-width: 0 !important; width: 130px; white-space: normal; } [data-page="champions"] #rows td.tagwrap summary { white-space: nowrap; } .tsrow > b { min-width: 100%; } }
+@media (max-width: 600px) {
+  [data-page="champions"] #rows tr, [data-page="teamtitles"] #rows tr { display: grid; grid-template-columns: auto 1fr auto; align-items: center; }
+  [data-page="champions"] #rows td, [data-page="teamtitles"] #rows td { border-bottom: 0; }
+  [data-page="champions"] #rows tr, [data-page="teamtitles"] #rows tr { border-bottom: 1px solid var(--border); }
+  [data-page="champions"] #rows td.tagwrap, [data-page="teamtitles"] #rows td.tagwrap { grid-column: 1 / -1; width: auto !important; max-width: none !important; padding-top: 0; }
+  [data-page="champions"] #rows .tcount, [data-page="teamtitles"] #rows .tcount { flex-direction: row; }
+  [data-page="champions"] #head th:nth-child(4), [data-page="teamtitles"] #head th:nth-child(4) { display: none; }
+  [data-page="champions"] #head tr, [data-page="teamtitles"] #head tr { display: grid; grid-template-columns: auto 1fr auto; }
+  .tsrow > b { min-width: 62px; }
+}

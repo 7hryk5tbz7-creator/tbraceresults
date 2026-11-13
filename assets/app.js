@@ -405,6 +405,16 @@
 
   /* ---------------- Champions page ---------------- */
   // Only finished seasons count; the current season is added once it is complete.
+  // All Time "titles won": a count per series, then a "Show seasons" dropdown with a gold link to each title season, grouped by series.
+  function titleCounts(won, hash) {
+    var by = function (id) { return won.filter(function (x) { return groupOf(x) === id; }).sort(function (a, b) { return b.season - a.season; }); };
+    return '<div class="tcount">' + ORDER.map(function (id) { var n = by(id).length; return '<span' + (n ? "" : ' class="zero"') + ">" + esc(SHORT(ALL[id])) + " <b>" + n + "</b></span>"; }).join("") + "</div>" +
+      '<details class="tseasons"><summary>Show seasons</summary>' + ORDER.map(function (id) {
+        var l = by(id); if (!l.length) return "";
+        return '<div class="tsrow"><b>' + esc(SHORT(ALL[id])) + "</b>" + l.map(function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + (hash || "") + '">S' + x.season + "</a>"; }).join("") + "</div>";
+      }).join("") + "</details>";
+  }
+
   function championsPage() {
     var done = RSEASONS.filter(function (x) { return x.final && !x.noChampion && x.standings && x.standings.length; });
     var pts = function (x, r) { return x.standingsFormat === "archive" ? r[6] : r[8]; };
@@ -441,7 +451,7 @@
       '<div class="tile"><div class="label">Latest champion</div><div class="tile-big">' + esc(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>" +
       '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + list.length + '</div><div class="sub">from ' + done.length + (SCOPE_ALL ? " championships" : " seasons") + "</div></div>";
 
-    $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">Seasons won</th></tr>';
+    $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">' + (SCOPE_ALL ? "Titles won" : "Seasons won") + "</th></tr>";
     var prev = null, pos = 0;
     $("rows").innerHTML = list.map(function (o, i) {
       var key = o.titles + "|" + first(o);
@@ -450,7 +460,7 @@
         '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
         '<td><div class="driver' + (pos === 1 ? " champion" : "") + '">' + plink(o.name) + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
         '<td class="r"><span class="points">' + o.titles + "</span></td>" +
-        '<td class="' + (SCOPE_ALL ? "tagwrap" : "nowrap") + '">' + o.won.slice().sort(function (a, b) { return b.season - a.season || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99); }).map(tag).join("") + "</td></tr>";
+        '<td class="' + (SCOPE_ALL ? "tagwrap" : "nowrap") + '">' + (SCOPE_ALL ? titleCounts(o.won) : o.won.slice().sort(function (a, b) { return b.season - a.season || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99); }).map(tag).join("")) + "</td></tr>";
     }).join("");
 
     $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Champion</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
@@ -867,9 +877,7 @@
       return '<tr class="' + (pos <= 3 ? "podium" : "") + '"><td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
         '<td><div class="driver nowrap' + (pos === 1 && o.titles ? " champion" : "") + '">' + tbar(o.name) + tlink(o.name) + '</div><div class="sub nowrap" style="color:var(--dim)">' + esc(subList(o)) + "</div></td>" +
         '<td class="r"><span class="points">' + (o.titles || '<span class="none">0</span>') + "</span></td>" +
-        '<td class="tagwrap">' + (!won.length ? '<span class="none">—</span>' : !SCOPE_ALL ? won.map(tag).join("") :
-          '<div class="tcount">' + ORDER.map(function (id) { var n = won.filter(function (x) { return groupOf(x) === id; }).length; return '<span' + (n ? "" : ' class="zero"') + ">" + esc(SHORT(ALL[id])) + " <b>" + n + "</b></span>"; }).join("") + "</div>" +
-          '<details class="tseasons"><summary>Show seasons</summary>' + ORDER.map(function (id) { var l = won.filter(function (x) { return groupOf(x) === id; }).map(function (x) { return x.season; }).sort(function (a, b) { return a - b; }); if (!l.length) return ""; var runs = []; l.forEach(function (n) { var r = runs[runs.length - 1]; if (r && n === r[1] + 1) r[1] = n; else runs.push([n, n]); }); return "<div><b>" + esc(SHORT(ALL[id])) + "</b> " + runs.map(function (r) { return r[0] === r[1] ? "S" + r[0] : "S" + r[0] + "\u2013S" + r[1]; }).join(", ") + "</div>"; }).join("") + "</details>") + "</td>" +
+        '<td class="tagwrap">' + (!won.length ? '<span class="none">—</span>' : !SCOPE_ALL ? won.map(tag).join("") : titleCounts(won, "#view=teams")) + "</td>" +
         '<td class="t r hidesm">' + (o.rwins || '<span class="none">0</span>') + '</td><td class="t r hidesm">' + (o.racewins || '<span class="none">0</span>') + "</td>" +
         '<td class="t r hidesm">' + o.entered + '</td><td class="t r" style="color:var(--muted)">' + Number(o.points).toLocaleString("en-AU") + "</td></tr>";
     }).join("");
