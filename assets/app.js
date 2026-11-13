@@ -1522,9 +1522,9 @@
     var ds = Object.keys(o.ds).map(function (k) { return o.ds[k]; }).sort(function (a, b) { return b.starts - a.starts || b.wins - a.wins; });
     var range = function (l) { l = l.slice().sort(function (a, b) { return a - b; }); return l[0] === l[l.length - 1] ? "Season " + l[0] : "Seasons " + l[0] + "–" + l[l.length - 1]; };
     var topHtml = '<div class="scroll"><table class="tpdrv"><thead><tr><th scope="col">Driver</th><th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th><th scope="col" class="r">Titles</th></tr></thead><tbody>' +
-      ds.slice(0, 10).map(function (d) {
-        return "<tr><td>" + plink(d.name) + '<div class="sub">' + range(d.seasons) + (line[d.name] ? ' · <span style="color:#34C46E">current</span>' : "") + '</div></td><td class="r">' + d.starts + '</td><td class="r">' + d.wins + '</td><td class="r">' + d.podiums + '</td><td class="r' + (d.titles ? " gold" : "") + '">' + d.titles + "</td></tr>";
-      }).join("") + "</tbody></table></div>";
+      ds.map(function (d, i) {
+        return "<tr" + (i >= 10 ? ' class="tpmore" hidden' : "") + "><td>" + plink(d.name) + '<div class="sub">' + range(d.seasons) + (line[d.name] ? ' · <span style="color:#34C46E">current</span>' : "") + '</div></td><td class="r">' + d.starts + '</td><td class="r">' + d.wins + '</td><td class="r">' + d.podiums + '</td><td class="r' + (d.titles ? " gold" : "") + '">' + d.titles + "</td></tr>";
+      }).join("") + "</tbody></table></div>" + (ds.length > 10 ? '<button type="button" class="tpall" id="tpall" aria-expanded="false">Show all ' + ds.length + " drivers</button>" : "");
     var form = TRD.formerly[T], first = Math.min.apply(null, o.seasons);
     var badge = TEAM_BADGE[T] || T.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 3);
     $("profile").innerHTML =
@@ -1533,8 +1533,15 @@
         (form && form.list ? '<div class="pfteam" style="margin-top:2px">Previously ' + form.list.map(esc).join(" and ") + "</div>" : "") + "</div></div>" +
       '<div class="pftiles"><div><b class="gold">' + titles + "</b><span>Team titles</span></div><div><b>" + o.titles + "</b><span>Drivers' titles</span></div><div><b>" + o.wins + "</b><span>Race wins</span></div><div><b>" + o.podiums + "</b><span>Podiums</span></div><div><b>" + o.starts + "</b><span>Starts</span></div><div><b>" + o.seasons.length + "</b><span>Seasons</span></div></div>" +
       (lineup.length ? '<h2 class="section-title">Season 18 line-up</h2><div class="tpline">' + lineup.map(function (n) { return '<a href="driver.html?name=' + encodeURIComponent(n) + '">' + (RN[n] != null ? '<b style="background:' + o.colour + '">' + esc(RN[n]) + "</b>" : "") + esc(n) + "</a>"; }).join("") + "</div>" : "") +
-      '<div class="tptwo"><div><h2 class="section-title">Team championship history</h2>' + gridHtml + '</div><div><h2 class="section-title">Top drivers for the team</h2>' + topHtml + "</div></div>" +
+      '<div class="tptwo"><div><h2 class="section-title">Team championship history</h2>' + gridHtml + '</div><div><h2 class="section-title">Drivers for the team</h2>' + topHtml + "</div></div>" +
       '<p class="pfnote">Starts = rounds in which at least one of the team’s drivers started; wins, podiums and drivers’ titles are counted for the team the driver raced for in that season, as on Team Records' + (form ? " (" + form.list.map(esc).join(" and ") + " counted as " + esc(T) + ")" : "") + ". Team titles and positions are from the team championships (from Season 4; Season 18 so far). Driver figures are only those for this team.</p>";
+    var btn = $("tpall");
+    if (btn) btn.addEventListener("click", function () {
+      var open = btn.getAttribute("aria-expanded") === "true";
+      document.querySelectorAll(".tpmore").forEach(function (r) { r.hidden = open; });
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+      btn.textContent = open ? "Show all " + ds.length + " drivers" : "Show top 10 only";
+    });
   }
 
   /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */

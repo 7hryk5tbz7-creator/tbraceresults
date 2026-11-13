@@ -512,3 +512,5 @@ a.plink:hover { color: var(--red-text); text-decoration: underline; text-underli
 .tpgrid small.pfprog { margin-left: 6px; }
 .dsteam { display: inline-block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: rgba(255,255,255,.12); color: #fff; padding: 1px 6px; border-radius: 4px; margin-right: 6px; }
 #profile .section-title { margin: 28px 0 12px; }
+.tpall { margin-top: 12px; background: var(--panel); border: 1px solid var(--border); color: #fff; font: 600 13px var(--sans, inherit); letter-spacing: .08em; text-transform: uppercase; padding: 9px 16px; border-radius: 8px; cursor: pointer; }
+.tpall:hover { border-color: rgba(255,255,255,.35); }
