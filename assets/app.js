@@ -837,7 +837,12 @@
       '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + all.filter(function (o) { return o.titles; }).length + '</div><div class="sub">from ' + champs.length + (champs.length === 1 ? " championship" : " championships") + "</div></div>";
     var tag = function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + '#view=teams">S' + x.season + (SCOPE_ALL ? " " + esc(SHORT(baseOf(x))) : "") + "</a>"; };
     var subList = function (o) {
-      if (!SCOPE_ALL) return o.list.map(function (x) { return "S" + x.season; }).sort(function (a, b) { return parseInt(a.slice(1)) - parseInt(b.slice(1)); }).join(" · ");
+      if (!SCOPE_ALL) {
+        // Compact range, e.g. "S4–S17" or "S4–S7, S9–S17" (the count is in the Seasons entered column).
+        var ns = uniq(o.list.map(function (x) { return x.season; })).sort(function (a, b) { return a - b; }), runs = [];
+        ns.forEach(function (n) { var r = runs[runs.length - 1]; if (r && n === r[1] + 1) r[1] = n; else runs.push([n, n]); });
+        return runs.map(function (r) { return r[0] === r[1] ? "S" + r[0] : "S" + r[0] + "\u2013S" + r[1]; }).join(", ");
+      }
       var c = {}; o.list.forEach(function (x) { var s2 = SHORT(baseOf(x)); c[s2] = (c[s2] || 0) + 1; });
       var multi = o.list.length > Object.keys(c).length;
       return ORDER.map(function (id) { return SHORT(ALL[id]); }).filter(function (s2) { return c[s2]; }).map(function (s2) { return multi ? s2 + " " + c[s2] : s2; }).join(" · ");
