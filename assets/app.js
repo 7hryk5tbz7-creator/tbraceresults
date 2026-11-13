@@ -741,7 +741,7 @@
     var tile = function (label, t) {
       return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + t.v + '</div><div class="sub" style="white-space:normal">' + esc(t.who.join(", ")) + "</div></div>";
     };
-    $("tiles").innerHTML = all.length ? tile("Most wins", top("wins")) + tile("Most podiums", top("podiums")) + tile("Most drivers' titles", top("titles")) : "";
+    $("tiles").innerHTML = all.length ? teamTile("Most wins", top("wins"), "win") + teamTile("Most podiums", top("podiums"), "podium") + teamTile("Most drivers' titles", top("titles"), "title") : "";
 
     var COLS = [["nseasons", "Seasons"], ["ndrivers", "Drivers"], ["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["pct", "Win %"], ["titles", "Drivers' Titles"]];
     var h = readHash();
@@ -795,6 +795,13 @@
   var TC = window.TEAM_CHAMPS || {};
   var CTC = window.CLUB_TEAMS || {};
   var teamColour = function (n) { return CTC[n] || CTC[(window.TEAM_ALIASES || {})[n]] || (window.MANUFACTURER_COLOURS || {})[n] || "#8C939D"; };
+  // Leader tile for team pages: the team's name big in its own colour (links to its profile), the figure underneath; a tie shows the figure and the names.
+  var teamTile = function (label, t, unit) {
+    var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
+    var link = function (nm) { return '<a class="plink" style="color:' + teamColour(nm) + '" href="team.html?name=' + encodeURIComponent(nm) + '">' + esc(nm) + "</a>"; };
+    if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big" style="color:' + teamColour(t.who[0]) + '">' + link(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
+    return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' + t.who.map(link).join(", ") + "</div></div>";
+  };
   var tbar = function (n) { return '<span class="bar" style="background:' + teamColour(n) + ';margin-right:8px"></span>'; };
   // Final order of a team championship: points, then most round wins, then name.
   function tcTable(x, key) {
@@ -867,7 +874,7 @@
     if (!all.length) { $("tiles").innerHTML = ""; $("head").innerHTML = ""; $("rows").innerHTML = '<tr><td class="empty">No team championships on the site yet.</td></tr>'; $("head2").innerHTML = ""; $("rows2").innerHTML = ""; return; }
     var top = function (k) { var v = Math.max.apply(null, all.map(function (o) { return o[k]; })); return { v: v, who: all.filter(function (o) { return o[k] === v; }).map(function (o) { return o.name; }) }; };
     var tile = function (label, t) { return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + Number(t.v).toLocaleString("en-AU") + '</div><div class="sub" style="white-space:normal">' + esc(t.who.join(", ")) + "</div></div>"; };
-    $("tiles").innerHTML = tile("Most team titles", top("titles")) + tile("Most team points", top("points")) +
+    $("tiles").innerHTML = teamTile("Most team titles", top("titles"), "title") + teamTile("Most team points", top("points"), "point") +
       '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + all.filter(function (o) { return o.titles; }).length + '</div><div class="sub">from ' + champs.length + (champs.length === 1 ? " championship" : " championships") + "</div></div>";
     var tag = function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + '#view=teams">S' + x.season + (SCOPE_ALL ? " " + esc(SHORT(baseOf(x))) : "") + "</a>"; };
     var subList = function (o) {
