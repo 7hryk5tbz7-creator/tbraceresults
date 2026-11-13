@@ -1083,7 +1083,7 @@ window.RACE_NUMBERS = {
   "Pjmack75": 21, "Kezaudio": 72, "Colin_t24": 85, "MasoMarvel87": 333, "iphonedoc": 744, "S7R_Ando787": 787,
   "jmillsy85": 22, "b-man228": 26, "GGCAS_39": 39, "ricreene": 69, "Trickybrewer": 92, "RiotheSpeedster": 171, "Tankneo-1": 576,
   "Barberphil": 11, "Meggs1": 59, "capella13b": 64, "O-PUNCHY-_-P": 427, "Legend-Macca47": 447, "VETERANPP": 998,
-  "Bluebloss": 29, "RazzMazz": 56
+  "Bluebloss": 29, "RazzMazz": 56, "GoHelpTripleD": 343
 };
 
 // Fly-balding072: MC Motorsport from Season 10 on (club decision, 2 Nov – overrides Privateer on the S10–S14 lists).

@@ -15,10 +15,12 @@ window.SERIES["gt3-endurance"] = {
   seriesLine: "Trailblazers S18 WJF Trophy",
   pages: { results: "wjf-trophy.html", championship: "championship.html", calendar: "wjf-calendar.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
   hasLobbies: true,
+  // Provisional until the club confirms stewards' reviews are done (remove when told).
+  provisional: { rounds: [6], text: "Results pending Round 6 stewards\u2019 reviews" },
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results", "Lapped drivers (Round 5): laps down to the leader, with the gap to the car ahead as in the club\u2019s results"],
-  source: "Results transcribed from the club's Round 1–5 result sheets.",
+  source: "Results transcribed from the club's Round 1–6 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0 and counts as the drop. RGQ scores 0 and is not a drop round. Ties split on countback: most wins, then 2nds, 3rds and so on. STARTS include DC and RGQ; PODIUMS include wins.",
-  standingsSource: "Standings as published by the club after Round 5.",
+  standingsSource: "Standings after Round 6 worked out from the round results with the club\u2019s rules (Rounds 1–5 as published by the club).",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#FACC15" },
@@ -34,7 +36,7 @@ window.SERIES["gt3-endurance"] = {
     F296: "296 GT3 '23",
     V12: "V12 Vantage GT3 '12",
     M6: "M6 GT3 Sprint Model '16",
-    FGT: "Ford GT Race Car '18",
+    FGT: "Ford GT Race Car '18", "650S": "650S GT3 '15",
     NA: ""
   },
 
@@ -172,42 +174,66 @@ window.SERIES["gt3-endurance"] = {
         ["N-spud-P666","MC","Red","F296","DNS","DNS","","","o"],
         ["jmillsy85","R3","Red","M6","DNS","DNS","","","o"]
       ]
+    },
+    {
+      no: 6, track: "Michelin Raceway Road Atlanta", short: "Road Atlanta",
+      entries: 17, starters: 16, leadLap: 10, lobbies: "Blue lobby",
+      rows: [
+        ["Arty_Bicycle","MC","Blue","F296","1:21:11.811","Winner","","1:18.589","c"],
+        ["ExpatChamp","MT","Blue","V12","1:21:20.096","+8.285","+8.285","1:18.618","c"],
+        ["NWR_NICO71","MC","Blue","F296","1:21:35.291","+23.480","+15.195","1:18.759","c"],
+        ["GoHelpTripleD","PV","Blue","650S","1:21:44.466","+32.655","+9.175","1:19.053","c"],
+        ["Trickybrewer","R3","Blue","RCF","1:21:48.007","+36.196","+3.541","1:18.822","c"],
+        ["brettubrettu26","MT","Blue","M6","1:21:48.409","+36.598","+0.402","1:19.148","c"],
+        ["Fatalreaper666","MT","Blue","F296","1:21:52.291","+40.480","+3.882","1:18.504","c"],
+        ["BigBruceTheShark","MT","Blue","F296","1:22:07.962","+56.151","+15.671","1:19.543","c"],
+        ["GLR_Scotty","MT","Blue","RCF","1:22:16.586","+1:04.775","+8.624","1:19.211","c"],
+        ["N-spud-P666","MC","Blue","F296","1:22:23.301","+1:11.490","+6.715","1:18.394","c"],
+        ["Meggs1","GB","Blue","RCF","1 Lap","+1 Lap","","1:19.624","l"],
+        ["RazzMazz","PV","Blue","RCF","1 Lap","+1 Lap","","1:18.766","l"],
+        ["VETERANPP","GB","Blue","RCF","1 Lap","+1 Lap","","1:19.459","l"],
+        ["Barberphil","GB","Blue","RCF","1 Lap","+1 Lap","","1:19.794","l"],
+        ["Pjmack75","RR","Blue","F296","RGQ","RGQ","","1:20.020","o"],
+        ["b-man228","R3","Blue","F296","RGQ","RGQ","","1:20.246","o"],
+        ["Tankneo-1","R3","Blue","NA","DNS","DNS","","","o"]
+      ]
     }
   ],
-  // Standings after Round 5, as published by the club (confirmed after stewards' reviews).
-  // [pos, driver, team, car, [R1..R5], total, drop, gap, points, starts, wins, podiums]
+  // Standings after Round 6, worked out from the round results with the club's rules (no club standings image).
+  // [pos, driver, team, car, [R1..R6], total, drop, gap, points, starts, wins, podiums]
   // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "21*" = DC; "DNS"; "RGQ"; "–" = did not enter
-  standingsAfter: 5,
+  standingsAfter: 6,
   standings: [
-    ["1","NWR_NICO71","MC","F296",["DNS","32","45p1","45p1","43p2"],165,0,"Leader",165,4,2,3],
-    ["2","Tankneo-1","R3","RCF",["33d","43p2","41p3","36","41p3"],194,-33,"-4",161,5,0,3],
-    ["3","WallFinder","MT","RCF",["39","34d","36","39","38"],186,-34,"-13",152,5,0,0],
-    ["4","ExpatChamp","MT","V12",["41p3","30d","43p2","37","30"],181,-30,"-14",151,5,0,2],
-    ["5","RazzMazz","PV","RCF",["36d","36","38","41p3","36"],187,-36,"-14",151,5,0,1],
-    ["6","GLR_Scotty","MT","RCF",["30","45p1","35","40","–"],150,0,"-15",150,4,1,1],
-    ["7","Trickybrewer","R3","RCF",["38","40","40","30d","32"],180,-30,"-15",150,5,0,0],
-    ["8","Pjmack75","RR","F296",["28d","37","37","38","37"],177,-28,"-16",149,5,0,0],
-    ["9","Fatalreaper666","MT","F296",["40","28d","31","43p2","28"],170,-28,"-23",142,5,0,1],
-    ["10","MAD_MITCH_76","MT","F296",["31d","39","34","34","34"],172,-31,"-24",141,5,0,0],
-    ["11","VETERANPP","GB","RCF",["32","35","–","35","33"],135,0,"-30",135,4,0,0],
-    ["12","BigBruceTheShark","MT","F296",["35","33","33","33","–"],134,0,"-31",134,4,0,0],
-    ["13","Arty_Bicycle","MC","F296",["43p2","41p3","–","–","39"],123,0,"-42",123,3,0,2],
-    ["14","Hamitothebone","MT","F296",["23d","31","30","31","27"],142,-23,"-46",119,5,0,0],
-    ["15","Barberphil","GB","RCF",["24","27","–","29","29"],109,0,"-56",109,4,0,0],
-    ["16","b-man228","R3","F296",["29","26d","32","RGQ","35"],122,-26,"-69",96,5,0,0],
-    ["17","S7R_Ando787","RR","RCF",["45p1","DNS","–","–","45p1"],90,0,"-75",90,2,2,2],
-    ["18","Meggs1","GB","RCF",["27","–","–","32","31"],90,0,"-75",90,3,0,0],
-    ["19","RiotheSpeedster","R3","RCF",["37","29","–","–","–"],66,0,"-99",66,2,0,0],
-    ["20","jmillsy85","R3","M6",["21*","–","39","DNS","DNS"],60,0,"-105",60,2,0,0],
-    ["21","brettubrettu26","MT","M6",["–","–","–","–","40"],40,0,"-125",40,1,0,0],
-    ["22","N-spud-P666","MC","F296",["DNS","38","–","–","DNS"],38,0,"-127",38,1,0,0],
-    ["23","Tim_turtle_79","MT","RCF",["34","RGQ","–","–","–"],34,0,"-131",34,2,0,0],
-    ["24","ricreene","R3","FGT",["–","–","29","–","–"],29,0,"-136",29,1,0,0],
-    ["25","Legend-Macca47","GB","V12",["26","–","–","–","–"],26,0,"-139",26,1,0,0],
-    ["26","GGCAS_39","R3","RCF",["–","DNS","–","–","26"],26,0,"-139",26,1,0,0],
-    ["27","Soulslayer_71","R3","RCF",["25","RGQ","–","–","–"],25,0,"-140",25,2,0,0],
-    ["28","MalevolentOne666","MT","F296",["22","–","DNS","–","–"],22,0,"-143",22,1,0,0],
-    ["29","allaussie","MC","RCF",["RGQ","–","–","–","–"],0,0,"-165",0,1,0,0],
-    ["30","O-PUNCHY-_-P","GB","NA",["–","DNS","–","–","–"],0,0,"-165",0,0,0,0]
+    ["1","NWR_NICO71","MC","F296",["DNS","32","45p1","45p1","43p2","41p3"],206,0,"Leader",206,5,2,4],
+    ["2","ExpatChamp","MT","V12",["41p3","30d","43p2","37","30","43p2"],224,-30,"-12",194,6,0,3],
+    ["3","Tankneo-1","R3","RCF",["33","43p2","41p3","36","41p3","DNS"],194,0,"-12",194,5,0,3],
+    ["4","Trickybrewer","R3","RCF",["38","40","40","30d","32","39"],219,-30,"-17",189,6,0,0],
+    ["5","RazzMazz","PV","RCF",["36","36","38","41p3","36","32d"],219,-32,"-19",187,6,0,1],
+    ["6","WallFinder","MT","RCF",["39","34","36","39","38","–"],186,0,"-20",186,5,0,0],
+    ["7","GLR_Scotty","MT","RCF",["30","45p1","35","40","–","35"],185,0,"-21",185,5,1,1],
+    ["8","Fatalreaper666","MT","F296",["40","28d","31","43p2","28","37"],207,-28,"-27",179,6,0,1],
+    ["9","MAD_MITCH_76","MT","F296",["31","39","34","34","34","–"],172,0,"-34",172,5,0,0],
+    ["10","BigBruceTheShark","MT","F296",["35","33","33","33","–","36"],170,0,"-36",170,5,0,0],
+    ["11","Arty_Bicycle","MC","F296",["43p2","41p3","–","–","39","45p1"],168,0,"-38",168,4,1,3],
+    ["12","VETERANPP","GB","RCF",["32","35","–","35","33","31"],166,0,"-40",166,5,0,0],
+    ["13","Pjmack75","RR","F296",["28d","37","37","38","37","RGQ"],177,-28,"-57",149,6,0,0],
+    ["14","Hamitothebone","MT","F296",["23","31","30","31","27","–"],142,0,"-64",142,5,0,0],
+    ["15","Barberphil","GB","RCF",["24","27","–","29","29","30"],139,0,"-67",139,5,0,0],
+    ["16","Meggs1","GB","RCF",["27","–","–","32","31","33"],123,0,"-83",123,4,0,0],
+    ["17","b-man228","R3","F296",["29","26d","32","RGQ","35","RGQ"],122,-26,"-110",96,6,0,0],
+    ["18","S7R_Ando787","RR","RCF",["45p1","DNS","–","–","45p1","–"],90,0,"-116",90,2,2,2],
+    ["19","brettubrettu26","MT","M6",["–","–","–","–","40","38"],78,0,"-128",78,2,0,0],
+    ["20","N-spud-P666","MC","F296",["DNS","38","–","–","DNS","34"],72,0,"-134",72,2,0,0],
+    ["21","RiotheSpeedster","R3","RCF",["37","29","–","–","–","–"],66,0,"-140",66,2,0,0],
+    ["22","jmillsy85","R3","M6",["21*","–","39","DNS","DNS","–"],60,0,"-146",60,2,0,0],
+    ["23","GoHelpTripleD","PV","F296",["–","–","–","–","–","40"],40,0,"-166",40,1,0,0],
+    ["24","Tim_turtle_79","MT","RCF",["34","RGQ","–","–","–","–"],34,0,"-172",34,2,0,0],
+    ["25","ricreene","R3","FGT",["–","–","29","–","–","–"],29,0,"-177",29,1,0,0],
+    ["26","Legend-Macca47","GB","V12",["26","–","–","–","–","–"],26,0,"-180",26,1,0,0],
+    ["27","GGCAS_39","R3","RCF",["–","DNS","–","–","26","–"],26,0,"-180",26,1,0,0],
+    ["28","Soulslayer_71","R3","RCF",["25","RGQ","–","–","–","–"],25,0,"-181",25,2,0,0],
+    ["29","MalevolentOne666","MT","F296",["22","–","DNS","–","–","–"],22,0,"-184",22,1,0,0],
+    ["30","allaussie","MC","RCF",["RGQ","–","–","–","–","–"],0,0,"-206",0,1,0,0],
+    ["31","O-PUNCHY-_-P","GB","NA",["–","DNS","–","–","–","–"],0,0,"-206",0,0,0,0]
   ]
 };
