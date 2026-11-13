@@ -547,12 +547,12 @@ tr.sgrid td { vertical-align: top; }
   tr.sgrid td:first-child { padding-bottom: 4px !important; }
   tr.sgrid .sgrun { padding-left: 12px; }
   .tagwrap:has(.tcount) + td, .tagwrap:has(.tcount) ~ td { }
-  #rows .sub.nowrap { display: none; }
-  #rows .driver.nowrap { white-space: normal; }
-  #rows td.tagwrap { padding-right: 8px; }
+  [data-page="teamtitles"] #rows .sub.nowrap { display: none; }
+  [data-page="teamtitles"] #rows .driver.nowrap { white-space: normal; }
+  [data-page="teamtitles"] #rows td.tagwrap { padding-right: 8px; }
 }
-@media (max-width: 600px) { #rows td.tagwrap { max-width: 130px; } #rows .tcount { flex-direction: column; align-items: flex-start; } #rows td:last-child { display: none; } #head th:last-child { display: none; } }
-@media (max-width: 600px) { #rows td.tagwrap { min-width: 0 !important; width: 120px; white-space: normal; } #rows td.tagwrap summary { white-space: nowrap; } #head th { white-space: nowrap; } }
+@media (max-width: 600px) { [data-page="teamtitles"] #rows td.tagwrap { max-width: 130px; } [data-page="teamtitles"] #rows .tcount { flex-direction: column; align-items: flex-start; } [data-page="teamtitles"] #rows td:last-child { display: none; } [data-page="teamtitles"] #head th:last-child { display: none; } }
+@media (max-width: 600px) { [data-page="teamtitles"] #rows td.tagwrap { min-width: 0 !important; width: 120px; white-space: normal; } [data-page="teamtitles"] #rows td.tagwrap summary { white-space: nowrap; } [data-page="teamtitles"] #head th { white-space: nowrap; } }
 .tpgrid td.nowrap { white-space: nowrap; }
 .tpast { color: #34C46E; margin-left: 2px; }
 .tppos { min-width: 0; }
