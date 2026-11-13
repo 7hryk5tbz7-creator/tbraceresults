@@ -415,6 +415,12 @@
       }).join("") + "</details>";
   }
 
+  // Single-series "seasons won": a "Show seasons" dropdown of gold links.
+  function seasonsDrop(won, hash) {
+    var l = won.slice().sort(function (a, b) { return b.season - a.season; });
+    return '<details class="tseasons solo"><summary>Show seasons</summary><div class="tsrow">' + l.map(function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + (hash || "") + '">S' + x.season + "</a>"; }).join("") + "</div></details>";
+  }
+
   function championsPage() {
     var done = RSEASONS.filter(function (x) { return x.final && !x.noChampion && x.standings && x.standings.length; });
     var pts = function (x, r) { return x.standingsFormat === "archive" ? r[6] : r[8]; };
@@ -465,7 +471,7 @@
         '<td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
         '<td><div class="driver' + (pos === 1 ? " champion" : "") + '">' + plink(o.name) + "</div>" + (o.team ? '<div class="sub nowrap">' + bar(o.team.colour) + esc(o.team.name) + "</div>" : "") + "</td>" +
         '<td class="r"><span class="points">' + o.titles + "</span></td>" +
-        '<td class="' + (SCOPE_ALL ? "tagwrap" : "nowrap") + '">' + (SCOPE_ALL ? titleCounts(o.won) : o.won.slice().sort(function (a, b) { return b.season - a.season || (baseOf(a).navOrder || 99) - (baseOf(b).navOrder || 99); }).map(tag).join("")) + "</td></tr>";
+        '<td class="tagwrap">' + (SCOPE_ALL ? titleCounts(o.won) : seasonsDrop(o.won)) + "</td></tr>";
     }).join("");
 
     $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Champion</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
@@ -882,7 +888,7 @@
       return '<tr class="' + (pos <= 3 ? "podium" : "") + '"><td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
         '<td><div class="driver nowrap' + (pos === 1 && o.titles ? " champion" : "") + '">' + tbar(o.name) + tlink(o.name) + '</div><div class="sub nowrap" style="color:var(--dim)">' + esc(subList(o)) + "</div></td>" +
         '<td class="r"><span class="points">' + (o.titles || '<span class="none">0</span>') + "</span></td>" +
-        '<td class="tagwrap">' + (!won.length ? '<span class="none">—</span>' : !SCOPE_ALL ? won.map(tag).join("") : titleCounts(won, "#view=teams")) + "</td>" +
+        '<td class="tagwrap">' + (!won.length ? '<span class="none">—</span>' : !SCOPE_ALL ? seasonsDrop(won, "#view=teams") : titleCounts(won, "#view=teams")) + "</td>" +
         '<td class="t r hidesm">' + (o.rwins || '<span class="none">0</span>') + '</td><td class="t r hidesm">' + (o.racewins || '<span class="none">0</span>') + "</td>" +
         '<td class="t r hidesm">' + o.entered + '</td><td class="t r" style="color:var(--muted)">' + Number(o.points).toLocaleString("en-AU") + "</td></tr>";
     }).join("");

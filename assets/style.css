@@ -585,3 +585,7 @@ tr.sgrid td { vertical-align: top; }
 .lcrow a { color: #fff; font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
 .lcrow a:hover { text-decoration: underline; }
 .lcrow small { color: var(--dim); font-size: 12px; white-space: nowrap; }
+.tseasons.solo { margin-top: 0; }
+.tseasons.solo .tsrow { margin-top: 6px; }
+[data-page="champions"] td.tagwrap:has(.solo), [data-page="teamtitles"] td.tagwrap:has(.solo) { min-width: 0; }
+@media (max-width: 600px) { [data-page="teamtitles"] #rows td.tagwrap:has(> .none) { display: none; } }
