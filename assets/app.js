@@ -606,12 +606,14 @@
       var who = best.filter(function (o) { return o[key] === v; }).map(function (o) { return o.name; });
       return { v: v, who: who };
     };
-    // Leader's name big in gold with the figure underneath (as Most titles on Drivers' Titles); a tie shows the figure big and the names underneath.
+    // Leader's name big in their team's colour with the figure underneath; a tie shows the figure big and the names underneath.
+    var dcol = function (nm) { var o = all.filter(function (d) { return d.name === nm; })[0]; return o && o.team && o.team.colour || "#fff"; };
+    var cl = function (nm) { return '<span style="color:' + dcol(nm) + '">' + plink(nm) + "</span>"; };
     var tile = function (label, t, unit) {
       var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
-      if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big champion">' + plink(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
+      if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big" style="color:' + dcol(t.who[0]) + '">' + plink(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
       return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' +
-        "<span>" + t.who.slice(0, 3).map(plink).join(", ") + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</span></div></div>";
+        "<span>" + t.who.slice(0, 3).map(cl).join(", ") + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</span></div></div>";
     };
     $("tiles").innerHTML = tile("Most wins", top("wins"), "win") + tile("Most podiums", top("podiums"), "podium") + tile("Most starts", top("starts"), "start");
 
