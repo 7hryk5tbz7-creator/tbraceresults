@@ -611,7 +611,7 @@
       var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
       if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big champion">' + plink(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
       return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' +
-        t.who.slice(0, 3).map(plink).join(", ") + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</div></div>";
+        "<span>" + t.who.slice(0, 3).map(plink).join(", ") + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</span></div></div>";
     };
     $("tiles").innerHTML = tile("Most wins", top("wins"), "win") + tile("Most podiums", top("podiums"), "podium") + tile("Most starts", top("starts"), "start");
 
@@ -800,7 +800,7 @@
     var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
     var link = function (nm) { return '<a class="plink" style="color:' + teamColour(nm) + '" href="team.html?name=' + encodeURIComponent(nm) + '">' + esc(nm) + "</a>"; };
     if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big" style="color:' + teamColour(t.who[0]) + '">' + link(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
-    return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' + t.who.map(link).join(", ") + "</div></div>";
+    return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' + "<span>" + t.who.map(link).join(", ") + "</span></div></div>";
   };
   var tbar = function (n) { return '<span class="bar" style="background:' + teamColour(n) + ';margin-right:8px"></span>'; };
   // Final order of a team championship: points, then most round wins, then name.
