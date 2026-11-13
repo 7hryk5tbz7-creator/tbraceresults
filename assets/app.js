@@ -606,11 +606,14 @@
       var who = best.filter(function (o) { return o[key] === v; }).map(function (o) { return o.name; });
       return { v: v, who: who };
     };
-    var tile = function (label, t) {
-      return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + t.v + '</div><div class="sub" style="white-space:normal">' +
-        esc(t.who.slice(0, 3).join(", ")) + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</div></div>";
+    // Leader's name big in gold with the figure underneath (as Most titles on Drivers' Titles); a tie shows the figure big and the names underneath.
+    var tile = function (label, t, unit) {
+      var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
+      if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big champion">' + plink(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
+      return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' +
+        t.who.slice(0, 3).map(plink).join(", ") + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</div></div>";
     };
-    $("tiles").innerHTML = tile("Most wins", top("wins")) + tile("Most podiums", top("podiums")) + tile("Most starts", top("starts"));
+    $("tiles").innerHTML = tile("Most wins", top("wins"), "win") + tile("Most podiums", top("podiums"), "podium") + tile("Most starts", top("starts"), "start");
 
     var COLS = [["nseasons", "Seasons"], ["starts", "Starts"], ["wins", "Wins"], ["podiums", "Podiums"], ["pct", "Win %"], ["ppct", "Podium %"]];
     var h = readHash();
