@@ -837,11 +837,12 @@
     $("meta").textContent = keys.length ? span + " · " + keys.length + (keys.length === 1 ? " team championship" : " team championships") + " · " + all.length + " teams" : "No team championships on the site yet";
     document.title = "Teams' Titles · " + LABEL + " · TB Race Results";
     var enteredLabel = SCOPE_ALL ? "Series entered" : "Seasons entered";
-    $("rules").textContent = "Team titles cover GT7 Seasons 4\u201317, the finished seasons with a team championship \u2013 the club didn\u2019t run one in Seasons 1\u20133, and Season 18 counts once it finishes. Titles = team championships won. Rounds won = rounds in which the team scored the most team points (a tie counts for each team). Races won = races won by the team's drivers in those championships. " + (SCOPE_ALL ? "Series entered = team championships (one series in one season) in which at least one of the team's drivers started a race. " : "Seasons entered = seasons of the " + BASE.navLabel + " in which at least one of the team's drivers started a race. ") +
+    var rulesFull = "Team titles cover GT7 Seasons 4\u201317, the finished seasons with a team championship \u2013 the club didn\u2019t run one in Seasons 1\u20133, and Season 18 counts once it finishes. Titles = team championships won. Rounds won = rounds in which the team scored the most team points (a tie counts for each team). Races won = races won by the team's drivers in those championships. " + (SCOPE_ALL ? "Series entered = team championships (one series in one season) in which at least one of the team's drivers started a race. " : "Seasons entered = seasons of the " + BASE.navLabel + " in which at least one of the team's drivers started a race. ") +
       "Points = team championship points: each round a team's best three drivers score, on a points scale set for each series and season (see each season's team standings). Privateers don't count as a team. Team RSR and Team RNR count as MC Motorsport. Starts, wins and podiums are on Team Records. Figures as published by the club.";
+    $("rules").textContent = rulesFull;
     if (!all.length) { $("tiles").innerHTML = ""; $("head").innerHTML = ""; $("rows").innerHTML = '<tr><td class="empty">No team championships on the site yet.</td></tr>'; $("head2").innerHTML = ""; $("rows2").innerHTML = ""; return; }
     var top = function (k) { var v = Math.max.apply(null, all.map(function (o) { return o[k]; })); return { v: v, who: all.filter(function (o) { return o[k] === v; }).map(function (o) { return o.name; }) }; };
-    var tile = function (label, t) { return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + t.v + '</div><div class="sub" style="white-space:normal">' + esc(t.who.join(", ")) + "</div></div>"; };
+    var tile = function (label, t) { return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + Number(t.v).toLocaleString("en-AU") + '</div><div class="sub" style="white-space:normal">' + esc(t.who.join(", ")) + "</div></div>"; };
     $("tiles").innerHTML = tile("Most team titles", top("titles")) + tile("Most team points", top("points")) +
       '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + all.filter(function (o) { return o.titles; }).length + '</div><div class="sub">from ' + champs.length + (champs.length === 1 ? " championship" : " championships") + "</div></div>";
     var tag = function (x) { return '<a class="seasontag gold" href="' + baseOf(x).pages.championship + (x === baseOf(x) ? "" : "?season=" + x.season) + '#view=teams">S' + x.season + (SCOPE_ALL ? " " + esc(SHORT(baseOf(x))) : "") + "</a>"; };
@@ -858,7 +859,7 @@
     };
     // Ranked by titles, then points (like Drivers' Titles): big Titles number, a tag for every title won, then series/seasons entered and points.
     var rows = all.slice().sort(function (a, b) { return b.titles - a.titles || b.points - a.points || a.name.localeCompare(b.name); });
-    $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Team</th><th scope="col" class="r">Titles</th><th scope="col">Titles won</th><th scope="col" class="r">Rounds<br>won</th><th scope="col" class="r">Races<br>won</th><th scope="col" class="r">' + enteredLabel.replace(" ", "<br>") + '</th><th scope="col" class="r">Points</th></tr>';
+    $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Team</th><th scope="col" class="r">Titles</th><th scope="col">Titles won</th><th scope="col" class="r hidesm">Rounds<br>won</th><th scope="col" class="r hidesm">Races<br>won</th><th scope="col" class="r hidesm">' + enteredLabel.replace(" ", "<br>") + '</th><th scope="col" class="r">Points</th></tr>';
     var prev = null, pos = 0;
     $("rows").innerHTML = rows.map(function (o, i) {
       if (o.titles !== prev) pos = i + 1; prev = o.titles;
@@ -866,10 +867,25 @@
       return '<tr class="' + (pos <= 3 ? "podium" : "") + '"><td><span class="chip' + (pos <= 3 ? " p" + pos : "") + '">' + pos + "</span></td>" +
         '<td><div class="driver nowrap' + (pos === 1 && o.titles ? " champion" : "") + '">' + tbar(o.name) + tlink(o.name) + '</div><div class="sub nowrap" style="color:var(--dim)">' + esc(subList(o)) + "</div></td>" +
         '<td class="r"><span class="points">' + (o.titles || '<span class="none">0</span>') + "</span></td>" +
-        '<td class="tagwrap">' + (won.length ? won.map(tag).join("") : '<span class="none">—</span>') + "</td>" +
-        '<td class="t r">' + (o.rwins || '<span class="none">0</span>') + '</td><td class="t r">' + (o.racewins || '<span class="none">0</span>') + "</td>" +
-        '<td class="t r">' + o.entered + '</td><td class="t r" style="color:var(--muted)">' + o.points + "</td></tr>";
+        '<td class="tagwrap">' + (!won.length ? '<span class="none">—</span>' : !SCOPE_ALL ? won.map(tag).join("") :
+          '<div class="tcount">' + ORDER.map(function (id) { var n = won.filter(function (x) { return groupOf(x) === id; }).length; return '<span' + (n ? "" : ' class="zero"') + ">" + esc(SHORT(ALL[id])) + " <b>" + n + "</b></span>"; }).join("") + "</div>" +
+          '<details class="tseasons"><summary>Show seasons</summary>' + ORDER.map(function (id) { var l = won.filter(function (x) { return groupOf(x) === id; }).map(function (x) { return x.season; }).sort(function (a, b) { return a - b; }); if (!l.length) return ""; var runs = []; l.forEach(function (n) { var r = runs[runs.length - 1]; if (r && n === r[1] + 1) r[1] = n; else runs.push([n, n]); }); return "<div><b>" + esc(SHORT(ALL[id])) + "</b> " + runs.map(function (r) { return r[0] === r[1] ? "S" + r[0] : "S" + r[0] + "\u2013S" + r[1]; }).join(", ") + "</div>"; }).join("") + "</details>") + "</td>" +
+        '<td class="t r hidesm">' + (o.rwins || '<span class="none">0</span>') + '</td><td class="t r hidesm">' + (o.racewins || '<span class="none">0</span>') + "</td>" +
+        '<td class="t r hidesm">' + o.entered + '</td><td class="t r" style="color:var(--muted)">' + Number(o.points).toLocaleString("en-AU") + "</td></tr>";
     }).join("");
+    if (SCOPE_ALL) {
+      var bySeason = {}; champs.forEach(function (c) { (bySeason[c.x.season] = bySeason[c.x.season] || {})[groupOf(c.x)] = c; });
+      $("head2").innerHTML = '<tr><th scope="col">Season</th>' + ORDER.map(function (id) { return '<th scope="col">' + esc(ALL[id].navLabel) + "</th>"; }).join("") + "</tr>";
+      $("rows2").innerHTML = Object.keys(bySeason).map(Number).sort(function (a, b) { return b - a; }).map(function (sn) {
+        return '<tr class="sgrid"><td><span class="seasontag">S' + sn + "</span></td>" + ORDER.map(function (id) {
+          var c = bySeason[sn][id], lab = ' data-label="' + esc(ALL[id].navLabel) + '"'; if (!c) return '<td class="none"' + lab + '>\u2013</td>';
+          var w = c.tab[0], r2 = c.tab[1];
+          return '<td' + lab + '><a class="sgcell" href="' + baseOf(c.x).pages.championship + (c.x === baseOf(c.x) ? "" : "?season=" + c.x.season) + '#view=teams"><span class="driver nowrap">' + tbar(w.name) + esc((window.TEAM_ALIASES || {})[w.name] ? w.name : w.name) + ' <span class="sgpts">' + w.total + "</span></span>" +
+            (r2 ? '<span class="sgrun">2nd ' + esc(r2.name) + " \u00b7 " + r2.total + "</span>" : "") + '<span class="sgtitle">' + esc(c.x.title.replace(/\s*Season \d+$/, "")) + "</span></a></td>";
+        }).join("") + "</tr>";
+      }).join("");
+      return;
+    }
     $("head2").innerHTML = '<tr><th scope="col">Season</th><th scope="col">Championship</th><th scope="col">Team champions</th><th scope="col" class="r">Points</th><th scope="col">Runner-up</th></tr>';
     $("rows2").innerHTML = champs.map(function (c) {
       var w = c.tab[0], r2 = c.tab[1];
