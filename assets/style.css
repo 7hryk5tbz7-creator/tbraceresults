@@ -493,3 +493,22 @@ a.plink:hover { color: var(--red-text); text-decoration: underline; text-underli
 .dlbtn:disabled { opacity: .7; cursor: progress; }
 .dlmsg { order: -1; font-size: 13px; color: #F2C46B; }
 .dlmsg:empty { display: none; }
+/* Team profile */
+.tpbadge { color: #fff; font-size: 28px; text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.tpline { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.tpline a { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; color: #fff; text-decoration: none; font-weight: 500; }
+.tpline a:hover { border-color: rgba(255,255,255,.35); }
+.tpline b { min-width: 26px; height: 26px; padding: 0 5px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; font: 700 13px var(--cond); color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.4); }
+.tptwo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; align-items: start; }
+@media (max-width: 900px) { .tptwo { grid-template-columns: minmax(0, 1fr); } }
+.tpgrid, .tpdrv { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tpgrid th, .tpdrv th { text-align: left; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.tpgrid td, .tpdrv td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.tpgrid td.none { color: var(--dim); }
+.tpdrv .r { text-align: right; } .tpdrv .gold { color: #F2C14E; font-weight: 600; }
+.tpdrv .sub { font-size: 12px; color: var(--dim); }
+.tppos { display: inline-block; min-width: 40px; font-weight: 600; }
+.tppos.g1 { color: #F2C14E; } .tppos.g2 { color: #C9D1D9; } .tppos.g3 { color: #D08A4E; }
+.tpgrid small.pfprog { margin-left: 6px; }
+.dsteam { display: inline-block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: rgba(255,255,255,.12); color: #fff; padding: 1px 6px; border-radius: 4px; margin-right: 6px; }
+#profile .section-title { margin: 28px 0 12px; }
