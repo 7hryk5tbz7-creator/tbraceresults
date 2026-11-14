@@ -456,10 +456,10 @@
       })() +
       (SCOPE_ALL ? (function () {
         // Latest champion in each series.
-        var rows = ORDER.map(function (id) { var x = done.filter(function (d) { return groupOf(d) === id; })[0]; return x ? '<div class="lcrow"><span>' + esc(SHORT(ALL[id])) + "</span>" + plink(x.standings[0][1]) + '<small>S' + x.season + " · " + pts(x, x.standings[0]) + " pts</small></div>" : ""; }).join("");
+        var rows = ORDER.map(function (id) { var x = done.filter(function (d) { return groupOf(d) === id; })[0]; return x ? '<div class="lcrow"><span>' + esc(SHORT(ALL[id])) + '</span><b style="color:' + ((clubTeam(x.standings[0][1], x.season) || {}).colour || "#fff") + '">' + plink(x.standings[0][1]) + "</b>" + '<small>S' + x.season + " · " + pts(x, x.standings[0]) + " pts</small></div>" : ""; }).join("");
         return '<div class="tile"><div class="label">Latest champions</div>' + rows + "</div>";
       })() :
-      '<div class="tile"><div class="label">Latest champion</div><div class="tile-big">' + esc(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>") +
+      '<div class="tile"><div class="label">Latest champion</div><div class="tile-big" style="color:' + ((clubTeam(latest.standings[0][1], latest.season) || {}).colour || "#fff") + '">' + plink(latest.standings[0][1]) + '</div><div class="sub">Season ' + latest.season + " · " + pts(latest, latest.standings[0]) + " pts</div></div>") +
       '<div class="tile"><div class="label">Different champions</div><div class="tile-big">' + list.length + '</div><div class="sub">from ' + done.length + (SCOPE_ALL ? " championships" : " seasons") + "</div></div>";
 
     $("head").innerHTML = '<tr><th scope="col">#</th><th scope="col">Driver</th><th scope="col" class="r">Titles</th><th scope="col">' + (SCOPE_ALL ? "Titles won" : "Seasons won") + "</th></tr>";
