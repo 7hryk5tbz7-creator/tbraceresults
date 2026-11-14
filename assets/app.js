@@ -1619,8 +1619,8 @@
     };
     var fs = firstClub(LS, 100, "starts"), fp = firstClub(LP, 1000, "points");
     $("tiles").innerHTML =
-      '<div class="tile"><div class="label">Most starts</div><div class="tile-big">' + fmt(LS.starts) + '</div><div class="sub">' + esc(LS.name) + (active[LS.name] ? " · " + fs.go + " from the " + fmt(fs.next) + " club – no one there yet" : "") + "</div></div>" +
-      '<div class="tile"><div class="label">Most points</div><div class="tile-big">' + fmt(LP.points) + '</div><div class="sub">' + esc(LP.name) + " · in the " + fmt(Math.floor(LP.points / 1000) * 1000) + " club</div></div>" +
+      '<div class="tile"><div class="label">Most starts</div><div class="tile-big" style="color:' + ((LS.team && LS.team.colour) || "#fff") + '">' + plink(LS.name) + '</div><div class="sub">' + fmt(LS.starts) + " starts" + (active[LS.name] ? " · " + fs.go + " from the " + fmt(fs.next) + " club – no one there yet" : "") + "</div></div>" +
+      '<div class="tile"><div class="label">Most points</div><div class="tile-big" style="color:' + ((LP.team && LP.team.colour) || "#fff") + '">' + plink(LP.name) + '</div><div class="sub">' + fmt(LP.points) + " points · in the " + fmt(Math.floor(LP.points / 1000) * 1000) + " club</div></div>" +
       '<div class="tile"><div class="label">Club members</div><div class="tile-big">' + all.filter(function (o) { return o.starts >= 100; }).length + " · " + all.filter(function (o) { return o.points >= 1000; }).length + '</div><div class="sub">100+ starts · 1,000+ points</div></div>';
     $("near").innerHTML = near.length ? near.map(function (n) {
       return '<div class="ms"><div class="num">' + fmt(n.go) + '<small>to go</small></div><div class="msb"><div class="who">' + bar(n.o) + plink(n.o.name) + '</div><div class="what">' + fmt(n.next) + " " + n.k[2] + " club · on " + fmt(n.o[n.k[0]]) + '</div><div class="prog"><i style="width:' + n.pct + '%"></i></div></div></div>';
